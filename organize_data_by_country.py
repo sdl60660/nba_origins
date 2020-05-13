@@ -1,6 +1,6 @@
 import json
 
-with open('raw_data.json', 'r') as f:
+with open('data/raw_data.json', 'r') as f:
 	data = json.load(f)
 
 for year_data in data:
@@ -26,5 +26,5 @@ for year_data in data:
 
 	del year_data['players']
 
-with open('processed_data.json', 'w') as f:
+with open('data/processed_data.json', 'w') as f:
 	json.dump(data, f)

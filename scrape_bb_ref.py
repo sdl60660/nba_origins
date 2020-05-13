@@ -90,7 +90,7 @@ for year in range(1947, 2021):
 		'players': players
 		})
 
-with open('data.json', 'w') as f:
+with open('data/raw_data.json', 'w') as f:
 	json.dump(seasons, f)
 
 
