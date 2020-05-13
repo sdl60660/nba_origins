@@ -1,121 +1,62 @@
 
-var format = d3.format(",");
+// var format = d3.format(",");
 var nbaData;
+var countries;
+var states;
 
-// Set tooltips
-var tip = d3.tip()
-            .attr('class', 'd3-tip')
-            .offset([-10, 0])
-            .html(function(d) {
-                if(nbaData.countries[d.properties.name]) {
-                    var playerCount = nbaData.countries[d.properties.name].length;
-                }
-                else {
-                    var playerCount = 0;
-                }
-
-              return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span>" + 
-              "<strong>Number of NBA Players: </strong><span class='details'>" + playerCount
-              +"</span>";
-            })
-
-var margin = {top: 0, right: 0, bottom: 0, left: 0},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+var displayYear = 1957;
+const startYear = 1947;
 
 
-// var logScale = d3.scaleLog()
-//       .domain([1, 1000])
-// var color = d3.scaleSequential(
-//         (d) => d3.interpolateOranges(logScale(d))
-//       )
+var worldMapProjection = d3.geoEquirectangular()
+    // .parallel(parallel)
+    .precision(0.1)
 
-var color = d3.scaleLog()
-  .domain([0, 1000])
-  .range(['white', 'orange']);
+var usProjection = d3.geoAlbersUsa()
+    .scale([1000]);
 
-// var color = d3.scaleSequential(
-//         d3.interpolateReds
-//       )
 
-color.domain([1, 1000])
+$("#slider-div").slider({
+    max: 2020,
+    min: 1947,
+    step: 1,
+    range: false,
+    value: startYear,
+    slide: function(event, ui) {
+        $("#yearLabel").text(ui.value);
 
-// var color = d3.scaleLog()
-//     .domain([1, 1000])
-//     .range(d3.interpolateOranges);
+        displayYear = ui.value;
+        updateCharts();
+    }
 
-var path = d3.geoPath();
+})
 
-var svg = d3.select("#world-map")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append('g')
-            .attr('class', 'map');
 
-var projection =  d3.geoMercator()
-                    .scale(130)
-                    .translate( [width / 2, height / 1.5]);
+function updateCharts() {
+    stateMap.wrangleData();
+    stateBarChart.wrangleData();
 
-var path = d3.geoPath().projection(projection);
-
-svg.call(tip);
+    worldMap.wrangleData();
+    worldBarChart.wrangleData();
+}
 
 
 var promises = [
-  d3.json("static/data/processed_data.json"),
-  d3.json("static/data/countries.json")
+    d3.json("static/data/processed_data.json"),
+    d3.json("static/data/countries.json"),
+    d3.json("static/data/states.json")
 ];
 
 Promise.all(promises).then(function(allData) {
-  nbaData = allData[0][73];
-  var countries = allData[1];
-  console.log(nbaData);
-  console.log(countries);
+    nbaData = allData[0];
+    countries = allData[1];
+    states = allData[2];
 
-  svg.append("g")
-      .attr("class", "countries")
-    .selectAll("path")
-      .data(countries.features)
-    .enter().append("path")
-      .attr("d", path)
-      .style("fill", function(d) {
-            // console.log(nbaData.countries);
-            if(typeof nbaData.countries[d.properties.name] !== "undefined") {
-                console.log(nbaData.countries[d.properties.name].length);
-                return color(nbaData.countries[d.properties.name].length);
-            }
-            else{
-                return "white";
-            }
-            
-        })
-      .style('stroke', 'black')
-      .style('stroke-width', 1.5)
-      .style("opacity",0.8)
-      // tooltips
-        .style("stroke","black")
-        .style('stroke-width', 0.3)
-        .on('mouseover',function(d){
-          tip.show(d);
+    stateMap = new PlayerMap("#us-map", usProjection, states, 'states');
+    stateBarChart = new BarChart("#us-barchart", 'states', states, true);
 
-          d3.select(this)
-            .style("opacity", 1)
-            .style("stroke","black")
-            .style("stroke-width",3);
-        })
-        .on('mouseout', function(d){
-          tip.hide(d);
-
-          d3.select(this)
-            .style("opacity", 0.8)
-            .style("stroke","black")
-            .style("stroke-width",0.3);
-        });
-
-  svg.append("path")
-      .datum(topojson.mesh(countries.features, function(a, b) { return a.id !== b.id; }))
-       // .datum(topojson.mesh(data.features, function(a, b) { return a !== b; }))
-      .attr("class", "names")
-      .attr("d", path);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'countries');
+    worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
 });
+
+

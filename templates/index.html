@@ -27,9 +27,23 @@
   		
 	<!-- Bootstrap grid setup -->
     <div class="container">
+        <div id="selections" class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4" style="text-align: center;">
+                <label>Year: <span id="yearLabel">1947</span></label>
+                <div id="slider-div">
+                    <div id="date-slider"></div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
         <div class="row">
-            <div class="col-md-8" id="world-map"></div>
-            <div class="col-md-4"></div>                       
+            <div class="col-md-9" id="us-map"></div>
+            <div class="col-md-3" id="us-barchart"></div>                       
+        </div>
+        <div class="row">
+            <div class="col-md-9" id="world-map"></div>
+            <div class="col-md-3" id="world-barchart"></div>                       
         </div>
     	<!-- <div class="row">
         	<div class="col-md-6"></div>
@@ -43,10 +57,13 @@
 	<script src="static/js/jquery-ui.min.js"></script>
 	<script src="static/js/d3.min.js"></script>
 	<script src="static/js/d3-tip.js"></script>
+    <script src="static/js/d3-geo.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
 
 	<!-- Custom JS -->
-	<script src="static/js/main.js"></script>
+    <script src="/static/js/barchart.js"></script>
+    <script src="/static/js/playermap.js"></script>
+	<script src="/static/js/main.js"></script>
 
 </body>
 
