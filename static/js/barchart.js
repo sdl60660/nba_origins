@@ -13,9 +13,9 @@ BarChart = function(_parentElement, _mapUnit, _geoJSON, _includeZeroVals) {
 BarChart.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 30, right: 10, bottom: 20, left: 180};
+    vis.margin = {top: 18, right: 10, bottom: 10, left: 180};
     vis.width = 580 - vis.margin.left - vis.margin.right;
-    vis.height = 650 - vis.margin.top - vis.margin.bottom;
+    vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     vis.svg = d3.select(vis.parentElement)
         .append("svg")
