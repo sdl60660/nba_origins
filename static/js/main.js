@@ -19,14 +19,6 @@ var usProjection = geoAlbersUsaPR()
     .scale([1000]);
 
 
-var promises = [
-    d3.json("static/data/processed_active_data.json"),
-    d3.json("static/data/processed_cumulative_data.json"),
-    d3.json("static/data/countries.json"),
-    d3.json("static/data/states.json")
-];
-
-
 $('.active-cumulative-switch')
     .on("click", function() {
         $('.active-cumulative-switch')
@@ -39,7 +31,34 @@ $('.active-cumulative-switch')
         updateCharts();
 
         
-    }) 
+    })
+
+// $('#world-map')
+//     .hide();
+
+// $('#world-barchart')
+//     .hide();
+
+// $('.usa-world-switch')
+//     .on("click", function() {
+//         $('.usa-world-switch')
+//             .prop('disabled', false);
+
+//         $(this)
+//             .prop('disabled', true);
+
+//         $('.player-map')
+//             .hide();
+//         $('#' + this.getAttribute('value') + '-map')
+//             .show();
+
+//         $('.player-barchart')
+//             .hide();
+//         $('#' + this.getAttribute('value') + '-barchart')
+//             .show();
+
+//     })
+    
 
 $('.enableOnInput').prop('disabled', true);
 
@@ -91,6 +110,13 @@ function updateCharts() {
     worldBarChart.wrangleData();
 }
 
+
+var promises = [
+    d3.json("static/data/processed_active_data.json"),
+    d3.json("static/data/processed_cumulative_data.json"),
+    d3.json("static/data/countries.json"),
+    d3.json("static/data/states.json")
+];
 
 Promise.all(promises).then(function(allData) {
     nbaData = {
