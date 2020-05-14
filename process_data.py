@@ -3,7 +3,6 @@ import json
 country_name_translations = {
 	'Russian Federation': 'Russia',
 	'Islamic Republic of Iran': 'Iran',
-	'United Republic of Tanzania': 'Tanzania',
 	'Republic of Macedonia': 'Macedonia',
 	'Republic of Korea': 'South Korea',
 	'Serbia': 'Republic of Serbia'
