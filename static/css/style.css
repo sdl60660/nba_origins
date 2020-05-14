@@ -8,8 +8,11 @@
 	margin-right: 0px;
 }
 
+.toggle-button:
+
 .toggle-button:disabled {
 	cursor: default;
+	/*background-color: gray;*/
 }
 
 .d3-tip {

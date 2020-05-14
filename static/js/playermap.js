@@ -14,7 +14,7 @@ PlayerMap.prototype.initVis = function() {
     var vis = this;
 
     vis.margin = {top: 30, right: 0, bottom: 20, left: 0};
-    vis.width = 760 - vis.margin.left - vis.margin.right;
+    vis.width = 800 - vis.margin.left - vis.margin.right;
     vis.height = 650 - vis.margin.top - vis.margin.bottom;
 
 

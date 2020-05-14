@@ -6,7 +6,7 @@ var states;
 
 var interval;
 
-var displayYear = 1947;
+var displayYear = 1980;
 const startYear = 1947;
 
 var cumulativeStatus = "active";
@@ -33,31 +33,31 @@ $('.active-cumulative-switch')
         
     })
 
-$('#world-map')
-    .hide();
+// $('#world-map')
+//     .hide();
 
-$('#world-barchart')
-    .hide();
+// $('#world-barchart')
+//     .hide();
 
-$('.usa-world-switch')
-    .on("click", function() {
-        $('.usa-world-switch')
-            .prop('disabled', false);
+// $('.usa-world-switch')
+//     .on("click", function() {
+//         $('.usa-world-switch')
+//             .prop('disabled', false);
 
-        $(this)
-            .prop('disabled', true);
+//         $(this)
+//             .prop('disabled', true);
 
-        $('.player-map')
-            .hide();
-        $('#' + this.getAttribute('value') + '-map')
-            .show();
+//         $('.player-map')
+//             .hide();
+//         $('#' + this.getAttribute('value') + '-map')
+//             .show();
 
-        $('.player-barchart')
-            .hide();
-        $('#' + this.getAttribute('value') + '-barchart')
-            .show();
+//         $('.player-barchart')
+//             .hide();
+//         $('#' + this.getAttribute('value') + '-barchart')
+//             .show();
 
-    })
+//     })
     
 
 $('.enableOnInput').prop('disabled', true);
@@ -68,7 +68,7 @@ $("#slider-div").slider({
     min: startYear,
     step: 1,
     range: false,
-    value: startYear,
+    value: 1980,
     slide: function(event, ui) {
         $("#yearLabel").text(ui.value);
 
