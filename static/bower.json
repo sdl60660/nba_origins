@@ -1,0 +1,20 @@
+{
+  "name": "static",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "sdl60660 <learnersd@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/sdl60660/nba_origins",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "css-toggle-switch": "^4.1.0"
+  }
+}
