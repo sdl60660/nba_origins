@@ -19,9 +19,9 @@ var usProjection = geoAlbersUsaPR()
     .scale([1000]);
 
 
-$('.toggle-button')
+$('.active-cumulative-switch')
     .on("click", function() {
-        $('.toggle-button')
+        $('.active-cumulative-switch')
             .prop('disabled', false);
 
         $(this)
@@ -31,6 +31,32 @@ $('.toggle-button')
         updateCharts();
 
         
+    })
+
+$('#world-map')
+    .hide();
+
+$('#world-barchart')
+    .hide();
+
+$('.usa-world-switch')
+    .on("click", function() {
+        $('.usa-world-switch')
+            .prop('disabled', false);
+
+        $(this)
+            .prop('disabled', true);
+
+        $('.player-map')
+            .hide();
+        $('#' + this.getAttribute('value') + '-map')
+            .show();
+
+        $('.player-barchart')
+            .hide();
+        $('#' + this.getAttribute('value') + '-barchart')
+            .show();
+
     })
     
 

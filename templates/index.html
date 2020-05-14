@@ -5,6 +5,8 @@
     <meta name="description" content="">
     <title>NBA Origins</title>
 
+    <link rel="icon" href='/static/images/favicon.png'>
+
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <!-- jQuery UI CSS -->
@@ -43,19 +45,37 @@
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4" style="text-align: center;">
-                <button id="active" value="active" class="btn btn-primary toggle-button" disabled>Active Players</button>
-                <button id="cumulative" value="cumulative" class="btn btn-primary toggle-button">All-Time</button>
+                <div class="btn-group">
+                    <button id="active-button" value="active" class="btn btn-primary toggle-button active-cumulative-switch" disabled>Active Players</button>
+                    <button id="cumulative-button" value="cumulative" class="btn btn-primary toggle-button active-cumulative-switch">All-Time</button>
+                </div>
             </div>
             <div class="col-md-4"></div>
         </div>
         <div class="row">
-            <div class="col-md-9" id="us-map"></div>
-            <div class="col-md-3" id="us-barchart"></div>                       
+            <div class="col-md-4"></div>
+            <div class="col-md-4" style="text-align: center;">
+                <div class="btn-group">
+                    <button id="us-button" value="us" class="btn btn-primary toggle-button usa-world-switch" disabled>United States</button>
+                    <button id="world-button" value="world" class="btn btn-primary toggle-button usa-world-switch">World</button>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
         </div>
         <div class="row">
-            <div class="col-md-9" id="world-map"></div>
-            <div class="col-md-3" id="world-barchart"></div>                       
+            <div class="col-md-9">
+                 <div class="player-map" id="us-map"></div>
+                 <div class="player-map" id="world-map"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="player-barchart" id="us-barchart"></div>
+                <div class="player-barchart" id="world-barchart"></div>
+            </div>                        
         </div>
+        <!-- <div class="row"> -->
+            <!-- <div class="col-md-9 player-map" id="world-map"></div> -->
+            <!-- <div class="col-md-3 player-barchart" id="world-barchart"></div>                        -->
+        <!-- </div> -->
     	<!-- <div class="row">
         	<div class="col-md-6"></div>
         	<div class="col-md-6"></div>

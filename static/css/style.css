@@ -11,3 +11,11 @@
 .toggle-button:disabled {
 	cursor: default;
 }
+
+.d3-tip {
+	max-width: 250px;
+}
+
+.btn {
+	margin-bottom: 5px;
+}

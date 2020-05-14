@@ -224,6 +224,16 @@ BarChart.prototype.updateVis = function() {
                             return n[i].getAttribute('default-stroke')
                         });
                 })
+                .on('click', function(d){
+                    vis.tip.show(d);
+
+                    // d3.selectAll('.' + d.area.replace(/ /g, '-'))
+                    //     .style("opacity", 0.8)
+                    //     .style("stroke","black")
+                    //     .style("stroke-width", function(e, i, n) {
+                    //         return n[i].getAttribute('default-stroke')
+                    //     });
+                })
                 .style("fill", function(d) {
                     return "white";
                 })

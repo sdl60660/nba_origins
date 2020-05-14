@@ -157,7 +157,6 @@ function geoCompositeProjection(...projections) {
   }
   
   function reset() {
-    console.log("RESET");
     cache = cacheStream = null;
     return projection;
   }
