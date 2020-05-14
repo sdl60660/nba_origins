@@ -14,7 +14,7 @@ BarChart.prototype.initVis = function() {
     var vis = this;
 
     vis.margin = {top: 18, right: 10, bottom: 15, left: 180};
-    vis.width = 580 - vis.margin.left - vis.margin.right;
+    vis.width = 450 - vis.margin.left - vis.margin.right;
     vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     vis.svg = d3.select(vis.parentElement)

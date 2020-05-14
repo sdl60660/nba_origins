@@ -6,17 +6,28 @@
 	width: 150px;
 	margin-left: 0px;
 	margin-right: 0px;
+	background-color: 'gray';
 }
-
-.toggle-button:
 
 .toggle-button:disabled {
 	cursor: default;
-	/*background-color: gray;*/
+	background-color: 'orange';
+}
+
+.toggle-button:hover {
+	background-color: 'gray';
+}
+
+.toggle-button:disabled:hover {
+	background-color: 'orange';
 }
 
 .d3-tip {
 	max-width: 250px;
+}
+
+.btn-group {
+	margin-top: 20px;
 }
 
 .btn {
@@ -26,3 +37,35 @@
 .row {
 	width: 100%;
 }
+
+#timeline-div {
+	display: flex;
+	align-items: center;
+	max-width: 650px;
+	margin: auto;
+}
+
+#slider-div {
+	flex: 1; 
+}
+
+#play-button-div {
+	width: 50px;
+}
+
+#play-button {
+	width: 40px;
+	text-align: center;
+	margin-top: 5px;
+}
+
+#yearLabelHeading {
+	margin-bottom: -15px;
+}
+
+#seasonWrapperLabel {
+	/*font-size: 20;*/
+}
+
+
+

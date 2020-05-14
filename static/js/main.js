@@ -6,7 +6,7 @@ var states;
 
 var interval;
 
-var displayYear = 1985;
+var displayYear = 1982;
 const startYear = 1947;
 
 var cumulativeStatus = "active";

@@ -29,18 +29,15 @@
   		
 	<!-- Bootstrap grid setup -->
     <div class="container">
-        <div id="selections" class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-1" style="text-align: right;">
-                <button id="play-button" class="btn btn-primary" style="margin-top: 13px;">▶</button>
+        <div id="selections" class="row" style="text-align: center;">
+            <div class="row" id="yearLabelHeading">
+                <label id="seasonWrapperLabel"><h3>Season: <span id="yearLabel">1982</span></h3></label>
             </div>
-            <div class="col-md-4" style="text-align: center;">
-                <label>Season: <span id="yearLabel">1985</span></label>
-                <div id="slider-div">
-                    <div id="date-slider"></div>
-                </div>
+            <div id="timeline-div" class="row">
+                <div id="play-button-div"><button id="play-button" class="btn btn-primary">▶</button></div>
+                <div id="slider-div"></div>
             </div>
-            <div class="col-md-4"></div>
+        </div>
         </div>
         <div class="row">
             <div class="col-md-4"></div>
