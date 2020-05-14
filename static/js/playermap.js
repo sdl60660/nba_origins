@@ -20,7 +20,11 @@ PlayerMap.prototype.initVis = function() {
 
     vis.projection
         .translate([vis.width / 2, vis.height / 2])
-        .fitExtent([[0.5, 0.5], [vis.width - 0.5, vis.height - 0.5]], {type: "Sphere"})
+
+    if (vis.mapUnit == 'countries') {
+        vis.projection
+            .fitExtent([[0.5, 0.5], [vis.width - 0.5, vis.height - 0.5]], {type: "Sphere"})
+    }
 
 
     vis.color = d3.scaleLog()

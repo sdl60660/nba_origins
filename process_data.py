@@ -71,7 +71,7 @@ def generate_output_data(data, cumulative=False):
 		print(len(players))
 
 		for player in players:
-			if player['birth_state']:
+			if player['birth_state'] or player['birth_location'] == 'Puerto Rico':
 				player['birth_country'] = 'United States of America'
 				player['birth_state'] = player['birth_location'].replace('\xa0', ' ')
 			else:
@@ -83,6 +83,7 @@ def generate_output_data(data, cumulative=False):
 		out_year_data['countries'] = {}
 		for country in countries:
 			out_year_data['countries'][country] = list(filter(lambda x: x['birth_country'] == country, players))
+		out_year_data['countries']['Puerto Rico'] = list(filter(lambda x: x['birth_state'] == 'Puerto Rico', players))
 
 		out_year_data['states'] = {}
 		for state in states:
