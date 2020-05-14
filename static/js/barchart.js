@@ -42,7 +42,8 @@ BarChart.prototype.initVis = function() {
     // Add Axes
     vis.xAxisCall = d3.axisTop()
         // .orient("left")
-        .ticks(10);
+        // .ticks(Math.min(10, ))
+        // .tickFormat(d3.format("d"));
 
     vis.xAxis = vis.g.append("g")
         .attr("transform", "translate(0," + -2 + ")")
@@ -167,6 +168,9 @@ BarChart.prototype.updateVis = function() {
 
 
     vis.xAxisCall
+        .ticks(Math.min(10, d3.max(vis.areaData, function(d) {
+            return d.num_players;
+        })))
         .scale(vis.x);
 
     vis.xAxis

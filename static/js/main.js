@@ -15,21 +15,6 @@ var worldMapProjection = d3.geoEquirectangular()
     // .parallel(parallel)
     .precision(0.1)
 
-function geoAlbersUsaPR() {
-    return geoCompositeProjection(
-        // LOWER 48, ALASKA, HAWAII
-        geoAlbersUsa(),
-
-        // PUERTO RICO
-        d3.geoConicEqualArea()
-          .rotate([66, 0])
-          .center([0, 18])
-          .parallels([8, 18])
-          .scale(1000)
-          .translate([830, 474])
-          .clipExtent([[800, 454], [860, 484]]),
-    )
-}
 var usProjection = geoAlbersUsaPR()
     .scale([1000]);
 
