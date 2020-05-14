@@ -116,14 +116,16 @@ def main():
 	active_data = flatten_data(active_data)
 	cumulative_data = flatten_data(cumulative_data)
 
-	data = {
-		'active': active_data,
-		'cumulative': cumulative_data
-		}
+	# data = {
+	# 	'active': active_data,
+	# 	'cumulative': cumulative_data
+	# 	}
 
-	with open('data/processed_data.json', 'w') as f:
-		json.dump(data, f)
+	with open('data/processed_active_data.json', 'w') as f:
+		json.dump(active_data, f)
 
+	with open('data/processed_cumulative_data.json', 'w') as f:
+		json.dump(cumulative_data, f)
 
 if __name__ == "__main__":
 	main()

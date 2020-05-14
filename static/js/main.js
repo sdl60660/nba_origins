@@ -112,15 +112,20 @@ function updateCharts() {
 
 
 var promises = [
-    d3.json("static/data/full_player_data.json"),
+    d3.json("static/data/processed_active_data.json"),
+    d3.json("static/data/processed_cumulative_data.json"),
     d3.json("static/data/countries.json"),
     d3.json("static/data/states.json")
 ];
 
 Promise.all(promises).then(function(allData) {
-    nbaData = allData[0];
-    countries = allData[1];
-    states = allData[2];
+    nbaData = {
+        'active': allData[0],
+        'cumulative': allData[1]
+    }
+
+    countries = allData[2];
+    states = allData[3];
 
     stateMap = new PlayerMap("#us-map", usProjection, states, 'states');
     stateBarChart = new BarChart("#us-barchart", 'states', states, true);
