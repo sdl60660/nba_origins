@@ -27,7 +27,8 @@ def summarize_data(player_list, area_name):
 
 	player_sample_string = "<strong>Players: </strong><span class='details'>"
 	for i, player in enumerate(player_names):
-		player_sample_string += '<a href="' + player_links[i] + '">' + player_names[i] + '</a>'
+		player_sample_string += player_names[i]
+		# player_sample_string += '<a href="' + player_links[i] + '">' + player_names[i] + '</a>'
 		if i != len(player_names)-1:
 			player_sample_string += ', '
 	player_sample_string += extra_text + '</span>'
