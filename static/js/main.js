@@ -6,7 +6,7 @@ var states;
 
 var interval;
 
-var displayYear = 1980;
+var displayYear = 1985;
 const startYear = 1947;
 
 var cumulativeStatus = "active";
@@ -68,7 +68,7 @@ $("#slider-div").slider({
     min: startYear,
     step: 1,
     range: false,
-    value: 1980,
+    value: displayYear,
     slide: function(event, ui) {
         $("#yearLabel").text(ui.value);
 
