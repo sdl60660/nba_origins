@@ -36,15 +36,17 @@ def process_location(location_link, location_name, data):
 		player_link = player.find('a')['href']
 		player_name = player.find('a').text
 		player_id = player['data-append-csv']
-		career_minutes = row.find('td', attrs={'data-stat': 'mp'}).text
-		if len(career_minutes) > 0:
-			career_minutes = int(career_minutes)
+		career_ppg = row.find('td', attrs={'data-stat': 'pts_per_g'}).text
+		if len(career_ppg) > 0:
+			career_ppg = float(career_ppg)
+		else:
+			career_ppg = 0.0
 
 		data[player_id] = {
 			'name': player_name,
 			'bbref_link': player_link,
 			'bbref_id': player_id,
-			'career_mp': career_minutes,
+			'career_ppg': career_ppg,
 			'birth_location': location_name,
 			'birth_country': country,
 			'birth_state': state

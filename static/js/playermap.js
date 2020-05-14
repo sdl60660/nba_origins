@@ -24,7 +24,7 @@ PlayerMap.prototype.initVis = function() {
 
 
     vis.color = d3.scaleLog()
-      .range(['white', 'orange']);
+      .range(['#FFE4B2', 'orange']);
 
     vis.path = d3.geoPath();
 
@@ -37,27 +37,40 @@ PlayerMap.prototype.initVis = function() {
 
     vis.path = d3.geoPath().projection(vis.projection);
 
+    var nbaDataIndex = displayYear - startYear;
+    vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
+
+    // Set tooltips
     vis.tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-            if(vis.nbaYearData[vis.mapUnit][d.properties.name]) {
-                var playerCount = vis.nbaYearData[vis.mapUnit][d.properties.name].length;
+            var areaName = d.properties.name;
+
+            if(vis.nbaYearData[vis.mapUnit][areaName]) {
+                var playerCount = vis.nbaYearData[vis.mapUnit][areaName]['num_players'];
             }
             else {
                 var playerCount = 0;
             }
 
-          var tipText = "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span>"
-          tipText += "<strong>Number of NBA Players: </strong><span class='details'>" + playerCount + "</span>";
+            if(vis.mapUnit == 'states') {
+                var tipUnit = 'State';
+            }
+            else {
+                var tipUnit = 'Country';
+            }
 
-          return tipText;
+            var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
+            tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "</span><br><br>";
+
+            tipText += vis.nbaYearData[vis.mapUnit][areaName]['players'];
+
+
+            return tipText;
         })
 
     vis.svg.call(vis.tip);
-
-    var nbaDataIndex = displayYear - startYear;
-    vis.nbaYearData = nbaData[nbaDataIndex];
 
     // JOIN data with any existing elements
     vis.mapPath = vis.svg.append("g")
@@ -77,8 +90,10 @@ PlayerMap.prototype.initVis = function() {
         .enter()
             .append("path")
                 .attr("d", vis.path)
-                .style('stroke', 'black')
-                .style('stroke-width', 1.5)
+                .attr("class", function(d) {
+                    return d.properties.name.replace(/ /g, '-');
+                })
+                .attr("default-stroke", 0.3)
                 .style("opacity", 0.8)
                 // tooltips
                 .style("stroke","black")
@@ -86,25 +101,27 @@ PlayerMap.prototype.initVis = function() {
                 .on('mouseover',function(d){
                     vis.tip.show(d);
 
-                    d3.select(this)
+                    d3.selectAll('.' + this.getAttribute('class'))
                         .style("opacity", 1)
                         .style("stroke","black")
-                        .style("stroke-width",3);
+                        .style("stroke-width", 3);
                 })
                 .on('mouseout', function(d){
                     vis.tip.hide(d);
 
-                    d3.select(this)
+                    d3.selectAll('.' + this.getAttribute('class'))
                         .style("opacity", 0.8)
                         .style("stroke","black")
-                        .style("stroke-width",0.3);
+                        .style("stroke-width", function(e, i, n) {
+                            return n[i].getAttribute('default-stroke')
+                        });
                 })
                 // .style("fill", "white")
                 .style("fill", function(d) {
                     // console.log(nbaData.countries);
                     if(typeof vis.nbaYearData[vis.mapUnit][d.properties.name] !== "undefined") {
                         // console.log(nbaYearData[vis.mapUnit][d.properties.name]);
-                        return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name].length);
+                        return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name]['num_players']);
                     }
                     else {
                         return "white";
@@ -122,7 +139,7 @@ PlayerMap.prototype.wrangleData = function() {
     var vis = this;
 
     var nbaDataIndex = displayYear - startYear;
-    vis.nbaYearData = nbaData[nbaDataIndex];
+    vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
 
     // color.domain([1, 1000])
 
@@ -140,7 +157,7 @@ PlayerMap.prototype.updateVis = function() {
                 // console.log(nbaData.countries);
                 if(typeof vis.nbaYearData[vis.mapUnit][d.properties.name] !== "undefined") {
                     // console.log(nbaYearData[vis.mapUnit][d.properties.name]);
-                    return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name].length);
+                    return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name]['num_players']);
                 }
                 else {
                     return "white";

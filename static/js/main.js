@@ -4,9 +4,12 @@ var nbaData;
 var countries;
 var states;
 
-var displayYear = 1957;
+var interval;
+
+var displayYear = 1947;
 const startYear = 1947;
 
+var cumulativeStatus = "active";
 
 var worldMapProjection = d3.geoEquirectangular()
     // .parallel(parallel)
@@ -18,7 +21,7 @@ var usProjection = d3.geoAlbersUsa()
 
 $("#slider-div").slider({
     max: 2020,
-    min: 1947,
+    min: startYear,
     step: 1,
     range: false,
     value: startYear,
@@ -28,8 +31,31 @@ $("#slider-div").slider({
         displayYear = ui.value;
         updateCharts();
     }
-
 })
+
+$("#play-button")
+    .on("click", function() {
+        var button = $(this);
+
+        if (button.text() == "▶") {
+            button.text("❙ ❙");
+            interval = setInterval(step, 500);
+        }
+        else {
+            button.text("▶");
+            clearInterval(interval);
+        }
+        
+    });
+
+function step() {
+    console.log(displayYear);
+    displayYear = displayYear == 2020 ? startYear : displayYear + 1;
+    $("#yearLabel").text(displayYear);
+    $("#slider-div").slider("value", displayYear);
+
+    updateCharts();
+}
 
 
 function updateCharts() {
@@ -42,7 +68,7 @@ function updateCharts() {
 
 
 var promises = [
-    d3.json("static/data/processed_data.json"),
+    d3.json("static/data/full_player_data.json"),
     d3.json("static/data/countries.json"),
     d3.json("static/data/states.json")
 ];

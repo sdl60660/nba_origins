@@ -38,17 +38,16 @@ BarChart.prototype.initVis = function() {
         // .domain()
         .range([ 0, vis.width ])
 
-    vis.xAxisCall = d3.axisTop()
-        // .orient("left")
-        .ticks(12);
-
-    vis.xAxis = vis.g.append("g")
-        // .attr("transform", "translate(0," + 470 + ")")
-        .attr("class", "x axis");
-        
-
 
     // Add Axes
+    vis.xAxisCall = d3.axisTop()
+        // .orient("left")
+        .ticks(10);
+
+    vis.xAxis = vis.g.append("g")
+        .attr("transform", "translate(0," + -2 + ")")
+        .attr("class", "x axis");
+        
     vis.yAxisCall = d3.axisLeft()
 
     vis.yAxis = vis.g.append("g")
@@ -61,7 +60,10 @@ BarChart.prototype.initVis = function() {
         });
 
     vis.t = d3.transition()
-        .duration(300);
+        .duration(500);
+
+    vis.color = d3.scaleLog()
+        .range(['#FFE4B2', 'orange']);
 
     // Set tooltips
     vis.tip = d3.tip()
@@ -71,7 +73,7 @@ BarChart.prototype.initVis = function() {
             var areaName = d.area;
 
             if(vis.nbaYearAreaData[areaName]) {
-                var playerCount = vis.nbaYearAreaData[areaName].length;
+                var playerCount = vis.nbaYearAreaData[areaName]['num_players'];
             }
             else {
                 var playerCount = 0;
@@ -86,39 +88,8 @@ BarChart.prototype.initVis = function() {
 
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>"
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br><br></span>";
-            
-            
-            var playerList = vis.nbaYearAreaData[areaName].sort(function(a,b) {
-                return b.career_mp - a.career_mp;
-            });
 
-            var totalPlayers = playerList.length;
-            var extraText = '';
-
-            if(totalPlayers >= 5) {
-                playerList = playerList.slice(0, 5);
-            }
-            if (totalPlayers > 5) {
-                extraText = ' and ' + (totalPlayers - 5) + ' others';
-            }
-
-            var playerNames = playerList.map(function(d) {
-                return d.name;
-            })
-
-            var playerLinks = playerList.map(function(d) {
-                return 'https://www.basketball-reference.com/' + d.bbref_link
-            })
-
-            tipText += "<strong>Players: </strong><span class='details'>";
-            playerNames.forEach(function(d, i) {
-                tipText += '<a href="' + playerLinks[i] + '">' + playerNames[i] + '</a>';
-                if(i != playerNames.length-1) {
-                    tipText += ', '
-                }
-            })
-
-            tipText += extraText;
+            tipText += vis.nbaYearData[vis.mapUnit][areaName]['players'];
 
             return tipText;
         })
@@ -133,41 +104,33 @@ BarChart.prototype.wrangleData = function() {
     var vis = this;
 
     var nbaDataIndex = displayYear - startYear;
-    vis.nbaYearData = nbaData[nbaDataIndex];
+    vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
     vis.nbaYearAreaData = vis.nbaYearData[vis.mapUnit];
+    // vis.areaData = Object.values(vis.nbaYearData[vis.mapUnit]);
+
 
     vis.areaData = [];
 
     vis.allAreas.forEach(function(d) {
         if(vis.nbaYearAreaData[d]) {
-            var count = vis.nbaYearAreaData[d].length;
-            var players = vis.nbaYearAreaData[d];
-
-            vis.areaData.push({
-                'area': d,
-                'count': count,
-                'players': players
-            });
-            
+            vis.areaData.push(vis.nbaYearAreaData[d]);
         }
         else {
-            var count = 0;
-            var players = [];
+            var num_players = 0;
 
             if(vis.includeZeroVals) {
                 vis.areaData.push({
                     'area': d,
-                    'count': count,
-                    'players': players
+                    'num_players': num_players,
+                    'players': ''
                 });
             }
         }
-
-        
     })
 
+
     vis.areaData = vis.areaData.sort( (a,b) => {
-        return b.count - a.count;
+        return b.num_players - a.num_players;
     })
 
     if (vis.mapUnit == 'countries' && vis.areaData.length > 50) {
@@ -189,7 +152,7 @@ BarChart.prototype.updateVis = function() {
 
     vis.x
         .domain([0, Math.round(1.05*d3.max(vis.areaData, function(d) {
-            return d.count;
+            return d.num_players;
         }))]);
 
     vis.yAxisCall
@@ -224,8 +187,10 @@ BarChart.prototype.updateVis = function() {
     vis.barchart
         .enter()
             .append("rect")
-                .attr("class", `area-bar ${vis.mapUnit}-bar`)
-                .style("opacity", 0.7)
+                .attr("class", function(d) {
+                    return `${d.area.replace(/ /g, '-')} area-bar ${vis.mapUnit}-bar`
+                })
+                .style("opacity", 0.8)
                 .attr("y", function(d) {
                     return vis.y(d.area);
                 })
@@ -233,26 +198,32 @@ BarChart.prototype.updateVis = function() {
                 .attr("x",  vis.x(0))
                 .attr("width", 0)
                 .attr("fill", "red")
-                // .attr("area-name", function(d) {
-                //     return d.area;
-                // })
-                .on('mouseover',function(d){
+                .attr("default-stroke", 0.0)
+                .on('mouseover', function(d) {
                     vis.tip.show(d);
 
-                    d3.select(this)
+                    d3.selectAll('.' + d.area.replace(/ /g, '-'))
                         .style("opacity", 1)
+                        .style("stroke", "black")
+                        .style("stroke-width", 3);
                 })
                 .on('mouseout', function(d){
                     vis.tip.hide(d);
 
-                    d3.select(this)
-                        .style("opacity", 0.7)
+                    d3.selectAll('.' + d.area.replace(/ /g, '-'))
+                        .style("opacity", 0.8)
+                        .style("stroke","black")
+                        .style("stroke-width", function(e, i, n) {
+                            return n[i].getAttribute('default-stroke')
+                        });
                 })
-                .style("fill", "orange")
+                .style("fill", function(d) {
+                    return "white";
+                })
                 .merge(vis.barchart)
                     .transition(vis.t)
                     .attr("width", function(d) {
-                        return vis.x(d.count);
+                        return vis.x(d.num_players);
                     })
                     .attr("x", function(d) {
                         return vis.x(0);
@@ -261,6 +232,9 @@ BarChart.prototype.updateVis = function() {
                         return vis.y(d.area);
                     })
                     .attr("height", vis.y.bandwidth)
+                    .style("fill", function(d) {
+                        return vis.color(d.num_players);
+                    })
                     
 }
 

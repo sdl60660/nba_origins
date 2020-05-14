@@ -116,7 +116,7 @@ with open('data.json', 'w') as f:
 
 
 async def main():
-	num_processes = 75
+	num_processes = 10
 	player_birthplaces = {}
 
 	r = requests.get('https://www.basketball-reference.com/friv/birthplaces.fcgi')
