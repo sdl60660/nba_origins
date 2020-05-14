@@ -25,7 +25,7 @@ $('.toggle-button')
             .prop('disabled', false);
 
         $(this)
-            .prop('disabled', true);
+            .prop('disabled', true)
 
         cumulativeStatus = this.getAttribute('value');
         updateCharts();
