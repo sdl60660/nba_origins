@@ -2,6 +2,10 @@
 	width: 100%;
 }
 
+body {
+	font-family: "Helvetica Neue",helvetica,arial,sans-serif;
+}
+
 .toggle-button {
 	width: 150px;
 	margin-left: 0px;
@@ -70,6 +74,7 @@
 }
 
 #yearLabelHeading {
+	margin: auto;
 	margin-bottom: -15px;
 }
 
