@@ -112,7 +112,10 @@ BarChart.prototype.wrangleData = function() {
     vis.areaData = [];
 
     vis.allAreas.forEach(function(d) {
-        if(vis.nbaYearAreaData[d]) {
+        if (d == 'United States of America') {
+            // pass
+        }
+        else if(vis.nbaYearAreaData[d]) {
             vis.areaData.push(vis.nbaYearAreaData[d]);
         }
         else {

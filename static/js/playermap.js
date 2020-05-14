@@ -49,9 +49,11 @@ PlayerMap.prototype.initVis = function() {
 
             if(vis.nbaYearData[vis.mapUnit][areaName]) {
                 var playerCount = vis.nbaYearData[vis.mapUnit][areaName]['num_players'];
+                var playerInfo = '<br><br>' + vis.nbaYearData[vis.mapUnit][areaName]['players'];
             }
             else {
                 var playerCount = 0;
+                var playerInfo = '';
             }
 
             if(vis.mapUnit == 'states') {
@@ -62,9 +64,9 @@ PlayerMap.prototype.initVis = function() {
             }
 
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
-            tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "</span><br><br>";
+            tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "</span>";
 
-            tipText += vis.nbaYearData[vis.mapUnit][areaName]['players'];
+            tipText += playerInfo;
 
 
             return tipText;
