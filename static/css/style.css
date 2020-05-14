@@ -1,3 +1,9 @@
 .row {
 	width: 100%;
 }
+
+.toggle-button {
+	width: 150px;
+	margin-left: 0px;
+	margin-right: 0px;
+}

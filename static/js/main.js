@@ -19,6 +19,24 @@ var usProjection = d3.geoAlbersUsa()
     .scale([1000]);
 
 
+$('.toggle-button')
+    .on("click", function() {
+        $('.toggle-button')
+            .prop('disabled', false);
+
+        $(this)
+            .prop('disabled', true);
+
+        cumulativeStatus = this.getAttribute('value');
+        updateCharts();
+
+        
+    })
+    
+
+$('.enableOnInput').prop('disabled', true);
+
+
 $("#slider-div").slider({
     max: 2020,
     min: startYear,
