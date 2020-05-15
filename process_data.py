@@ -11,6 +11,8 @@ country_name_translations = {
 
 def summarize_data(player_list, area_name):
 	num_players = len(player_list)
+	num_all_stars = len([x for x in player_list if x['all_star_appearances'] > 0])
+	total_all_star_appearances = sum([x['all_star_appearances'] for x in player_list])
 	sorted_players = sorted(player_list, key=lambda x: x['career_ppg'], reverse=True)
 
 	extra_text = ''
@@ -35,6 +37,8 @@ def summarize_data(player_list, area_name):
 
 	return {
 		'num_players': num_players,
+		'num_all_stars': num_all_stars,
+		'total_all_star_appearances': total_all_star_appearances,
 		'area': area_name,
 		'players': player_sample_string
 	}

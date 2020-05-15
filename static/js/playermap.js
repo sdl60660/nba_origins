@@ -53,10 +53,12 @@ PlayerMap.prototype.initVis = function() {
 
             if(vis.nbaYearData[vis.mapUnit][areaName]) {
                 var playerCount = vis.nbaYearData[vis.mapUnit][areaName]['num_players'];
+                var allStarCount = vis.nbaYearData[vis.mapUnit][areaName]['num_all_stars'];
                 var playerInfo = '<br><br>' + vis.nbaYearData[vis.mapUnit][areaName]['players'];
             }
             else {
                 var playerCount = 0;
+                var allStarCount = 0;
                 var playerInfo = '';
             }
 
@@ -68,7 +70,8 @@ PlayerMap.prototype.initVis = function() {
             }
 
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
-            tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "</span>";
+            tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
+            tipText += "<strong>Total All-Stars: </strong><span class='details'>" + allStarCount + "</span>";
 
             tipText += playerInfo;
 
