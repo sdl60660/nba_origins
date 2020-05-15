@@ -122,11 +122,13 @@ BarChart.prototype.wrangleData = function() {
         }
         else {
             var num_players = 0;
+            var num_all_stars = 0;
 
             if(vis.includeZeroVals) {
                 vis.areaData.push({
                     'area': d,
                     'num_players': num_players,
+                    'num_all_stars': num_all_stars,
                     'players': ''
                 });
             }
@@ -135,7 +137,7 @@ BarChart.prototype.wrangleData = function() {
 
 
     vis.areaData = vis.areaData.sort( (a,b) => {
-        return b.num_players - a.num_players;
+        return b[currentProperty] - a[currentProperty];
     })
 
     if (vis.mapUnit == 'countries' && vis.areaData.length > 50) {
@@ -157,7 +159,7 @@ BarChart.prototype.updateVis = function() {
 
     vis.x
         .domain([0, Math.round(1.05*d3.max(vis.areaData, function(d) {
-            return d.num_players;
+            return d[currentProperty];
         }))]);
 
     vis.yAxisCall
@@ -170,7 +172,7 @@ BarChart.prototype.updateVis = function() {
 
     vis.xAxisCall
         .ticks(Math.min(10, d3.max(vis.areaData, function(d) {
-            return d.num_players;
+            return d[currentProperty];
         })))
         .scale(vis.x);
 
@@ -241,7 +243,7 @@ BarChart.prototype.updateVis = function() {
                 .merge(vis.barchart)
                     .transition(vis.t)
                     .attr("width", function(d) {
-                        return vis.x(d.num_players);
+                        return vis.x(d[currentProperty]);
                     })
                     .attr("x", function(d) {
                         return vis.x(0);
@@ -251,7 +253,7 @@ BarChart.prototype.updateVis = function() {
                     })
                     .attr("height", vis.y.bandwidth)
                     .style("fill", function(d) {
-                        return vis.color(d.num_players);
+                        return vis.color(d[currentProperty]);
                     })
                     
 }

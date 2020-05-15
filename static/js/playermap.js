@@ -130,7 +130,7 @@ PlayerMap.prototype.initVis = function() {
                     // console.log(nbaData.countries);
                     if(typeof vis.nbaYearData[vis.mapUnit][d.properties.name] !== "undefined") {
                         // console.log(nbaYearData[vis.mapUnit][d.properties.name]);
-                        return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name]['num_players']);
+                        return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name][currentProperty]);
                     }
                     else {
                         return "white";
@@ -166,7 +166,7 @@ PlayerMap.prototype.updateVis = function() {
                 // console.log(nbaData.countries);
                 if(typeof vis.nbaYearData[vis.mapUnit][d.properties.name] !== "undefined") {
                     // console.log(nbaYearData[vis.mapUnit][d.properties.name]);
-                    return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name]['num_players']);
+                    return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name][currentProperty]);
                 }
                 else {
                     return "white";

@@ -10,6 +10,7 @@ var displayYear = 1982;
 const startYear = 1947;
 
 var cumulativeStatus = "active";
+var currentProperty = "num_players";
 
 var worldMapProjection = d3.geoEquirectangular()
     // .parallel(parallel)
@@ -31,7 +32,22 @@ $('.active-cumulative-switch')
         updateCharts();
 
         
-    })
+    });
+
+$('.total-allstar-switch')
+    .on("click", function() {
+        $('.total-allstar-switch')
+            .prop('disabled', false);
+
+        $(this)
+            .prop('disabled', true)
+
+        currentProperty = this.getAttribute('value');
+        updateCharts();
+    });
+
+
+    
 
 // $('#world-map')
 //     .hide();
