@@ -85,8 +85,6 @@ BarChart.prototype.initVis = function() {
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>Total All-Stars: </strong><span class='details'>" + d['num_all_stars'] + "</span>";
 
-            // tipText += vis.nbaYearData[areaName]['players'];
-
             return tipText;
         })
 

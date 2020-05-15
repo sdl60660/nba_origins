@@ -8,9 +8,6 @@ from urllib.parse import parse_qs
 
 import json
 
-import aiohttp
-import asyncio
-
 
 def get_all_stars():
 	all_stars = {}

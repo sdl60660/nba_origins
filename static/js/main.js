@@ -102,11 +102,16 @@ var promises = [
     d3.json("static/data/countries.json"),
     d3.json("static/data/states.json"),
     // d3.json("static/data/state_test.json"),
-    d3.json("static/data/full_player_data.json")
+    // d3.json("static/data/full_player_data.json")
+    d3.json("static/data/processed_country_data.json"),
+    d3.json("static/data/processed_state_data.json")
 ];
 
 Promise.all(promises).then(function(allData) {
-    nbaData = allData[2];
+    nbaData = {
+        'countries': allData[2],
+        'states': allData[3]
+    };
 
     usPlayers = [];
     Object.keys(nbaData.states).forEach(function(d) {
