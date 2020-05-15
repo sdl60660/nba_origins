@@ -45,35 +45,6 @@ $('.total-allstar-switch')
         currentProperty = this.getAttribute('value');
         updateCharts();
     });
-
-
-    
-
-// $('#world-map')
-//     .hide();
-
-// $('#world-barchart')
-//     .hide();
-
-// $('.usa-world-switch')
-//     .on("click", function() {
-//         $('.usa-world-switch')
-//             .prop('disabled', false);
-
-//         $(this)
-//             .prop('disabled', true);
-
-//         $('.player-map')
-//             .hide();
-//         $('#' + this.getAttribute('value') + '-map')
-//             .show();
-
-//         $('.player-barchart')
-//             .hide();
-//         $('#' + this.getAttribute('value') + '-barchart')
-//             .show();
-
-//     })
     
 
 $('.enableOnInput').prop('disabled', true);
@@ -128,20 +99,24 @@ function updateCharts() {
 
 
 var promises = [
-    d3.json("static/data/processed_active_data.json"),
-    d3.json("static/data/processed_cumulative_data.json"),
     d3.json("static/data/countries.json"),
-    d3.json("static/data/states.json")
+    d3.json("static/data/states.json"),
+    // d3.json("static/data/state_test.json"),
+    d3.json("static/data/full_player_data.json")
 ];
 
 Promise.all(promises).then(function(allData) {
-    nbaData = {
-        'active': allData[0],
-        'cumulative': allData[1]
-    }
+    nbaData = allData[2];
 
-    countries = allData[2];
-    states = allData[3];
+    usPlayers = [];
+    Object.keys(nbaData.states).forEach(function(d) {
+        usPlayers = usPlayers.concat(nbaData.states[d]);
+    })
+
+    nbaData.countries['United States of America'] = usPlayers;
+
+    countries = allData[0];
+    states = allData[1];
 
     stateMap = new PlayerMap("#us-map", usProjection, states, 'states');
     stateBarChart = new BarChart("#us-barchart", 'states', states, true);

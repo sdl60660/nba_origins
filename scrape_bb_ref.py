@@ -54,6 +54,11 @@ def process_location(location_link, location_name, data, all_star_dict):
 		player_id = player['data-append-csv']
 		career_ppg = row.find('td', attrs={'data-stat': 'pts_per_g'}).text
 
+		start_year = int(row.find('td', attrs={'data-stat': 'year_min'}).text)
+		end_year = int(row.find('td', attrs={'data-stat': 'year_max'}).text)
+
+		birth_city = row.find('td', attrs={'data-stat': 'birth_city'}).text
+
 		if len(career_ppg) > 0:
 			career_ppg = float(career_ppg)
 		else:
@@ -72,6 +77,9 @@ def process_location(location_link, location_name, data, all_star_dict):
 			'birth_location': location_name,
 			'birth_country': country,
 			'birth_state': state,
+			'birth_city': birth_city,
+			'start_year': start_year,
+			'end_year': end_year,
 			'all_star_appearances': all_star_appearances
 		}
 
@@ -89,35 +97,6 @@ for wrapper in wrappers[2:]:
 	link = wrapper.find('a')
 	player_birthplaces = process_location(link['href'], link.text, player_birthplaces, all_star_dict)
 
-seasons = []
 
-for year in range(1947, 2021):
-	print(year)
-
-	if year < 1950:
-		link = 'https://www.basketball-reference.com/leagues/BAA_{}_totals.html'.format(year)
-	else:
-		link = 'https://www.basketball-reference.com/leagues/NBA_{}_totals.html'.format(year)
-
-	r = requests.get(link)
-	soup = BeautifulSoup(r.text, 'html.parser')
-	
-	players = []
-	player_rows = soup.find('table', attrs={'class', 'stats_table'}).findAll('td', attrs={'data-stat': 'player'})
-	player_ids = list(set([x['data-append-csv'] for x in player_rows]))
-	for player_id in player_ids:
-		try:
-			players.append(player_birthplaces[player_id])
-		except KeyError:
-			print(player_id)
-
-	seasons.append({
-		'year': year,
-		'players': players
-		})
-
-with open('data/raw_data.json', 'w') as f:
-	json.dump(seasons, f)
-
-
-# 	print(player_links)
+with open('data/raw_player_data.json', 'w') as f:
+	json.dump(player_birthplaces, f)

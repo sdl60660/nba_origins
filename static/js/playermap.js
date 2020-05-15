@@ -41,9 +41,18 @@ PlayerMap.prototype.initVis = function() {
 
     vis.path = d3.geoPath().projection(vis.projection);
 
-    var nbaDataIndex = displayYear - startYear;
-    vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
+    vis.allAreas = vis.geoJSON.features.map(function(d) {
+            return d.properties.name;
+        });
 
+    // var nbaDataIndex = displayYear - startYear;
+    // vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
+
+    vis.nbaYearDataArray = generateYearData(nbaData, vis.allAreas, vis.mapUnit, displayYear, cumulativeStatus);
+    vis.nbaYearData = {};
+    for (var i = 0; i < vis.nbaYearDataArray.length; i++) {
+        vis.nbaYearData[vis.nbaYearDataArray[i].area] = vis.nbaYearDataArray[i];
+    }
     // Set tooltips
     vis.tip = d3.tip()
         .attr('class', 'd3-tip')
@@ -51,10 +60,10 @@ PlayerMap.prototype.initVis = function() {
         .html(function(d) {
             var areaName = d.properties.name;
 
-            if(vis.nbaYearData[vis.mapUnit][areaName]) {
-                var playerCount = vis.nbaYearData[vis.mapUnit][areaName]['num_players'];
-                var allStarCount = vis.nbaYearData[vis.mapUnit][areaName]['num_all_stars'];
-                var playerInfo = '<br><br>' + vis.nbaYearData[vis.mapUnit][areaName]['players'];
+            if(vis.nbaYearData[areaName]) {
+                var playerCount = vis.nbaYearData[areaName]['num_players'];
+                var allStarCount = vis.nbaYearData[areaName]['num_all_stars'];
+                // var playerInfo = '<br><br>' + vis.nbaYearData[areaName]['players'];
             }
             else {
                 var playerCount = 0;
@@ -73,7 +82,7 @@ PlayerMap.prototype.initVis = function() {
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>Total All-Stars: </strong><span class='details'>" + allStarCount + "</span>";
 
-            tipText += playerInfo;
+            // tipText += playerInfo;
 
 
             return tipText;
@@ -128,9 +137,9 @@ PlayerMap.prototype.initVis = function() {
                 // .style("fill", "white")
                 .style("fill", function(d) {
                     // console.log(nbaData.countries);
-                    if(typeof vis.nbaYearData[vis.mapUnit][d.properties.name] !== "undefined") {
+                    if(typeof vis.nbaYearData[d.properties.name] !== "undefined") {
                         // console.log(nbaYearData[vis.mapUnit][d.properties.name]);
-                        return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name][currentProperty]);
+                        return vis.color(vis.nbaYearData[d.properties.name][currentProperty]);
                     }
                     else {
                         return "white";
@@ -147,8 +156,14 @@ PlayerMap.prototype.initVis = function() {
 PlayerMap.prototype.wrangleData = function() {
     var vis = this;
 
-    var nbaDataIndex = displayYear - startYear;
-    vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
+    // var nbaDataIndex = displayYear - startYear;
+    // vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
+
+    vis.nbaYearDataArray = generateYearData(nbaData, vis.allAreas, vis.mapUnit, displayYear, cumulativeStatus);
+    vis.nbaYearData = {};
+    for (var i = 0; i < vis.nbaYearDataArray.length; i++) {
+        vis.nbaYearData[vis.nbaYearDataArray[i].area] = vis.nbaYearDataArray[i];
+    }
 
     // color.domain([1, 1000])
 
@@ -164,22 +179,15 @@ PlayerMap.prototype.updateVis = function() {
         .transition()
             .style("fill", function(d) {
                 // console.log(nbaData.countries);
-                if(typeof vis.nbaYearData[vis.mapUnit][d.properties.name] !== "undefined") {
+                if(typeof vis.nbaYearData[d.properties.name] !== "undefined") {
                     // console.log(nbaYearData[vis.mapUnit][d.properties.name]);
-                    return vis.color(vis.nbaYearData[vis.mapUnit][d.properties.name][currentProperty]);
+                    return vis.color(vis.nbaYearData[d.properties.name][currentProperty]);
                 }
                 else {
                     return "white";
                 }
             
             });
-
-
-
-
-    
-                // .merge(vis.mapPath)
-                    // .transition()
                         
 }
 

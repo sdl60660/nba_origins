@@ -1,10 +1,9 @@
 
-BarChart = function(_parentElement, _mapUnit, _geoJSON, _includeZeroVals) {
+BarChart = function(_parentElement, _mapUnit, _geoJSON) {
 
     this.parentElement = _parentElement;
     this.mapUnit = _mapUnit;
     this.geoJSON = _geoJSON;
-    this.includeZeroVals = _includeZeroVals
 
     this.initVis();
 }
@@ -71,14 +70,9 @@ BarChart.prototype.initVis = function() {
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-            var areaName = d.area;
 
-            if(vis.nbaYearAreaData[areaName]) {
-                var playerCount = vis.nbaYearAreaData[areaName]['num_players'];
-            }
-            else {
-                var playerCount = 0;
-            }
+            var areaName = d.area;
+            var playerCount = d['num_players'];
 
             if(vis.mapUnit == 'states') {
                 var tipUnit = 'State';
@@ -89,9 +83,9 @@ BarChart.prototype.initVis = function() {
 
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>"
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
-            tipText += "<strong>Total All-Stars: </strong><span class='details'>" + vis.nbaYearAreaData[areaName]['num_all_stars'] + "<br><br></span>";
+            tipText += "<strong>Total All-Stars: </strong><span class='details'>" + d['num_all_stars'] + "</span>";
 
-            tipText += vis.nbaYearData[vis.mapUnit][areaName]['players'];
+            // tipText += vis.nbaYearData[areaName]['players'];
 
             return tipText;
         })
@@ -105,36 +99,7 @@ BarChart.prototype.initVis = function() {
 BarChart.prototype.wrangleData = function() {
     var vis = this;
 
-    var nbaDataIndex = displayYear - startYear;
-    vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
-    vis.nbaYearAreaData = vis.nbaYearData[vis.mapUnit];
-    // vis.areaData = Object.values(vis.nbaYearData[vis.mapUnit]);
-
-
-    vis.areaData = [];
-
-    vis.allAreas.forEach(function(d) {
-        if (d == 'United States of America') {
-            // pass
-        }
-        else if(vis.nbaYearAreaData[d]) {
-            vis.areaData.push(vis.nbaYearAreaData[d]);
-        }
-        else {
-            var num_players = 0;
-            var num_all_stars = 0;
-
-            if(vis.includeZeroVals) {
-                vis.areaData.push({
-                    'area': d,
-                    'num_players': num_players,
-                    'num_all_stars': num_all_stars,
-                    'players': ''
-                });
-            }
-        }
-    })
-
+    vis.areaData = generateYearData(nbaData, vis.allAreas, vis.mapUnit, displayYear, cumulativeStatus);
 
     vis.areaData = vis.areaData.sort( (a,b) => {
         return b[currentProperty] - a[currentProperty];
