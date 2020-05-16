@@ -59,10 +59,10 @@ def main():
 
 	player_data = generate_output_data(data)
 
-	with open('data/processed_country_data.json', 'w') as f:
+	with open('static/data/processed_country_data.json', 'w') as f:
 		json.dump(player_data['countries'], f)
 
-	with open('data/processed_state_data.json', 'w') as f:
+	with open('static/data/processed_state_data.json', 'w') as f:
 		json.dump(player_data['states'], f)
 
 

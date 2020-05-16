@@ -1,5 +1,6 @@
 
 python3 scrape_bb_ref.py
-python3 generate_player_list.py
+python3 generate_player_lists.py
 
-cp data/processed_data.json static/data/full_player_data.json
+# cp data/processed_country_data.json static/data/processed_country_data.json
+# cp data/processed_state_data.json static/data/processed_state_data.json
