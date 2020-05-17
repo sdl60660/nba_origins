@@ -88,7 +88,7 @@ function updateInfoText() {
             }
         }).length;
 
-        var infoText = '<strong style="margin-left: 20px"><u>All-Stars (' + numAllStars + ')</u></strong><br><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul><br>';
+        var infoText = '<strong style="margin-left: 20px"><u>All-Stars (' + numAllStars + ')</u></strong><br><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul>';
         infoText += '<strong style="margin-left: 20px"><u>Others (' + (playerList.length - numAllStars) + ')</u></strong><br><ul class="player_list">' + playerList.slice(numAllStars).join('') + '</ul>'
 
         return infoText;
