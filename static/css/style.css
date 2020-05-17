@@ -101,8 +101,9 @@ body {
 	border: 1px solid black;
 	height: 450px;
 	min-width: 275px;
-	max-width: 350px;
+	max-width: 400px;
 	margin: auto;
+	margin-right: 10px;
 	border-radius: 10px;
 	padding-top: 25px;
 	background-color: #FFE4B2;
@@ -110,6 +111,7 @@ body {
 }
 
 #player-info-text {
+	margin-right: 5px;
 	max-height: 400px;
 	max-width: 350px;
 	overflow-y:auto;

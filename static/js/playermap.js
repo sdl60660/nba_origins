@@ -82,7 +82,7 @@ PlayerMap.prototype.initVis = function() {
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "</span>";
-            tipText += "<br><br><span class='details'>(click region for full player list)</span>";
+            // tipText += "<br><br><span class='details'>(click region for full player list)</span>";
             // tipText += "</div>"
             // tipText += playerInfo;
 
@@ -137,47 +137,9 @@ PlayerMap.prototype.initVis = function() {
                         });
                 })
                 .on('click', function(d) {
-                    $(('#player-info-text')).html(function() {
-                        areaData = d3.map(nbaData[vis.mapUnit], function(d) { return d.key; })
-                            .get(d.properties.name)['values'];
-
-                        playerList = areaData.filter(function(x) {
-                            if (cumulativeStatus == "active") {
-                                return x.start_year <= displayYear && x.end_year >= displayYear;
-                            }
-                            else {
-                                return x.start_year <= displayYear;
-                            }
-                        }).sort(function(a,b) {
-                            if(b.all_star_appearances - a.all_star_appearances == 0) {
-                                return b.career_ppg - a.career_ppg;
-                            }
-                            else {
-                                return b.all_star_appearances - a.all_star_appearances;
-                            }
-                        }).map(function(x) {
-                            if (vis.mapUnit == 'hs_states') {
-                                return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.high_school_name + ', ' + x.high_school_city + ')</li>';
-                            }
-                            else {
-                                return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.birth_city + ')</li>';
-                            }
-                        })
-
-                        var numAllStars = areaData.filter(function(x) {
-                            if (cumulativeStatus == "active") {
-                                return x.all_star_appearances > 0 && x.start_year <= displayYear && x.end_year >= displayYear;
-                            }
-                            else {
-                                return x.all_star_appearances > 0 && x.start_year <= displayYear;
-                            }
-                        }).length;
-
-                        var infoText = '<strong style="margin-left: 20px">All-Stars (' + numAllStars + ')</strong><br><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul><br>';
-                        infoText += '<strong style="margin-left: 20px">Others (' + (playerList.length - numAllStars) + ')</strong><br><ul class="player_list">' + playerList.slice(numAllStars).join('') + '</ul>'
-
-                        return infoText;
-                    });
+                    infoBoxSelection = d;
+                    infoBoxMapUnit = vis.mapUnit;
+                    updateInfoText();
                 })
                 // .style("fill", "white")
                 .style("fill", function(d) {
@@ -254,4 +216,3 @@ PlayerMap.prototype.updateVis = function() {
             });
                         
 }
-

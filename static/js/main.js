@@ -13,7 +13,10 @@ const startYear = 1947;
 var cumulativeStatus = "active";
 var currentProperty = "num_players";
 var totalsPerCapita = "totals";
-var birthPlaceHS = 'hs_states'
+var birthPlaceHS = 'hs_states';
+
+var infoBoxSelection;
+var infoBoxMapUnit;
 
 var worldMapProjection = d3.geoEquirectangular()
     // .parallel(parallel)
@@ -102,6 +105,8 @@ function updateCharts() {
     // worldBarChart.wrangleData();
 
     // bubblePlot.wrangleData();
+
+    updateInfoText();
 }
 
 
