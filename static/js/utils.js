@@ -2,8 +2,11 @@
 function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
     nbaYearAreaData = {}
 
-    Object.keys(nbaData[mapUnit]).forEach(function(areaName) {
-        nbaYearAreaData[areaName] = nbaData[mapUnit][areaName].filter(function(d) {
+    nbaData[mapUnit].forEach(function(area) {
+        areaName = area.key;
+        players = area.values;
+
+        nbaYearAreaData[areaName] = players.filter(function(d) {
             if (cumulativeStatus == "cumulative") {
                 return d.start_year <= displayYear;
             }
@@ -15,18 +18,19 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
 
     areaData = [];
     allAreas.forEach(function(d) {
-        if (d == 'United States of America') {
-            // pass
-        }
-        else if (nbaYearAreaData[d]) {
+        // if (d.name == 'United States of America') {
+        //     // pass
+        // }
+        if (nbaYearAreaData[d.name]) {
 
             areaData.push( {
-                'area': d,
-                'players': nbaYearAreaData[d],
-                'num_players': nbaYearAreaData[d].length,
-                'num_all_stars': nbaYearAreaData[d].filter(function(player) {
+                'area': d.name,
+                'players': nbaYearAreaData[d.name],
+                'num_players': nbaYearAreaData[d.name].length,
+                'num_all_stars': nbaYearAreaData[d.name].filter(function(player) {
                                     return player.all_star_appearances > 0;
-                                }).length
+                                }).length,
+                'region': d.region
             })
         }
         else {
@@ -34,10 +38,11 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
             var num_all_stars = 0;
 
             areaData.push({
-                'area': d,
+                'area': d.name,
                 'players': [],
                 'num_players': num_players,
-                'num_all_stars': num_all_stars
+                'num_all_stars': num_all_stars,
+                'region': d.region
             });
         }
     })

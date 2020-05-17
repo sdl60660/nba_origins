@@ -56,7 +56,7 @@ BarChart.prototype.initVis = function() {
             // .transition()
 
     vis.allAreas = vis.geoJSON.features.map(function(d) {
-            return d.properties.name;
+            return d.properties;
         });
 
     vis.t = d3.transition()
@@ -83,7 +83,7 @@ BarChart.prototype.initVis = function() {
 
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>"
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
-            tipText += "<strong>Total All-Stars: </strong><span class='details'>" + d['num_all_stars'] + "</span>";
+            tipText += "<strong>All-Stars: </strong><span class='details'>" + d['num_all_stars'] + "</span>";
 
             return tipText;
         })

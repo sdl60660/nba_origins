@@ -37,7 +37,8 @@ body {
 }
 
 .d3-tip {
-	max-width: 250px;
+	max-width: 350px;
+	max-height: 200px;
 }
 
 .btn-group {
@@ -50,6 +51,19 @@ body {
 
 .row {
 	width: 100%;
+}
+
+.map {
+	margin: auto;
+}
+
+.barchart {
+	margin: auto;
+}
+
+.player_list {
+	list-style: none;
+	margin-left: -20px;
 }
 
 #timeline-div {
@@ -82,5 +96,23 @@ body {
 	/*font-size: 20;*/
 }
 
+#info-box {
+	transform: translate(0, -50px);
+	border: 1px solid black;
+	height: 450px;
+	min-width: 275px;
+	max-width: 350px;
+	margin: auto;
+	border-radius: 10px;
+	padding-top: 25px;
+	background-color: #FFE4B2;
+	position: fixed;
+}
+
+#player-info-text {
+	max-height: 400px;
+	max-width: 350px;
+	overflow-y:auto;
+}
 
 

@@ -3,6 +3,7 @@
 var nbaData;
 var countries;
 var states;
+var populationData;
 
 var interval;
 
@@ -11,6 +12,8 @@ const startYear = 1947;
 
 var cumulativeStatus = "active";
 var currentProperty = "num_players";
+var totalsPerCapita = "totals";
+var birthPlaceHS = 'hs_states'
 
 var worldMapProjection = d3.geoEquirectangular()
     // .parallel(parallel)
@@ -20,30 +23,32 @@ var usProjection = geoAlbersUsaPR()
     .scale([1000]);
 
 
-$('.active-cumulative-switch')
+$('.toggle-button')
     .on("click", function() {
-        $('.active-cumulative-switch')
-            .prop('disabled', false);
+
+        $('.' + $(this).attr("class").split(' ').slice(-1)[0])
+            .prop('disabled', false)
+            .css('font-weight', 'normal');
 
         $(this)
             .prop('disabled', true)
+            .css('font-weight', 'bold');
 
-        cumulativeStatus = this.getAttribute('value');
+        if($(this).hasClass('total-allstar-switch')) {
+            currentProperty = this.getAttribute('value');
+        }
+        else if ($(this).hasClass('active-cumulative-switch')) {
+            cumulativeStatus = this.getAttribute('value');
+        }
+        else if ($(this).hasClass('totals-per-capita-switch')) {
+            totalsPerCapita = this.getAttribute('value');
+        }
+        else if ($(this).hasClass('birthplace-high-school-switch')) {
+            birthPlaceHS = this.getAttribute('value');
+        }
+
         updateCharts();
 
-        
-    });
-
-$('.total-allstar-switch')
-    .on("click", function() {
-        $('.total-allstar-switch')
-            .prop('disabled', false);
-
-        $(this)
-            .prop('disabled', true)
-
-        currentProperty = this.getAttribute('value');
-        updateCharts();
     });
     
 
@@ -57,7 +62,7 @@ $("#slider-div").slider({
     range: false,
     value: displayYear,
     slide: function(event, ui) {
-        $("#yearLabel").text(ui.value);
+        $("#yearLabel").text((ui.value - 1) + '-' + (ui.value));
 
         displayYear = ui.value;
         updateCharts();
@@ -82,7 +87,7 @@ $("#play-button")
 function step() {
     console.log(displayYear);
     displayYear = displayYear == 2020 ? startYear : displayYear + 1;
-    $("#yearLabel").text(displayYear);
+    $("#yearLabel").text((displayYear - 1) + '-' + (displayYear));
     $("#slider-div").slider("value", displayYear);
 
     updateCharts();
@@ -90,11 +95,13 @@ function step() {
 
 
 function updateCharts() {
-    stateMap.wrangleData();
-    stateBarChart.wrangleData();
+    stateMap.wrangleData(birthPlaceHS);
+    // stateBarChart.wrangleData();
 
-    worldMap.wrangleData();
-    worldBarChart.wrangleData();
+    worldMap.wrangleData('countries');
+    // worldBarChart.wrangleData();
+
+    // bubblePlot.wrangleData();
 }
 
 
@@ -103,31 +110,48 @@ var promises = [
     d3.json("static/data/states.json"),
     // d3.json("static/data/state_test.json"),
     // d3.json("static/data/full_player_data.json")
-    d3.json("static/data/processed_country_data.json"),
-    d3.json("static/data/processed_state_data.json")
+
+    // d3.json("static/data/processed_country_data.json"),
+    // d3.json("static/data/processed_state_data.json"),
+    // d3.json("static/data/processed_high_school_data.json"),
+    d3.json("static/data/players_list.json"),
+
+    d3.json("static/data/country_populations.json"),
+    d3.json("static/data/state_populations.json")
 ];
 
 Promise.all(promises).then(function(allData) {
+
+    var areaDivisionNest = function(key) {
+        return d3.nest()
+            .key(function(d) { return d[key]; })
+            .entries(allData[2].filter(function(d) {
+                return d[key] != null;
+            }));
+    }
+
     nbaData = {
-        'countries': allData[2],
-        'states': allData[3]
+        'countries': areaDivisionNest('birth_country'),
+        'birth_states': areaDivisionNest('birth_state'),
+        'hs_states': areaDivisionNest('high_school_state')
     };
 
-    usPlayers = [];
-    Object.keys(nbaData.states).forEach(function(d) {
-        usPlayers = usPlayers.concat(nbaData.states[d]);
-    })
-
-    nbaData.countries['United States of America'] = usPlayers;
+    populationData = {
+        'countries': allData[3],
+        'birth_states': allData[4],
+        'hs_states': allData[4]
+    }
 
     countries = allData[0];
     states = allData[1];
 
-    stateMap = new PlayerMap("#us-map", usProjection, states, 'states');
-    stateBarChart = new BarChart("#us-barchart", 'states', states, true);
+    stateMap = new PlayerMap("#us-map", usProjection, states, 'hs_states', [750, 600]);
+    // stateBarChart = new BarChart("#us-barchart", 'states', states, true);
 
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'countries');
-    worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'countries', [1000, 750]);
+    // worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
+
+    // bubblePlot = new BubblePlot("#us-pop-comparison-chart", 'states', states, [700, 650])
 });
 
 

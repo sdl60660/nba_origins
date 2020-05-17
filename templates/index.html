@@ -29,14 +29,14 @@
 
     <div class="container" style="text-align:justify; max-width: 650px;">
         <p>The maps below plot the birthplaces of NBA players for every season since 1947.</p>
-        <p>Setting the toggle to "Active Players" will include only players who logged minutes during a given year, while "All-Time" will display data for players for the whole history of the league up to that point. You can also toggle between displaying data for all NBA players or only those with an all-star appearance.</p>
+        <p>Setting the toggle to "Active Players" will include only players who logged minutes during a given year, while "All-Time" will display data for players for the whole history of the league up to that point. You can also toggle between displaying data for all NBA players or only those with an all-star appearance. The data can either be displayed as totals or per-capita, scaling </p>
     </div>
   		
 	<!-- Bootstrap grid setup -->
     <div class="container">
         <div id="selections" class="row" style="text-align: center;">
             <div class="row" id="yearLabelHeading">
-                <label id="seasonWrapperLabel"><h3>Season: <span id="yearLabel">1982</span></h3></label>
+                <label id="seasonWrapperLabel"><h3>Season: <span id="yearLabel">1981-1982</span></h3></label>
             </div>
             <div id="timeline-div" class="row">
                 <div id="play-button-div"><button id="play-button" class="btn btn-primary">▶</button></div>
@@ -47,16 +47,32 @@
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4" style="text-align: center;">
+
                 <div class="row">
                     <div class="btn-group">
-                        <button id="active-button" value="active" class="btn btn-primary toggle-button active-cumulative-switch" disabled>Active Players</button>
+                        <button id="active-button" value="active" class="btn btn-primary toggle-button active-cumulative-switch" style="font-weight: bold;" disabled>Active Players</button>
                         <button id="cumulative-button" value="cumulative" class="btn btn-primary toggle-button active-cumulative-switch">All-Time</button>
                     </div>
                 </div>
+
                 <div class="row" style="margin-top: -25px;">
                     <div class="btn-group">
                         <button id="all-star-button" value="num_all_stars" class="btn btn-primary toggle-button total-allstar-switch">All-Stars</button>
-                        <button id="all-player-button" value="num_players" class="btn btn-primary toggle-button total-allstar-switch" disabled>All Players</button>
+                        <button id="all-player-button" value="num_players" class="btn btn-primary toggle-button total-allstar-switch" style="font-weight: bold;" disabled>All Players</button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: -10px;">
+                    <div class="btn-group">
+                        <button id="totals-button" value="totals" class="btn btn-primary toggle-button totals-per-capita-switch" style="font-weight: bold;" disabled>Totals</button>
+                        <button id="per-capita-button" value="per_capita" class="btn btn-primary toggle-button totals-per-capita-switch">Per Capita</button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: -25px;">
+                    <div class="btn-group">
+                        <button id="birthplace-button" value="birth_states" class="btn btn-primary toggle-button birthplace-high-school-switch">Birthplace</button>
+                        <button id="high-school-button" value="hs_states" class="btn btn-primary toggle-button birthplace-high-school-switch" style="font-weight: bold;" disabled>High School</button>
                     </div>
                 </div>
             </div>
@@ -73,20 +89,29 @@
             <div class="col-md-4"></div>
         </div> -->
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-7">
-                 <div class="player-map" id="us-map"></div>
+            <div class="col-md-2"></div>
+            <div class="col-md-8" style="text-align: center">
+                 <div class="player-map map" id="us-map" style="margin:auto;"></div>
                  <!-- <div class="player-map" id="world-map"></div> -->
             </div>
-            <div class="col-md-4">
-                <div class="player-barchart" id="us-barchart"></div>
+            <!-- <div class="col-md-4"> -->
+                <!-- <div class="player-barchart barchart" id="us-barchart"></div> -->
                 <!-- <div class="player-barchart" id="world-barchart"></div> -->
-            </div>                        
+            <!-- </div>        -->
+            <div class="col-md-2">
+                <div id="info-box">
+                    <div id="player-info-text"></div>
+                </div>
+            </div>                 
         </div>
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-7 player-map" id="world-map"></div>
-            <div class="col-md-4 player-barchart" id="world-barchart"></div>                      
+            <div class="col-md-2"></div>
+            <div class="col-md-8" style="text-align: center">
+                <div class="player-map map" id="world-map" style="margin: auto;"></div>
+                <!-- <div class="pop-comparison-chart" id="us-pop-comparison-chart" style="margin:auto;"></div> -->
+            </div>
+            <!-- <div class="col-md-4 player-barchart barchart" id="world-barchart"></div>        -->
+            <div class="col-md-2"></div>               
         </div>
     	<div class="row">
         	<div class="col-md-6"></div>
@@ -107,6 +132,7 @@
 	<!-- Custom JS -->
     <script src="/static/js/utils.js"></script>
     <script src="/static/js/barchart.js"></script>
+    <script src="/static/js/bubbleplot.js"></script>
     <script src="/static/js/playermap.js"></script>
 	<script src="/static/js/main.js"></script>
 

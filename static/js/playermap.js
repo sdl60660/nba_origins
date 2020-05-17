@@ -1,10 +1,11 @@
 
-PlayerMap = function(_parentElement, _projection, _geoJSON, _mapUnit) {
+PlayerMap = function(_parentElement, _projection, _geoJSON, _mapUnit, _dimensions) {
 
     this.parentElement = _parentElement;
     this.projection = _projection;
     this.geoJSON = _geoJSON;
     this.mapUnit = _mapUnit;
+    this.dimensions = _dimensions;
 
     this.initVis();
 }
@@ -14,8 +15,8 @@ PlayerMap.prototype.initVis = function() {
     var vis = this;
 
     vis.margin = {top: 30, right: 0, bottom: 20, left: 0};
-    vis.width = 800 - vis.margin.left - vis.margin.right;
-    vis.height = 650 - vis.margin.top - vis.margin.bottom;
+    vis.width = vis.dimensions[0] - vis.margin.left - vis.margin.right;
+    vis.height = vis.dimensions[1] - vis.margin.top - vis.margin.bottom;
 
 
     vis.projection
@@ -26,9 +27,8 @@ PlayerMap.prototype.initVis = function() {
             .fitExtent([[0.5, 0.5], [vis.width - 0.5, vis.height - 0.5]], {type: "Sphere"})
     }
 
-
     vis.color = d3.scaleLog()
-      .range(['#FFE4B2', 'orange']);
+        .range(['#FFE4B2', 'orange']);
 
     vis.path = d3.geoPath();
 
@@ -42,11 +42,8 @@ PlayerMap.prototype.initVis = function() {
     vis.path = d3.geoPath().projection(vis.projection);
 
     vis.allAreas = vis.geoJSON.features.map(function(d) {
-            return d.properties.name;
+            return d.properties;
         });
-
-    // var nbaDataIndex = displayYear - startYear;
-    // vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
 
     vis.nbaYearDataArray = generateYearData(nbaData, vis.allAreas, vis.mapUnit, displayYear, cumulativeStatus);
     vis.nbaYearData = {};
@@ -56,6 +53,10 @@ PlayerMap.prototype.initVis = function() {
     // Set tooltips
     vis.tip = d3.tip()
         .attr('class', 'd3-tip')
+        // .attr('id', function(d) {
+        //     return d.properties.name + '-tooltip';
+        // })
+        // .attr("viewBox", "0,0,350,30")
         .offset([-10, 0])
         .html(function(d) {
             var areaName = d.properties.name;
@@ -71,17 +72,18 @@ PlayerMap.prototype.initVis = function() {
                 var playerInfo = '';
             }
 
-            if(vis.mapUnit == 'states') {
-                var tipUnit = 'State';
-            }
-            else {
+            if(vis.mapUnit == 'countries') {
                 var tipUnit = 'Country';
             }
-
+            else {
+                var tipUnit = 'State';
+            }
+            // var tipText = '<div id="' + d.properties.name.replace(' ', '-') + '-info-box">';
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
-            tipText += "<strong>Total All-Stars: </strong><span class='details'>" + allStarCount + "</span>";
-
+            tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "</span>";
+            tipText += "<br><br><span class='details'>(click region for full player list)</span>";
+            // tipText += "</div>"
             // tipText += playerInfo;
 
 
@@ -134,12 +136,54 @@ PlayerMap.prototype.initVis = function() {
                             return n[i].getAttribute('default-stroke')
                         });
                 })
+                .on('click', function(d) {
+                    $(('#player-info-text')).html(function() {
+                        areaData = d3.map(nbaData[vis.mapUnit], function(d) { return d.key; })
+                            .get(d.properties.name)['values'];
+
+                        playerList = areaData.filter(function(x) {
+                            if (cumulativeStatus == "active") {
+                                return x.start_year <= displayYear && x.end_year >= displayYear;
+                            }
+                            else {
+                                return x.start_year <= displayYear;
+                            }
+                        }).sort(function(a,b) {
+                            if(b.all_star_appearances - a.all_star_appearances == 0) {
+                                return b.career_ppg - a.career_ppg;
+                            }
+                            else {
+                                return b.all_star_appearances - a.all_star_appearances;
+                            }
+                        }).map(function(x) {
+                            if (vis.mapUnit == 'hs_states') {
+                                return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.high_school_name + ', ' + x.high_school_city + ')</li>';
+                            }
+                            else {
+                                return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.birth_city + ')</li>';
+                            }
+                        })
+
+                        var numAllStars = areaData.filter(function(x) {
+                            if (cumulativeStatus == "active") {
+                                return x.all_star_appearances > 0 && x.start_year <= displayYear && x.end_year >= displayYear;
+                            }
+                            else {
+                                return x.all_star_appearances > 0 && x.start_year <= displayYear;
+                            }
+                        }).length;
+
+                        var infoText = '<strong style="margin-left: 20px">All-Stars (' + numAllStars + ')</strong><br><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul><br>';
+                        infoText += '<strong style="margin-left: 20px">Others (' + (playerList.length - numAllStars) + ')</strong><br><ul class="player_list">' + playerList.slice(numAllStars).join('') + '</ul>'
+
+                        return infoText;
+                    });
+                })
                 // .style("fill", "white")
                 .style("fill", function(d) {
-                    // console.log(nbaData.countries);
                     if(typeof vis.nbaYearData[d.properties.name] !== "undefined") {
                         // console.log(nbaYearData[vis.mapUnit][d.properties.name]);
-                        return vis.color(vis.nbaYearData[d.properties.name][currentProperty]);
+                        return vis.color(vis.nbaYearData[d.properties.name][currentProperty]/populationData[vis.mapUnit][displayYear-1][d.properties.name]);
                     }
                     else {
                         return "white";
@@ -148,16 +192,15 @@ PlayerMap.prototype.initVis = function() {
                 });
 
 
-    vis.wrangleData();
+    vis.wrangleData(vis.mapUnit);
 }
 
 
 
-PlayerMap.prototype.wrangleData = function() {
+PlayerMap.prototype.wrangleData = function(_mapUnit) {
     var vis = this;
 
-    // var nbaDataIndex = displayYear - startYear;
-    // vis.nbaYearData = nbaData[cumulativeStatus][nbaDataIndex];
+    vis.mapUnit = _mapUnit;
 
     vis.nbaYearDataArray = generateYearData(nbaData, vis.allAreas, vis.mapUnit, displayYear, cumulativeStatus);
     vis.nbaYearData = {};
@@ -174,14 +217,35 @@ PlayerMap.prototype.wrangleData = function() {
 PlayerMap.prototype.updateVis = function() {
     var vis = this;
 
-    // d3.selectAll("")
+    if (totalsPerCapita == "per_capita") {
+        vis.color = d3.scaleLog()
+            .domain(
+                d3.extent(vis.geoJSON.features.filter(function(d){
+                    return vis.nbaYearData[d.properties.name][currentProperty] > 0;
+                }), function(d) {
+                    return vis.nbaYearData[d.properties.name][currentProperty]/populationData[vis.mapUnit][displayYear-1][d.properties.name];
+                }))
+            .range(['#FFE4B2', '#FF3F00'])
+    }
+    else {
+        vis.color = d3.scaleLog()
+            .range(['#FFE4B2', 'orange']);
+    }
+
+
     vis.svg.selectAll("path")
         .transition()
             .style("fill", function(d) {
-                // console.log(nbaData.countries);
-                if(typeof vis.nbaYearData[d.properties.name] !== "undefined") {
-                    // console.log(nbaYearData[vis.mapUnit][d.properties.name]);
-                    return vis.color(vis.nbaYearData[d.properties.name][currentProperty]);
+                if (typeof populationData[vis.mapUnit][displayYear-1][d.properties.name] == "undefined") {
+                    return "#DCDCDC"
+                }
+                else if(typeof vis.nbaYearData[d.properties.name] !== "undefined") {
+                    if (totalsPerCapita == "per_capita") {
+                        return vis.color(vis.nbaYearData[d.properties.name][currentProperty]/populationData[vis.mapUnit][displayYear-1][d.properties.name]);
+                    }
+                    else {
+                        return vis.color(vis.nbaYearData[d.properties.name][currentProperty]);
+                    }
                 }
                 else {
                     return "white";
