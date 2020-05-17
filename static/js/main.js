@@ -114,11 +114,7 @@ var promises = [
     d3.json("static/data/countries.json"),
     d3.json("static/data/states.json"),
     // d3.json("static/data/state_test.json"),
-    // d3.json("static/data/full_player_data.json")
 
-    // d3.json("static/data/processed_country_data.json"),
-    // d3.json("static/data/processed_state_data.json"),
-    // d3.json("static/data/processed_high_school_data.json"),
     d3.json("static/data/players_list.json"),
 
     d3.json("static/data/country_populations.json"),
