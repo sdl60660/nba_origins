@@ -21,15 +21,12 @@
 
 
 <body>
-
-	<nav class="navbar navbar-default">
-        <div class="container">
-        </div>
-    </nav>
+    <div class="spacer"></div>
 
     <div class="container" style="text-align:justify; max-width: 650px;">
         <p>The maps below plot the birthplaces of NBA players for every season since 1947.</p>
-        <p>Setting the toggle to "Active Players" will include only players who logged minutes during a given year, while "All-Time" will display data for players for the whole history of the league up to that point. You can also toggle between displaying data for all NBA players or only those with an all-star appearance. The data can either be displayed as totals or per-capita, scaling </p>
+        <p>Setting the toggle to "Active Players" will include only players who logged minutes during a given year, while "All-Time" will display data for players for the whole history of the league up to that point. You can also toggle between displaying data for all NBA players or only those with an all-star appearance. The data can either be displayed as totals or per-capita, scaling by a region's population.</p>
+        <p>Click any state or country for a detailed players list.</p>
     </div>
   		
 	<!-- Bootstrap grid setup -->
@@ -80,6 +77,7 @@
             </div>
             <div class="col-md-4"></div>
         </div>
+
         <!-- <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4" style="text-align: center;">
@@ -90,36 +88,30 @@
             </div>
             <div class="col-md-4"></div>
         </div> -->
+
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8" style="text-align: center">
-                 <div class="player-map map" id="us-map" style="margin:auto;"></div>
-                 <!-- <div class="player-map" id="world-map"></div> -->
+            <div class="col-md-2 col-sm-1"></div>
+            <div class="col-md-8 col-sm-9" style="text-align: center">
+                <div class="row">
+                    <div class="player-map map" id="us-map" style="margin:auto;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="player-map map" id="world-map" style="margin: auto;"></div>
+                </div>
             </div>
-            <!-- <div class="col-md-4"> -->
-                <!-- <div class="player-barchart barchart" id="us-barchart"></div> -->
-                <!-- <div class="player-barchart" id="world-barchart"></div> -->
-            <!-- </div>        -->
-            <div class="col-md-2">
+            <div class="col-md-2 col-sm-2">
                 <div id="info-box">
                     <div id="player-info-text"></div>
                 </div>
-            </div>                 
-        </div>
-        <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8" style="text-align: center">
-                <div class="player-map map" id="world-map" style="margin: auto;"></div>
-                <!-- <div class="pop-comparison-chart" id="us-pop-comparison-chart" style="margin:auto;"></div> -->
             </div>
-            <!-- <div class="col-md-4 player-barchart barchart" id="world-barchart"></div>        -->
-            <div class="col-md-2"></div>               
         </div>
-    	<div class="row">
-        	<div class="col-md-6"></div>
-        	<div class="col-md-6"></div>
-        </div>
+
     </div> 
+
+    <div class="container" style="text-align:justify; max-width: 650px; font-size: 9pt;">
+        <p>All NBA player data scraped from <a href="www.basketball-reference.com">Basketball Reference</a>. State population data is from <a href="https://fred.stlouisfed.org/release/tables?rid=118&eid=259194">FRED</a> (Puerto Rico from <a href="https://www.worldometers.info/world-population/puerto-rico-population/">worldometers</a>). The US map projection that includes Puerto Rico came from <a href="https://observablehq.com/@jake-low/u-s-map-with-puerto-rico">Jake Low</a>. Country populations and population estimates from International Data Base (IDB) Division of the United States Census Bureau via <a href="https://en.wikipedia.org/wiki/List_of_countries_by_past_and_estimated_future_population">Wikipedia</a>.</p>
+    </div>
 
 
 	<!-- External JS Libraries -->

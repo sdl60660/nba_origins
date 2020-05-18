@@ -14,9 +14,9 @@ PlayerMap = function(_parentElement, _projection, _geoJSON, _mapUnit, _dimension
 PlayerMap.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 30, right: 0, bottom: 20, left: 0};
-    vis.width = vis.dimensions[0] - vis.margin.left - vis.margin.right;
-    vis.height = vis.dimensions[1] - vis.margin.top - vis.margin.bottom;
+    // vis.margin = {top: 30, right: 0, bottom: 20, left: 0};
+    vis.width = vis.dimensions[0] // - vis.margin.left - vis.margin.right;
+    vis.height = vis.dimensions[1] // - vis.margin.top - vis.margin.bottom;
 
 
     vis.projection
@@ -24,7 +24,7 @@ PlayerMap.prototype.initVis = function() {
 
     if (vis.mapUnit == 'countries') {
         vis.projection
-            .fitExtent([[0.5, 0.5], [vis.width - 0.5, vis.height - 0.5]], {type: "Sphere"})
+            .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height - 50]], {type: "Sphere"})
     }
 
     vis.color = d3.scaleLog()
@@ -36,6 +36,8 @@ PlayerMap.prototype.initVis = function() {
                 .append("svg")
                 .attr("width", vis.width)
                 .attr("height", vis.height)
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                // .attr("viewBox", "0 0 960 500")
                 .append('g')
                 .attr('class', 'map');
 

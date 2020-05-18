@@ -67,6 +67,14 @@ body {
 	margin-left: -20px;
 }
 
+/*.player-map {
+	height: 600px;
+}*/
+
+.spacer {
+	height: 60px;
+}
+
 #timeline-div {
 	display: flex;
 	align-items: center;
@@ -98,16 +106,17 @@ body {
 }
 
 #info-box {
-	transform: translate(0, -50px);
+	transform: translate(0, -150px);
 	border: 1px solid black;
 	height: 450px;
-	min-width: 275px;
-	max-width: 400px;
+	/*width: 70%;*/
+	min-width: 270px;
+	max-width: 90%;
 	margin: auto;
-	margin-right: 15px;
+	margin-right: 50px;
 	border-radius: 10px;
 	padding-top: 25px;
-	background-color: #FFE4B2;
+	background-color: rgba(255, 228, 178, 0.4);
 	position: fixed;
 }
 

@@ -21,6 +21,7 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
         // if (d.name == 'United States of America') {
         //     // pass
         // }
+
         if (nbaYearAreaData[d.name]) {
 
             areaData.push( {
@@ -51,10 +52,18 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
 }
 
 function updateInfoText() {
+
+    // console.log(d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; }));
     
-    $(('#player-info-text')).html(function() {
-        areaData = d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; })
-            .get(infoBoxSelection.properties.name)['values'];
+    $('#player-info-text').html(function() {
+        try {
+            areaData = d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; })
+                .get(infoBoxSelection.properties.name)['values'];
+        }
+        catch {
+            // If there are no players from a state (birthplace-wise or high school-wise, they won't show up in the data nest result)
+            areaData = [];
+        }
 
         playerList = areaData.filter(function(x) {
             if (cumulativeStatus == "active") {
@@ -88,7 +97,7 @@ function updateInfoText() {
             }
         }).length;
 
-        var infoText = '<strong style="margin-left: 20px"><u>All-Stars (' + numAllStars + ')</u></strong><br><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul>';
+        var infoText = '<strong style="margin-left: 20px;"><u>All-Stars (' + numAllStars + ')</u></strong><br><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul>';
         infoText += '<strong style="margin-left: 20px"><u>Others (' + (playerList.length - numAllStars) + ')</u></strong><br><ul class="player_list">' + playerList.slice(numAllStars).join('') + '</ul>'
 
         return infoText;
