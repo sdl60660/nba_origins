@@ -129,6 +129,8 @@ Promise.all(promises).then(function(allData) {
 
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         phoneBrowsing = true;
+        $('#info-box')
+            .remove();
     }
 
     $('.loading-spinner')
