@@ -83,7 +83,7 @@ function updateInfoText() {
             if (infoBoxMapUnit == 'hs_states') {
                 console.log($( window ).width());
 
-                if ($( window ).width() >= 1443) {
+                if ($( window ).width() >= 1440) {
                     return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.high_school_name + ', ' + x.high_school_city + ')</li>';
                 }
                 else {
