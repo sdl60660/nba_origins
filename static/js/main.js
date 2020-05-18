@@ -30,7 +30,7 @@ var usProjection = geoAlbersUsaPR()
 
 
 $('.toggle-button')
-    .on("touchstart click", function() {
+    .on("tap click", function() {
 
         $('.' + $(this).attr("class").split(' ').slice(-1)[0])
             .prop('disabled', false)
@@ -76,7 +76,7 @@ $("#slider-div").slider({
 })
 
 $("#play-button")
-    .on("touchstart click", function() {
+    .on("tap click", function() {
         var button = $(this);
 
         if (button.text() == "▶") {
