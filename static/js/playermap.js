@@ -93,13 +93,13 @@ PlayerMap.prototype.initVis = function() {
             tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "</span>";
 
             if (phoneBrowsing == true) {
-                tipText += '<br><br><p style="color:#0000EE">(click here for full player list)</p>'
+                infoBoxActive = true;
+
+                infoBoxSelection = d;
+                infoBoxMapUnit = vis.mapUnit;
+
+                tipText += '<br><br><div id="pop-up-player-info-text"></div>';
             }
-            // tipText += "<br><br><span class='details'>(click region for full player list)</span>";
-            // tipText += "</div>"
-            // tipText += playerInfo;
-
-
             return tipText;
         })
 
@@ -150,14 +150,14 @@ PlayerMap.prototype.initVis = function() {
                         });
                 })
                 .on('click', function(d) {
-                    if (phoneBrowsing == false) {
+                    // if (phoneBrowsing == false) {
                         infoBoxActive = true;
 
                         infoBoxSelection = d;
                         infoBoxMapUnit = vis.mapUnit;
 
                         updateInfoText();
-                    }
+                    // }
                 })
                 // .style("fill", "white")
                 .style("fill", function(d) {

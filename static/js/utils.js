@@ -54,8 +54,14 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
 function updateInfoText() {
 
     // console.log(d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; }));
+    if (phoneBrowsing == false) {
+        var boxID = '#player-info-text'
+    }
+    else {
+        var boxID = '#pop-up-player-info-text'
+    }
     
-    $('#player-info-text').html(function() {
+    $(boxID).html(function() {
         try {
             areaData = d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; })
                 .get(infoBoxSelection.properties.name)['values'];
@@ -105,12 +111,16 @@ function updateInfoText() {
             }
         }).length;
 
-        if (cumulativeStatus == 'active') {
-            var infoText = '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (Active, ' + displayYear + ')</u></strong></p>';
-        }
-        else {
-            var infoText = '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (All-Time)</u></strong></p>';
+        var infoText = '';
 
+        if (phoneBrowsing == false) {
+            if (cumulativeStatus == 'active') {
+                infoText += '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (Active, ' + displayYear + ')</u></strong></p>';
+            }
+            else {
+                infoText += '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (All-Time)</u></strong></p>';
+
+            }
         }
 
         infoText += '<strong style="margin-left: 20px;">All-Stars (' + numAllStars + ')</strong><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul>';

@@ -38,7 +38,7 @@ body {
 
 .d3-tip {
 	max-width: 350px;
-	max-height: 200px;
+	max-height: 300px;
 }
 
 .btn-group {
@@ -125,12 +125,21 @@ body {
 	position: fixed;
 }
 
+/* Combine some attributes from these using a common class definition */
+
 #player-info-text {
 	margin-right: 5px;
 	max-height: 400px;
 	max-width: 320px;
 	overflow-y:auto;
 	font-size: 9pt;
+}
+
+#pop-up-player-info-text {
+	overflow-y: auto;
+	/*font-size: 9px;*/
+	max-height: 60px;
+	margin-left: -20px;
 }
 
 
