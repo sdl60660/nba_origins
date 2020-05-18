@@ -118,7 +118,7 @@ body {
 	min-width: 230px;
 	max-width: 90%;
 	margin: auto;
-	margin-left: 30px;
+	margin-left: 20px;
 	border-radius: 10px;
 	padding-top: 25px;
 	/*background-color: rgba(255, 228, 178, 0.4);*/
@@ -128,7 +128,7 @@ body {
 #player-info-text {
 	margin-right: 5px;
 	max-height: 400px;
-	max-width: 350px;
+	max-width: 320px;
 	overflow-y:auto;
 	font-size: 9pt;
 }
