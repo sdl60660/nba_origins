@@ -15,6 +15,7 @@ var currentProperty = "num_players";
 var totalsPerCapita = "totals";
 var birthPlaceHS = 'hs_states';
 
+var infoBoxActive = false;
 var infoBoxSelection;
 var infoBoxMapUnit;
 
@@ -105,8 +106,9 @@ function updateCharts() {
     // worldBarChart.wrangleData();
 
     // bubblePlot.wrangleData();
-
-    updateInfoText();
+    if (infoBoxActive == true) {
+        updateInfoText();
+    }
 }
 
 
@@ -124,7 +126,6 @@ var promises = [
 Promise.all(promises).then(function(allData) {
 
     $('.loading-spinner')
-        .hide()
         .remove();
 
     var areaDivisionNest = function(key) {

@@ -146,8 +146,10 @@ PlayerMap.prototype.initVis = function() {
                         });
                 })
                 .on('click', function(d) {
+                    infoBoxActive = true;
                     infoBoxSelection = d;
                     infoBoxMapUnit = vis.mapUnit;
+                    
                     updateInfoText();
                 })
                 // .style("fill", "white")

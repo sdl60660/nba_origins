@@ -97,8 +97,16 @@ function updateInfoText() {
             }
         }).length;
 
-        var infoText = '<strong style="margin-left: 20px;"><u>All-Stars (' + numAllStars + ')</u></strong><br><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul>';
-        infoText += '<strong style="margin-left: 20px"><u>Others (' + (playerList.length - numAllStars) + ')</u></strong><br><ul class="player_list">' + playerList.slice(numAllStars).join('') + '</ul>'
+        if (cumulativeStatus == 'active') {
+            var infoText = '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (' + displayYear + ')</u></strong></p>';
+        }
+        else {
+            var infoText = '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (All-Time)</u></strong></p>';
+
+        }
+
+        infoText += '<strong style="margin-left: 20px;">All-Stars (' + numAllStars + ')</strong><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul>';
+        infoText += '<strong style="margin-left: 20px">Others (' + (playerList.length - numAllStars) + ')</strong><ul class="player_list">' + playerList.slice(numAllStars).join('') + '</ul>'
 
         return infoText;
     });
