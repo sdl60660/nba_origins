@@ -86,21 +86,29 @@ function updateInfoText() {
                 return b.all_star_appearances - a.all_star_appearances;
             }
         }).map(function(x) {
-            if (infoBoxMapUnit == 'hs_states') {
-                console.log($( window ).width());
 
+            var linkText = x.name;
+
+            if (infoBoxMapUnit == 'hs_states') {
                 if ($( window ).width() >= 1440) {
-                    return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.high_school_name + ', ' + x.high_school_city + ')</li>';
+                    var additionalText = ' (' + x.high_school_city + ', ' + x.high_school_city + ')';
                 }
                 else {
-                    return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.high_school_city + ')</li>';
+                    var additionalText = ' (' + x.high_school_city + ')';
                 }
-
             }
             else {
-                return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.birth_city + ')</li>';
+                var additionalText = ' (' + x.birth_city + ')';
             }
-        })
+
+            if (phoneBrowsing == true) {
+                return '<li>' + linkText + additionalText + '</li>';
+            }
+            else {
+                return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + linkText + '</a>' + additionalText + '</li>';
+            }
+        });
+
 
         var numAllStars = areaData.filter(function(x) {
             if (cumulativeStatus == "active") {
