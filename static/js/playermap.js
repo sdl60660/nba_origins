@@ -91,6 +91,10 @@ PlayerMap.prototype.initVis = function() {
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "</span>";
+
+            if (phoneBrowsing == true) {
+                tipText += '<br><br><p style="color:#0000EE">(click here for full player list)</p>'
+            }
             // tipText += "<br><br><span class='details'>(click region for full player list)</span>";
             // tipText += "</div>"
             // tipText += playerInfo;
@@ -146,11 +150,14 @@ PlayerMap.prototype.initVis = function() {
                         });
                 })
                 .on('click', function(d) {
-                    infoBoxActive = true;
-                    infoBoxSelection = d;
-                    infoBoxMapUnit = vis.mapUnit;
-                    
-                    updateInfoText();
+                    if (phoneBrowsing == false) {
+                        infoBoxActive = true;
+
+                        infoBoxSelection = d;
+                        infoBoxMapUnit = vis.mapUnit;
+
+                        updateInfoText();
+                    }
                 })
                 // .style("fill", "white")
                 .style("fill", function(d) {

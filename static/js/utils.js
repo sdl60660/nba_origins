@@ -81,7 +81,15 @@ function updateInfoText() {
             }
         }).map(function(x) {
             if (infoBoxMapUnit == 'hs_states') {
-                return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.high_school_name + ', ' + x.high_school_city + ')</li>';
+                console.log($( window ).width());
+
+                if ($( window ).width() >= 1443) {
+                    return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.high_school_name + ', ' + x.high_school_city + ')</li>';
+                }
+                else {
+                    return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.high_school_city + ')</li>';
+                }
+
             }
             else {
                 return '<li><a href="https://www.basketball-reference.com' + x.bbref_link + '">' + x.name + '</a> (' + x.birth_city + ')</li>';
@@ -98,7 +106,7 @@ function updateInfoText() {
         }).length;
 
         if (cumulativeStatus == 'active') {
-            var infoText = '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (' + displayYear + ')</u></strong></p>';
+            var infoText = '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (Active, ' + displayYear + ')</u></strong></p>';
         }
         else {
             var infoText = '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (All-Time)</u></strong></p>';

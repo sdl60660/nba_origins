@@ -19,6 +19,8 @@ var infoBoxActive = false;
 var infoBoxSelection;
 var infoBoxMapUnit;
 
+var phoneBrowsing = false;
+
 var worldMapProjection = d3.geoEquirectangular()
     // .parallel(parallel)
     .precision(0.1)
@@ -124,6 +126,10 @@ var promises = [
 ];
 
 Promise.all(promises).then(function(allData) {
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        phoneBrowsing = true;
+    }
 
     $('.loading-spinner')
         .remove();
