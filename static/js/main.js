@@ -123,6 +123,9 @@ var promises = [
 
 Promise.all(promises).then(function(allData) {
 
+    $('.loading-spinner')
+        .remove();
+
     var areaDivisionNest = function(key) {
         return d3.nest()
             .key(function(d) { return d[key]; })
