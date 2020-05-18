@@ -22,24 +22,31 @@ PlayerMap.prototype.initVis = function() {
     vis.projection
         .translate([vis.width / 2, vis.height / 2])
 
+    vis.svg = d3.select(vis.parentElement)
+                .append("svg")
+
     if (vis.mapUnit == 'countries') {
         vis.projection
             .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height - 50]], {type: "Sphere"})
+
+        vis.svg
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 960 500")
+
     }
+    else {
+        vis.svg
+            .attr("width", vis.width)
+            .attr("height", vis.height)
+            .attr("preserveAspectRatio", "xMinYMin meet")
+    }
+
+    vis.svg
+        .append('g')
+            .attr('class', 'map');
 
     vis.color = d3.scaleLog()
         .range(['#FFE4B2', 'orange']);
-
-    vis.path = d3.geoPath();
-
-    vis.svg = d3.select(vis.parentElement)
-                .append("svg")
-                .attr("width", vis.width)
-                .attr("height", vis.height)
-                .attr("preserveAspectRatio", "xMinYMin meet")
-                // .attr("viewBox", "0 0 960 500")
-                .append('g')
-                .attr('class', 'map');
 
     vis.path = d3.geoPath().projection(vis.projection);
 

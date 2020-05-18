@@ -47,7 +47,7 @@ $('.toggle-button')
             totalsPerCapita = this.getAttribute('value');
         }
         else if ($(this).hasClass('birthplace-high-school-switch')) {
-            birthPlaceHS = this.getAttribute('value');
+            birthPlaceHS = infoBoxMapUnit = this.getAttribute('value');
         }
 
         updateCharts();
