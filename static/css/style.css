@@ -75,6 +75,11 @@ body {
 	height: 60px;
 }
 
+.footer {
+	margin-top: 40px;
+	margin-bottom: 60px;
+}
+
 #timeline-div {
 	display: flex;
 	align-items: center;
@@ -107,16 +112,16 @@ body {
 
 #info-box {
 	transform: translate(0, -150px);
-	border: 1px solid black;
-	height: 450px;
+	/*border: 1px solid black;*/
+	height: 650px;
 	/*width: 70%;*/
-	min-width: 270px;
+	min-width: 230px;
 	max-width: 90%;
 	margin: auto;
-	margin-right: 50px;
+	margin-left: 30px;
 	border-radius: 10px;
 	padding-top: 25px;
-	background-color: rgba(255, 228, 178, 0.4);
+	/*background-color: rgba(255, 228, 178, 0.4);*/
 	position: fixed;
 }
 
