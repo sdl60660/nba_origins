@@ -91,7 +91,7 @@ function updateInfoText() {
 
             if (infoBoxMapUnit == 'hs_states') {
                 if ($( window ).width() >= 1440) {
-                    var additionalText = ' (' + x.high_school_city + ', ' + x.high_school_city + ')';
+                    var additionalText = ' (' + x.high_school_name + ', ' + x.high_school_city + ')';
                 }
                 else {
                     var additionalText = ' (' + x.high_school_city + ')';
