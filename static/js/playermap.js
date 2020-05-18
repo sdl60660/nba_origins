@@ -98,10 +98,15 @@ PlayerMap.prototype.initVis = function() {
                 infoBoxSelection = d;
                 infoBoxMapUnit = vis.mapUnit;
 
-                tipText += '<br><br><div id="pop-up-player-info-text"></div>';
+                tipText += '<br><br><div id="pop-up-player-info-text" style="overflow-y:auto;"></div>';
             }
             return tipText;
         })
+
+    // if(phoneBrowsing == true) {
+    //     vis.tip
+    //         .style("overflowY", "auto");
+    // }
 
     vis.svg.call(vis.tip);
 

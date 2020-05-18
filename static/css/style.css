@@ -39,7 +39,6 @@ body {
 .d3-tip {
 	max-width: 350px;
 	max-height: 300px;
-	overflow-y: auto;
 }
 
 .btn-group {
