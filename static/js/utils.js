@@ -123,10 +123,10 @@ function updateInfoText() {
 
         if (phoneBrowsing == false) {
             if (cumulativeStatus == 'active') {
-                infoText += '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (Active, ' + displayYear + ')</u></strong></p>';
+                infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + infoBoxSelection.properties.name + ' (Active, ' + displayYear + ')</strong></p>';
             }
             else {
-                infoText += '<p style="text-align:center;"><strong style="margin-left: 20px;"><u>' + infoBoxSelection.properties.name + ' (All-Time)</u></strong></p>';
+                infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + infoBoxSelection.properties.name + ' (All-Time)</strong></p>';
 
             }
         }
