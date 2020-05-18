@@ -124,6 +124,7 @@ var promises = [
 Promise.all(promises).then(function(allData) {
 
     $('.loading-spinner')
+        .hide()
         .remove();
 
     var areaDivisionNest = function(key) {
