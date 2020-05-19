@@ -122,7 +122,10 @@ var promises = [
     d3.json("static/data/players_list.json"),
 
     d3.json("static/data/country_populations.json"),
-    d3.json("static/data/state_populations.json")
+    d3.json("static/data/state_populations.json"),
+
+    d3.json("static/data/high_school_city_counts.json"),
+    d3.json("static/data/birth_city_counts.json")
 ];
 
 Promise.all(promises).then(function(allData) {
