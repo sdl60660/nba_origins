@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import json
+import os
+
+SECRET_KEY = os.getenv('SECRET_KEY', '2345')
 
 app = Flask(__name__)
-app.secret_key = '1234'
+app.secret_key = SECRET_KEY
 
 @app.route('/')
 def homepage():
