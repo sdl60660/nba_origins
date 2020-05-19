@@ -22,6 +22,11 @@ def generate_output_data(data):
 		else:
 			player['birth_country'] = player['birth_location'].replace('\xa0', ' ')
 
+		if player['high_school_state'] or player['birth_state']:
+			player['high_school_country'] = 'United States of America'
+		else:
+			player['high_school_country'] = player['birth_country']
+
 	return players
 
 def main():

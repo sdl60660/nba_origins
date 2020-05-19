@@ -25,7 +25,7 @@ PlayerMap.prototype.initVis = function() {
     vis.svg = d3.select(vis.parentElement)
                 .append("svg")
 
-    if (vis.mapUnit == 'countries') {
+    if (vis.mapUnit.indexOf('countries') != -1) {
         vis.projection
             .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height - 50]], {type: "Sphere"})
 
@@ -81,7 +81,7 @@ PlayerMap.prototype.initVis = function() {
                 var playerInfo = '';
             }
 
-            if(vis.mapUnit == 'countries') {
+            if(vis.mapUnit.indexOf('countries') != -1) {
                 var tipUnit = 'Country';
             }
             else {

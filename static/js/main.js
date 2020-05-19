@@ -13,7 +13,7 @@ const startYear = 1947;
 var cumulativeStatus = "active";
 var currentProperty = "num_players";
 var totalsPerCapita = "totals";
-var birthPlaceHS = 'hs_states';
+var birthPlaceHS = 'high_school';
 
 var infoBoxActive = false;
 var infoBoxSelection;
@@ -50,7 +50,9 @@ $('.toggle-button')
             totalsPerCapita = this.getAttribute('value');
         }
         else if ($(this).hasClass('birthplace-high-school-switch')) {
-            birthPlaceHS = infoBoxMapUnit = this.getAttribute('value');
+            infoBoxMapUnit = infoBoxMapUnit.replace(birthPlaceHS, this.getAttribute('value'));
+            birthPlaceHS = this.getAttribute('value');
+
         }
 
         updateCharts();
@@ -101,10 +103,10 @@ function step() {
 
 
 function updateCharts() {
-    stateMap.wrangleData(birthPlaceHS);
+    stateMap.wrangleData((birthPlaceHS + '_states'));
     // stateBarChart.wrangleData();
 
-    worldMap.wrangleData('countries');
+    worldMap.wrangleData((birthPlaceHS + '_countries'));
     // worldBarChart.wrangleData();
 
     // bubblePlot.wrangleData();
@@ -148,24 +150,26 @@ Promise.all(promises).then(function(allData) {
     }
 
     nbaData = {
-        'countries': areaDivisionNest('birth_country'),
+        'birth_countries': areaDivisionNest('birth_country'),
+        'high_school_countries': areaDivisionNest('high_school_country'),
         'birth_states': areaDivisionNest('birth_state'),
-        'hs_states': areaDivisionNest('high_school_state')
+        'high_school_states': areaDivisionNest('high_school_state')
     };
 
     populationData = {
-        'countries': allData[3],
+        'birth_countries': allData[3],
+        'high_school_countries': allData[3],
         'birth_states': allData[4],
-        'hs_states': allData[4]
+        'high_school_states': allData[4]
     }
 
     countries = allData[0];
     states = allData[1];
 
-    stateMap = new PlayerMap("#us-map", usProjection, states, 'hs_states', [750, 600]);
+    stateMap = new PlayerMap("#us-map", usProjection, states, 'high_school_states', [750, 600]);
     // stateBarChart = new BarChart("#us-barchart", 'states', states, true);
 
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'countries', [1000, 750]);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [1000, 750]);
     // worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
 
     // bubblePlot = new BubblePlot("#us-pop-comparison-chart", 'states', states, [700, 650])
