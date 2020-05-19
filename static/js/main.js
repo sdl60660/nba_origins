@@ -29,6 +29,38 @@ var usProjection = geoAlbersUsaPR()
     .scale([1000]);
 
 
+// Initialize timeline slider
+$("#slider-div").slider({
+    max: 2020,
+    min: startYear,
+    step: 1,
+    range: false,
+    value: displayYear,
+    slide: function(event, ui) {
+        $("#yearLabel").text((ui.value - 1) + '-' + (ui.value));
+
+        displayYear = ui.value;
+        updateCharts();
+    }
+})
+
+// Initialize timeline play button
+$("#play-button")
+    .on("tap click", function() {
+        var button = $(this);
+
+        if (button.text() == "▶") {
+            button.text("❙ ❙");
+            interval = setInterval(step, 500);
+        }
+        else {
+            button.text("▶");
+            clearInterval(interval);
+        }
+        
+    });
+
+// Set new variable values and update charts on toggle button change
 $('.toggle-button')
     .on("tap click", function() {
 
@@ -58,39 +90,16 @@ $('.toggle-button')
         updateCharts();
 
     });
+
+// Resize timeline on window size/jquery ui slider size change
+$(window).resize(function() {
+    timeline.updateDimensions();
+})
     
 
-$('.enableOnInput').prop('disabled', true);
+$('.enableOnInput')
+    .prop('disabled', true);
 
-
-$("#slider-div").slider({
-    max: 2020,
-    min: startYear,
-    step: 1,
-    range: false,
-    value: displayYear,
-    slide: function(event, ui) {
-        $("#yearLabel").text((ui.value - 1) + '-' + (ui.value));
-
-        displayYear = ui.value;
-        updateCharts();
-    }
-})
-
-$("#play-button")
-    .on("tap click", function() {
-        var button = $(this);
-
-        if (button.text() == "▶") {
-            button.text("❙ ❙");
-            interval = setInterval(step, 500);
-        }
-        else {
-            button.text("▶");
-            clearInterval(interval);
-        }
-        
-    });
 
 function step() {
     console.log(displayYear);

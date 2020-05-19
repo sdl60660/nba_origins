@@ -17,16 +17,8 @@ Timeline.prototype.initVis = function() {
             	.attr("height", "250%")
             	.attr("visibility", "visible");
 
-
-    var x = d3.scaleLinear()
-    	.domain([1947,2020])
-    	.range([0, $('.ui-slider').width()])
-
-    vis.svg
+    vis.timelineAxis = vis.svg
         .append('g')
-        	.call(d3.axisBottom(x)
-        			.tickValues([1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020])
-        			.tickFormat(d3.format("")))
             .attr('class', 'timeline-line')
             .attr("preserveAspectRatio", "xMinYMin meet")
         	.attr("width", "100%")
@@ -34,4 +26,20 @@ Timeline.prototype.initVis = function() {
             .attr("transform", "translate(0,5)")
             .attr('stroke', 'black')
 
+    vis.updateDimensions();
+
+}
+
+Timeline.prototype.updateDimensions = function() {
+	
+	var vis = this;
+
+	vis.x = d3.scaleLinear()
+    	.domain([1947,2020])
+    	.range([0, $('.ui-slider').width()])
+
+	vis.timelineAxis
+		.call(d3.axisBottom(vis.x)
+			.tickValues([1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020])
+			.tickFormat(d3.format("")));
 }
