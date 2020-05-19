@@ -126,7 +126,7 @@ function updateInfoText() {
                 infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + infoBoxSelection.properties.name + ' (Active, ' + displayYear + ')</strong></p>';
             }
             else {
-                infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + infoBoxSelection.properties.name + ' (All-Time)</strong></p>';
+                infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + infoBoxSelection.properties.name + ' (' + (startYear-1) + '-' + displayYear + ')</strong></p>';
 
             }
         }
