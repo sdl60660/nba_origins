@@ -26,7 +26,7 @@ var worldMapProjection = d3.geoEquirectangular()
     .precision(0.1)
 
 var usProjection = geoAlbersUsaPR()
-    .scale([1000]);
+    // .scale([1000]);
 
 
 // Initialize timeline slider
