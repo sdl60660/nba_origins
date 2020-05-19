@@ -90,7 +90,20 @@ PlayerMap.prototype.initVis = function() {
             // var tipText = '<div id="' + d.properties.name.replace(' ', '-') + '-info-box">';
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
-            tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "</span>";
+            tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "<br></span>";
+
+            // if (totalsPerCapita == "per_capita") {
+            var densityValue = 1000*Math.round(populationData[vis.mapUnit][displayYear-1][d.properties.name]/vis.nbaYearData[areaName][currentProperty]/1000);
+
+            if (densityValue == 'Infinity') {
+                var valueString = "[No NBA Players]" 
+            }
+            else {
+                var valueString = "1 in Every " + d3.format(",")(densityValue) + " People";
+            }
+            tipText += "<strong>Per Capita: </strong><span class='details'>" + valueString + "</span>";
+            // }
+
 
             if (phoneBrowsing == true) {
                 infoBoxActive = true;

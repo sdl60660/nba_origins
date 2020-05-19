@@ -173,6 +173,8 @@ Promise.all(promises).then(function(allData) {
     // worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
 
     // bubblePlot = new BubblePlot("#us-pop-comparison-chart", 'states', states, [700, 650])
+
+    timeline = new Timeline("#slider-div");
 });
 
 

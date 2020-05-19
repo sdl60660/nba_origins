@@ -67,6 +67,14 @@ body {
 	margin-left: -20px;
 }
 
+.ui-slider {
+	visibility: hidden;
+}
+
+.ui-slider-handle {
+	visibility: visible;
+}
+
 /*.player-map {
 	height: 600px;
 }*/
