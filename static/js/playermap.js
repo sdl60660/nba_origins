@@ -216,6 +216,8 @@ PlayerMap.prototype.wrangleData = function(_mapUnit) {
 PlayerMap.prototype.updateVis = function() {
     var vis = this;
 
+    
+
     if (totalsPerCapita == "per_capita") {
         vis.color = d3.scaleLog()
             .domain(

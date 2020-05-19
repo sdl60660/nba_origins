@@ -7,7 +7,10 @@ body {
 }
 
 .toggle-button {
-	width: 120px;
+	/*max-width: 120px;*/
+	/*min-width: 40%;*/
+	width: 50%;
+	/*max-width: 140px;*/
 	margin-left: 0px;
 	margin-right: 0px;
 
@@ -42,7 +45,11 @@ body {
 }
 
 .btn-group {
+	/*width: 100%;*/
+	max-width: 250px;
+	margin: auto;
 	margin-top: 20px;
+	width: 100%;
 }
 
 .btn {
