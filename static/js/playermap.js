@@ -95,10 +95,11 @@ PlayerMap.prototype.initVis = function() {
             // if (totalsPerCapita == "per_capita") {
             var densityValue = 1000*Math.round(populationData[vis.mapUnit][displayYear-1][d.properties.name]/vis.nbaYearData[areaName][currentProperty]/1000);
 
-            if (densityValue == 'Infinity') {
+            if (densityValue == 'Infinity' || isNaN(densityValue)) {
                 var valueString = "[No NBA Players]" 
             }
             else {
+                console.log(densityValue);
                 var valueString = "1 in Every " + d3.format(",")(densityValue) + " People";
             }
             tipText += "<strong>Per Capita: </strong><span class='details'>" + valueString + "</span>";
