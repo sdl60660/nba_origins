@@ -96,18 +96,18 @@ PlayerMap.prototype.initVis = function() {
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "<br></span>";
 
-            // if (totalsPerCapita == "per_capita") {
-            var densityValue = 1000*Math.round(populationData[vis.mapUnit][displayYear-1][d.properties.name]/vis.nbaYearData[areaName][currentProperty]/1000);
+            var densityValue = vis.nbaYearData[areaName][currentProperty]/(populationData[vis.mapUnit][displayYear-1][d.properties.name]/100000);
 
             if (densityValue != 'Infinity' && !isNaN(densityValue)) {
-                var valueString = "1 in Every " + d3.format(",")(densityValue) + " People";
-                tipText += "<strong>Per Capita: </strong><span class='details'>" + valueString + "</span>";
-            }
-            /*else {
-                console.log(densityValue);
-                var valueString = "[No NBA Players]" 
-            }*/
+                if(currentProperty == 'num_all_stars') {
+                    var playerUnit = 'All-Stars'
+                }
+                else {
+                    var playerUnit = 'NBA Players'
+                }
 
+                tipText += "<strong>" + playerUnit + "/100,000 People: </strong><span class='details'>" + d3.format('.2f')(densityValue) + "</span>";
+            }
 
             if (phoneBrowsing == true) {
                 infoBoxActive = true;

@@ -131,17 +131,23 @@ BarChart.prototype.wrangleData = function() {
     }
 
     vis.chartData.forEach(function(d) {
-        d.players = playerSelection.filter(function(x) {
+        d.player_list = playerSelection.filter(function(x) {
             return x.fullCityName == d.city;
-        }).length;
-        d.city = d.city.split(', ')[0] + ', ' + d.city.split(', ')[1]
-        delete d.country;
-        d.per_capita = d.players/(d.population/100000)
+        });
+        d.players = d.player_list.length;
+        d.city = d.city.split(', ')[0] + ', ' + d.city.split(', ')[1];
+        d.per_capita = d.players/(d.population/100000);
     })
 
+    if (currentProperty == 'num_all_stars') {
+        var threshold = 2;
+    }
+    else {
+        var threshold = 5;
+    }
 
     vis.chartData = vis.chartData.filter(function(d) {
-        return d.players >= 5 && d.population > 0;
+        return d.players >= threshold && d.population > 0;
     }).sort(function(a, b) {
         return b[vis.xProperty] - a[vis.xProperty];
     })
@@ -228,8 +234,16 @@ BarChart.prototype.updateVis = function() {
                     d3.select(this)
                         .attr("stroke-width", "0px")
                 })
-                .on('tap', function(d){
-                    vis.tip.show(d);
+                // .on('tap', function(d){
+                //     vis.tip.show(d);
+                // })
+                .on('click', function(d) {
+                    infoBoxActive = true;
+
+                    infoBoxSelection = d;
+                    infoBoxMapUnit = 'cities';
+
+                    updateInfoText();
                 })
                 .style("fill", function(d) {
                     return "white";
@@ -247,7 +261,7 @@ BarChart.prototype.updateVis = function() {
                     })
                     .attr("height", vis.y.bandwidth)
                     .style("fill", function(d) {
-                        return vis.color(d[vis.xProperty]);
+                        return vis.color(Math.max(0.7, d[vis.xProperty]));
                     })
                     
 }

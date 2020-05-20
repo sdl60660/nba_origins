@@ -63,15 +63,22 @@ function updateInfoText() {
     
     $(boxID).html(function() {
         try {
-            areaData = d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; })
-                .get(infoBoxSelection.properties.name)['values'];
+            if(infoBoxMapUnit == 'cities') {
+                areaData = infoBoxSelection.player_list;
+                var regionName = infoBoxSelection.city;
+            }
+            else {
+                areaData = d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; })
+                    .get(infoBoxSelection.properties.name)['values'];
+                var regionName = infoBoxSelection.properties.name;
+            }
         }
         catch {
             // If there are no players from a state (birthplace-wise or high school-wise, they won't show up in the data nest result)
             areaData = [];
         }
 
-        playerList = areaData.filter(function(x) {
+        selectedPlayers = areaData.filter(function(x) {
             if (cumulativeStatus == "active") {
                 return x.start_year <= displayYear && x.end_year >= displayYear;
             }
@@ -96,6 +103,9 @@ function updateInfoText() {
                 else {
                     var additionalText = ' (' + x.high_school_city + ')';
                 }
+            }
+            else if (infoBoxMapUnit == 'cities') {
+                var additionalText = '';
             }
             else {
                 var additionalText = ' (' + x.birth_city + ')';
@@ -123,16 +133,16 @@ function updateInfoText() {
 
         if (phoneBrowsing == false) {
             if (cumulativeStatus == 'active') {
-                infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + infoBoxSelection.properties.name + ' (Active, ' + displayYear + ')</strong></p>';
+                infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + regionName + ' (Active, ' + displayYear + ')</strong></p>';
             }
             else {
-                infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + infoBoxSelection.properties.name + ' (' + (startYear-1) + '-' + displayYear + ')</strong></p>';
+                infoText += '<p style="text-align:center;background-color:#FFE4B2;"><strong style="margin-left: 20px;">' + regionName + ' (' + (startYear-1) + '-' + displayYear + ')</strong></p>';
 
             }
         }
 
-        infoText += '<strong style="margin-left: 20px;">All-Stars (' + numAllStars + ')</strong><ul class="player_list">' + playerList.slice(0, numAllStars).join('') + '</ul>';
-        infoText += '<strong style="margin-left: 20px">Others (' + (playerList.length - numAllStars) + ')</strong><ul class="player_list">' + playerList.slice(numAllStars).join('') + '</ul>'
+        infoText += '<strong style="margin-left: 20px;">All-Stars (' + numAllStars + ')</strong><ul class="player_list">' + selectedPlayers.slice(0, numAllStars).join('') + '</ul>';
+        infoText += '<strong style="margin-left: 20px">Others (' + (selectedPlayers.length - numAllStars) + ')</strong><ul class="player_list">' + selectedPlayers.slice(numAllStars).join('') + '</ul>'
 
         return infoText;
     });
