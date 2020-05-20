@@ -102,6 +102,9 @@ $("#us-map")
     .show();
 
 $(".vis-select")
+    .prop("disabled", true);
+
+$(".vis-select")
     .on("tap click", function() {
 
         var elementID = $(this).attr('value');
@@ -240,6 +243,9 @@ Promise.all(promises).then(function(allData) {
     timeline = new Timeline("#slider-div");
 
     cityBarChart = new BarChart("#city-chart");
+
+    $(".vis-select")
+        .prop("disabled", false);
 });
 
 
