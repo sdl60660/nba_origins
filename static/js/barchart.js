@@ -118,7 +118,12 @@ BarChart.prototype.wrangleData = function() {
     }
 
     playerSelection.forEach(function(d) {
-        d.fullCityName = d[(birthPlaceHS + '_city')] + ', ' + d[(birthPlaceHS + '_state')] + ', ' + d[(birthPlaceHS + '_country')];
+        if (d[(birthPlaceHS + '_country')] == 'United States of America') {
+            d.fullCityName = d[(birthPlaceHS + '_city')] + ', ' + d[(birthPlaceHS + '_state')] + ', ' + d[(birthPlaceHS + '_country')];
+        }
+        else {
+            d.fullCityName = d[(birthPlaceHS + '_city')] + ', ' + d[(birthPlaceHS + '_country')];
+        }
     })
 
     vis.chartData = [];
@@ -139,12 +144,25 @@ BarChart.prototype.wrangleData = function() {
         d.per_capita = d.players/(d.population/100000);
     })
 
+    // vis.t
+    //     .duration(500);
+
     if ($('#search-val').val().length > 0) {
+
+        // Get search query from box
         var searchTerm = $('#search-val').val().toLowerCase();
+
+        // Filter to only players whose cities contain the search term
         vis.chartData = vis.chartData.filter(function(d) {
             return d.city.toLowerCase().indexOf(searchTerm) !== -1;
         });
-        var threshold = 1
+
+        // Lower threshold to a single NBA player so that any city with players will show up in the search
+        var threshold = 1;
+
+        // // Set a faster transition time if someone is typing
+        // vis.t
+        //     .duration(100);
     }
     else if (currentProperty == 'num_all_stars') {
         var threshold = 2;

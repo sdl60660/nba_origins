@@ -106,6 +106,9 @@ function updateInfoText() {
             }
             else if (infoBoxMapUnit == 'cities') {
                 var additionalText = '';
+                if (x.high_school_name && birthPlaceHS == 'high_school') {
+                    additionalText = ' (' + x.high_school_name + ')';
+                }
             }
             else {
                 var additionalText = ' (' + x.birth_city + ')';
