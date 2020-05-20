@@ -29,9 +29,13 @@ PlayerMap.prototype.initVis = function() {
         vis.projection
             .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height - 50]], {type: "Sphere"})
 
+        // vis.svg
+            // .attr("preserveAspectRatio", "xMinYMin meet")
+            // .attr("viewBox", "0 0 960 567")
         vis.svg
+            .attr("width", vis.width)
+            .attr("height", vis.height)
             .attr("preserveAspectRatio", "xMinYMin meet")
-            .attr("viewBox", "0 0 960 500")
 
     }
     else {
@@ -95,15 +99,14 @@ PlayerMap.prototype.initVis = function() {
             // if (totalsPerCapita == "per_capita") {
             var densityValue = 1000*Math.round(populationData[vis.mapUnit][displayYear-1][d.properties.name]/vis.nbaYearData[areaName][currentProperty]/1000);
 
-            if (densityValue == 'Infinity' || isNaN(densityValue)) {
-                var valueString = "[No NBA Players]" 
-            }
-            else {
-                console.log(densityValue);
+            if (densityValue != 'Infinity' && !isNaN(densityValue)) {
                 var valueString = "1 in Every " + d3.format(",")(densityValue) + " People";
+                tipText += "<strong>Per Capita: </strong><span class='details'>" + valueString + "</span>";
             }
-            tipText += "<strong>Per Capita: </strong><span class='details'>" + valueString + "</span>";
-            // }
+            /*else {
+                console.log(densityValue);
+                var valueString = "[No NBA Players]" 
+            }*/
 
 
             if (phoneBrowsing == true) {
@@ -216,7 +219,7 @@ PlayerMap.prototype.wrangleData = function(_mapUnit) {
 PlayerMap.prototype.updateVis = function() {
     var vis = this;
 
-    
+
 
     if (totalsPerCapita == "per_capita") {
         vis.color = d3.scaleLog()

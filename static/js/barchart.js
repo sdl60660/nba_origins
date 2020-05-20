@@ -1,9 +1,6 @@
 
-BarChart = function(_parentElement, _mapUnit, _geoJSON) {
-
+BarChart = function(_parentElement, _mapUnit) {
     this.parentElement = _parentElement;
-    this.mapUnit = _mapUnit;
-    this.geoJSON = _geoJSON;
 
     this.initVis();
 }
@@ -12,16 +9,14 @@ BarChart = function(_parentElement, _mapUnit, _geoJSON) {
 BarChart.prototype.initVis = function() {
     var vis = this;
 
-    vis.margin = {top: 18, right: 10, bottom: 15, left: 180};
-    vis.width = 450 - vis.margin.left - vis.margin.right;
+vis.margin = {top: 80, right: 170, bottom: 50, left: 170};
+    vis.width = 800 - vis.margin.left - vis.margin.right;
     vis.height = 600 - vis.margin.top - vis.margin.bottom;
 
     vis.svg = d3.select(vis.parentElement)
         .append("svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
-        .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
-        .append('g')
-        .attr('class', 'barchart');
+        .attr("height", vis.height + vis.margin.top + vis.margin.bottom);
 
     vis.g = vis.svg.append("g")
         .attr("class", vis.parentGroupClass)
@@ -55,15 +50,12 @@ BarChart.prototype.initVis = function() {
         
             // .transition()
 
-    vis.allAreas = vis.geoJSON.features.map(function(d) {
-            return d.properties;
-        });
-
     vis.t = d3.transition()
         .duration(500);
 
     vis.color = d3.scaleLog()
-        .range(['#FFE4B2', 'orange']);
+        .range(['#FFE4B2', 'orange'])
+        .base(20);
 
     // Set tooltips
     vis.tip = d3.tip()
@@ -71,19 +63,21 @@ BarChart.prototype.initVis = function() {
         .offset([-10, 0])
         .html(function(d) {
 
-            var areaName = d.area;
-            var playerCount = d['num_players'];
+            var areaName = d.city;
+            var playerCount = d.players;
+            var tipUnit = "City";
 
-            if(vis.mapUnit == 'states') {
-                var tipUnit = 'State';
+            if(currentProperty == 'num_all_stars') {
+                var playerUnit = 'All-Stars'
             }
             else {
-                var tipUnit = 'Country';
+                var playerUnit = 'NBA Players'
             }
 
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>"
-            tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
-            tipText += "<strong>All-Stars: </strong><span class='details'>" + d['num_all_stars'] + "</span>";
+            tipText += "<strong>Population: </strong><span class='details'>" + d3.format(',')(d.population) + "<br></span>";
+            tipText += "<strong>" + playerUnit + ": </strong><span class='details'>" + playerCount + "<br></span>";
+            tipText += "<strong>" + playerUnit + "/100,000 People: </strong><span class='details'>" + d3.format('.1f')(d.per_capita) + "</span>";
 
             return tipText;
         })
@@ -97,17 +91,66 @@ BarChart.prototype.initVis = function() {
 BarChart.prototype.wrangleData = function() {
     var vis = this;
 
-    vis.areaData = generateYearData(nbaData, vis.allAreas, vis.mapUnit, displayYear, cumulativeStatus);
-
-    vis.areaData = vis.areaData.sort( (a,b) => {
-        return b[currentProperty] - a[currentProperty];
+    var playerSelection = playerList.filter(function(d) {
+        if (cumulativeStatus == "active") {
+            return d.start_year <= displayYear && d.end_year >= displayYear;
+        }
+        else {
+            return d.start_year <= displayYear;
+        }
     })
 
-    if (vis.mapUnit == 'countries' && vis.areaData.length > 50) {
-        vis.areaData = vis.areaData.slice(0, 50);
+    if (currentProperty == "num_all_stars") {
+        playerSelection = playerSelection.filter(function(d) {
+            return d.all_star_appearances > 0;
+        })
     }
 
-    // color.domain([1, 1000])
+    if (totalsPerCapita == 'totals') {
+        vis.xProperty = 'players';
+        vis.color
+            .range(['#FFE4B2', 'orange']);
+    }
+    else {
+        vis.xProperty = 'per_capita';
+        vis.color
+            .range(['#FFE4B2', '#FF3F00']);
+    }
+
+    playerSelection.forEach(function(d) {
+        d.fullCityName = d[(birthPlaceHS + '_city')] + ', ' + d[(birthPlaceHS + '_state')] + ', ' + d[(birthPlaceHS + '_country')];
+    })
+
+    vis.chartData = [];
+    for (city in cityCounts[birthPlaceHS]) {
+        vis.chartData.push({
+            'city': cityCounts[birthPlaceHS][city]['city'],
+            'country': cityCounts[birthPlaceHS][city]['country'],
+            'population': cityCounts[birthPlaceHS][city]['population']
+        });
+    }
+
+    vis.chartData.forEach(function(d) {
+        d.players = playerSelection.filter(function(x) {
+            return x.fullCityName == d.city;
+        }).length;
+        d.city = d.city.split(', ')[0] + ', ' + d.city.split(', ')[1]
+        delete d.country;
+        d.per_capita = d.players/(d.population/100000)
+    })
+
+
+    vis.chartData = vis.chartData.filter(function(d) {
+        return d.players >= 5 && d.population > 0;
+    }).sort(function(a, b) {
+        return b[vis.xProperty] - a[vis.xProperty];
+    })
+
+    if (vis.chartData.length > 50) {
+        vis.chartData = vis.chartData.slice(0,50);
+    }
+
+    console.log(vis.chartData);
 
     vis.svg.call(vis.tip);
     vis.updateVis();
@@ -118,12 +161,12 @@ BarChart.prototype.updateVis = function() {
     var vis = this;
 
     vis.y
-        .domain(vis.areaData.map(function(d) { return d.area; }));
+        .domain(vis.chartData.map(function(d) { return d.city; }));
 
     vis.x
-        .domain([0, Math.round(1.05*d3.max(vis.areaData, function(d) {
-            return d[currentProperty];
-        }))]);
+        .domain([0, d3.max(vis.chartData, function(d) {
+            return d[vis.xProperty];
+        })]);
 
     vis.yAxisCall
         .scale(vis.y)
@@ -134,8 +177,8 @@ BarChart.prototype.updateVis = function() {
 
 
     vis.xAxisCall
-        .ticks(Math.min(10, d3.max(vis.areaData, function(d) {
-            return d[currentProperty];
+        .ticks(Math.min(6, d3.max(vis.chartData, function(d) {
+            return d[vis.xProperty];
         })))
         .scale(vis.x);
 
@@ -147,8 +190,8 @@ BarChart.prototype.updateVis = function() {
     // JOIN data with any existing elements
     vis.barchart = vis.g
         .selectAll("rect")
-        .data(vis.areaData, function(d) {
-            return d.area;
+        .data(vis.chartData, function(d) {
+            return d.city;
         })
 
     // EXIT old elements not present in new data (this shouldn't be the case)
@@ -161,11 +204,11 @@ BarChart.prototype.updateVis = function() {
         .enter()
             .append("rect")
                 .attr("class", function(d) {
-                    return `${d.area.replace(/ /g, '-')} area-bar ${vis.mapUnit}-bar`
+                    return `${d.city.replace(/ /g, '-')} area-bar`
                 })
                 .style("opacity", 0.8)
                 .attr("y", function(d) {
-                    return vis.y(d.area);
+                    return vis.y(d.city);
                 })
                 .attr("height", vis.y.bandwidth)
                 .attr("x",  vis.x(0))
@@ -175,30 +218,18 @@ BarChart.prototype.updateVis = function() {
                 .on('mouseover', function(d) {
                     vis.tip.show(d);
 
-                    d3.selectAll('.' + d.area.replace(/ /g, '-'))
-                        .style("opacity", 1)
-                        .style("stroke", "black")
-                        .style("stroke-width", 3);
+                    d3.select(this)
+                        .attr("stroke", "black")
+                        .attr("stroke-width", "2px")
                 })
                 .on('mouseout', function(d){
                     vis.tip.hide(d);
 
-                    d3.selectAll('.' + d.area.replace(/ /g, '-'))
-                        .style("opacity", 0.8)
-                        .style("stroke","black")
-                        .style("stroke-width", function(e, i, n) {
-                            return n[i].getAttribute('default-stroke')
-                        });
+                    d3.select(this)
+                        .attr("stroke-width", "0px")
                 })
-                .on('click', function(d){
+                .on('tap', function(d){
                     vis.tip.show(d);
-
-                    // d3.selectAll('.' + d.area.replace(/ /g, '-'))
-                    //     .style("opacity", 0.8)
-                    //     .style("stroke","black")
-                    //     .style("stroke-width", function(e, i, n) {
-                    //         return n[i].getAttribute('default-stroke')
-                    //     });
                 })
                 .style("fill", function(d) {
                     return "white";
@@ -206,17 +237,17 @@ BarChart.prototype.updateVis = function() {
                 .merge(vis.barchart)
                     .transition(vis.t)
                     .attr("width", function(d) {
-                        return vis.x(d[currentProperty]);
+                        return vis.x(d[vis.xProperty]);
                     })
                     .attr("x", function(d) {
                         return vis.x(0);
                     })
                     .attr("y", function(d) {
-                        return vis.y(d.area);
+                        return vis.y(d.city);
                     })
                     .attr("height", vis.y.bandwidth)
                     .style("fill", function(d) {
-                        return vis.color(d[currentProperty]);
+                        return vis.color(d[vis.xProperty]);
                     })
                     
 }

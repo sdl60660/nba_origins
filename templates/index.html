@@ -16,7 +16,11 @@
     <link rel="stylesheet" href="static/css/jquery-ui.theme.min.css">
     <link rel="stylesheet" href="static/css/d3-tip.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="static/css/style.css">                               
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/1e59e4c612.js" crossorigin="anonymous"></script>
+
 </head>
 
 
@@ -40,7 +44,10 @@
   		
 	<!-- Bootstrap grid setup -->
     <div class="container">
-        <div id="selections" class="row" style="text-align: center;">
+        <!-- <div class="col-md-2"></div> -->
+        <div id="optional-spacer"></div>
+        <div class="col-md-12" id="selections">
+        <div class="row" style="text-align: center;">
 
             <div class="row" id="yearLabelHeading">
                 <label id="seasonWrapperLabel"><h3>Season: <span id="yearLabel">1981-1982</span></h3></label>
@@ -57,45 +64,49 @@
                 <div class="col-md-2 col-sm-2"></div>
             </div>
 
+            <div style="height:20px"></div>
+
             <div class="row">
-                <div class="col-md-2 col-sm-2"></div>
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-2"></div>
+                <div class="col-md-3 col-sm-4">
 
                     <div class="row">
                         <div class="btn-group">
-                            <button id="active-button" value="active" class="btn btn-primary toggle-button active-cumulative-switch" style="font-weight: bold;" disabled>Active Players</button>
-                            <button id="cumulative-button" value="cumulative" class="btn btn-primary toggle-button active-cumulative-switch">All-Time</button>
+                            <button id="active-button" value="active" title="Only include players active in the selected year" class="btn btn-primary toggle-button active-cumulative-switch" style="font-weight: bold;" disabled>Active Players</button>
+                            <button id="cumulative-button" value="cumulative" title="Include all players who debuted on or before the selected year" class="btn btn-primary toggle-button active-cumulative-switch">All-Time</button>
                         </div>
                     </div>
 
                     <div class="row" style="margin-top: -25px;">
                         <div class="btn-group">
-                            <button id="all-star-button" value="num_all_stars" class="btn btn-primary toggle-button total-allstar-switch">All-Stars</button>
-                            <button id="all-player-button" value="num_players" class="btn btn-primary toggle-button total-allstar-switch" style="font-weight: bold;" disabled>All Players</button>
+                            <button id="all-star-button" value="num_all_stars" title="Only include players with an all-star selection" class="btn btn-primary toggle-button total-allstar-switch">All-Stars</button>
+                            <button id="all-player-button" value="num_players" title="Include all players" class="btn btn-primary toggle-button total-allstar-switch" style="font-weight: bold;" disabled>All Players</button>
                         </div>
                     </div>
                 </div>
                 <!-- <div class="col-md-1 col-sm-1"></div> -->
-                <div class="col-md-4 col-sm-4" style="margin-left: 20px;">
+                <div class="col-md-3 col-sm-4" style="margin-left: 20px;">
                     <div class="row">
                         <div class="btn-group">
-                            <button id="high-school-button" value="high_school" class="btn btn-primary toggle-button birthplace-high-school-switch" style="font-weight: bold;" disabled>High School</button>
-                            <button id="birthplace-button" value="birth" class="btn btn-primary toggle-button birthplace-high-school-switch">Birthplace</button>
+                            <button id="high-school-button" value="high_school" title="Filter based on players' high school locations" class="btn btn-primary toggle-button birthplace-high-school-switch" style="font-weight: bold;" disabled>High School</button>
+                            <button id="birthplace-button" value="birth" title="Filter based on players' birthplaces" class="btn btn-primary toggle-button birthplace-high-school-switch">Birthplace</button>
                         </div>
                     </div>
 
                     <div class="row" style="margin-top: -25px;">
                         <div class="btn-group">
-                            <button id="per-capita-button" value="per_capita" class="btn btn-primary toggle-button totals-per-capita-switch">Per Capita</button>
-                            <button id="totals-button" value="totals" class="btn btn-primary toggle-button totals-per-capita-switch" style="font-weight: bold;" disabled>Totals</button>
+                            <button id="per-capita-button" value="per_capita" title="Shade regions relative to population" class="btn btn-primary toggle-button totals-per-capita-switch">Per Capita</button>
+                            <button id="totals-button" value="totals" title="Shade regions by totals" class="btn btn-primary toggle-button totals-per-capita-switch" style="font-weight: bold;" disabled>Totals</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 col-sm-2"></div>
+                <div class="col-md-3 col-sm-2"></div>
             </div>
 
         </div>
-        </div>
+    </div>
+    <!-- <div class="col-md-2"></div> -->
+    </div>
         
 
         <!-- <div class="row">
@@ -115,10 +126,10 @@
                     <div id="player-info-text"></div>
                 </div>
             </div>
-            <div class="col-md-8 col-sm-10" style="text-align: center">
+            <div class="col-md-8 col-sm-10" style="text-align: center;height:650px;">
                 <div class="row">
 
-                    <div class="player-map map" id="us-map" style="margin:auto;">
+                    <div class="player-map map main-vis" id="us-map" style="margin:auto;">
                         
                         <!-- Basketball loading spinner -->
                         <svg class="loading-spinner" style="margin:auto;background:#fff;display:block;margin-top:100px;margin-bottom:100px;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
@@ -139,10 +150,14 @@
                         </svg>
 
                     </div>
-                </div>
+                    <div class="player-map map main-vis" id="world-map" style="margin: auto;"></div>
+                    <div class="barchart main-vis" id="city-chart"></div>
 
-                <div class="row">
-                    <div class="player-map map" id="world-map" style="margin: auto;"></div>
+                <!-- <div class="spacer"></div> -->
+                <div class="row" style="text-align: center">
+                    <i value="city-chart" class="vis-select fas fa-city fa-4x"></i>
+                    <i value="us-map" class="vis-select fas fa-flag-usa fa-4x"></i>
+                    <i value="world-map" class="vis-select fas fa-globe-americas fa-4x"></i>
                 </div>
             </div>
             <div class="col-md-2 col-sm-1">
@@ -151,6 +166,7 @@
         </div>
 
     </div>
+
 
     <div class="spacer"></div>
     <div class="spacer"></div>
@@ -165,6 +181,8 @@
             <div class="col-md-2"></div>
             <div class="col-md-8">
                 <p>All NBA player data scraped from <a href="www.basketball-reference.com">Basketball Reference</a>. State historical population data is from <a href="https://fred.stlouisfed.org/release/tables?rid=118&eid=259194">FRED</a> (Puerto Rico from <a href="https://www.worldometers.info/world-population/puerto-rico-population/">worldometers</a>). Country populations and population estimates from International Data Base (IDB) Division of the United States Census Bureau via <a href="https://en.wikipedia.org/wiki/List_of_countries_by_past_and_estimated_future_population">Wikipedia</a>. City population data from <a href="http://api.geonames.org/">geonames</a>. The US map projection that includes Puerto Rico came from <a href="https://observablehq.com/@jake-low/u-s-map-with-puerto-rico">Jake Low</a>.</p>
+
+                <p><strong>A note on per-capita numbers if "all-time" is selected</strong>: while I was able to gather historical population data for countries and states, I do not have data on the total number of people to have lived in a region over time. So, per-capita numbers with "all-time" selected reflect the number of players against the population in the selected year, not the total population to have lived there since 1946.</p>
             </div>
             <div class="col-md-2"></div>
         </div>
@@ -182,9 +200,10 @@
 
 	<!-- Custom JS -->
     <script src="/static/js/utils.js"></script>
-    <!-- <script src="/static/js/barchart.js"></script>
-    <script src="/static/js/bubbleplot.js"></script> -->
+    <script src="/static/js/barchart.js"></script>
+    <!-- <script src="/static/js/bubbleplot.js"></script> -->
     <script src="/static/js/timeline.js"></script>
+    <!-- <script src="/static/js/sortable_table.js"></script> -->
     <script src="/static/js/playermap.js"></script>
 	<script src="/static/js/main.js"></script>
 

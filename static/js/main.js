@@ -1,9 +1,11 @@
 
 // var format = d3.format(",");
 var nbaData;
+var playerList;
 var countries;
 var states;
 var populationData;
+var cityCounts;
 
 var interval;
 
@@ -82,7 +84,9 @@ $('.toggle-button')
             totalsPerCapita = this.getAttribute('value');
         }
         else if ($(this).hasClass('birthplace-high-school-switch')) {
-            infoBoxMapUnit = infoBoxMapUnit.replace(birthPlaceHS, this.getAttribute('value'));
+            if (infoBoxMapUnit) {
+                infoBoxMapUnit = infoBoxMapUnit.replace(birthPlaceHS, this.getAttribute('value'));
+            }
             birthPlaceHS = this.getAttribute('value');
 
         }
@@ -91,10 +95,51 @@ $('.toggle-button')
 
     });
 
+$(".main-vis")
+    .hide();
+
+$("#us-map")
+    .show();
+
+$(".vis-select")
+    .on("tap click", function() {
+
+        var elementID = $(this).attr('value');
+
+        $(".main-vis")
+            .hide();
+
+        $(("#" + elementID))
+            .show();
+
+    })
+
 // Resize timeline on window size/jquery ui slider size change
-$(window).resize(function() {
-    timeline.updateDimensions();
-})
+$(window)
+    .resize(function() {
+        timeline.updateDimensions();
+    })
+    // .scroll(function() {
+    //     if(window.scrollY >= 214) {
+
+    //         $("#optional-spacer")
+    //             .css("height", $("#selections").height());
+
+    //         $("#selections")
+    //             .css("position", "fixed")
+    //             .css("top", 0)
+    //             .css("left", 0)
+    //     }
+    //     else {
+    //         $("#optional-spacer")
+    //             .css("height", 0);
+
+    //         $("#selections")
+    //             .css("position", "relative")
+    //             .css("top", null)
+    //             .css("left", null)
+    //     }
+    // })
     
 
 $('.enableOnInput')
@@ -117,6 +162,8 @@ function updateCharts() {
 
     worldMap.wrangleData((birthPlaceHS + '_countries'));
     // worldBarChart.wrangleData();
+
+    cityBarChart.wrangleData();
 
     // bubblePlot.wrangleData();
     if (infoBoxActive == true) {
@@ -150,6 +197,8 @@ Promise.all(promises).then(function(allData) {
     $('.loading-spinner')
         .remove();
 
+    playerList = allData[2];
+
     var areaDivisionNest = function(key) {
         return d3.nest()
             .key(function(d) { return d[key]; })
@@ -172,18 +221,25 @@ Promise.all(promises).then(function(allData) {
         'high_school_states': allData[4]
     }
 
+    cityCounts = {
+        'high_school': allData[5],
+        'birth': allData[6]
+    }
+
     countries = allData[0];
     states = allData[1];
 
     stateMap = new PlayerMap("#us-map", usProjection, states, 'high_school_states', [750, 600]);
     // stateBarChart = new BarChart("#us-barchart", 'states', states, true);
 
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [1000, 750]);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [800, 600]);
     // worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
 
     // bubblePlot = new BubblePlot("#us-pop-comparison-chart", 'states', states, [700, 650])
 
     timeline = new Timeline("#slider-div");
+
+    cityBarChart = new BarChart("#city-chart");
 });
 
 

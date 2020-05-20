@@ -95,6 +95,25 @@ body {
 	margin-bottom: 60px;
 }
 
+
+.vis-select {
+	margin-left: 30px;
+	margin-right: 30px;
+	opacity: 0.6;
+	padding: 5px;
+	/*border: 1px solid black;*/
+}
+
+.vis-select:hover {
+	opacity: 1.0;
+}
+
+#selections {
+	/*background-color: white;*/
+	/*z-index: 1000;*/
+	/*position: absolute;*/
+}
+
 #timeline-div {
 	display: flex;
 	align-items: center;
@@ -156,5 +175,4 @@ body {
 	max-height: 60px;
 	margin-left: -20px;
 }
-
 
