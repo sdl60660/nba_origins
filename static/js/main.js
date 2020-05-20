@@ -101,21 +101,6 @@ $(".main-vis")
 $("#us-map")
     .show();
 
-$(".vis-select")
-    .prop("disabled", true);
-
-$(".vis-select")
-    .on("tap click", function() {
-
-        var elementID = $(this).attr('value');
-
-        $(".main-vis")
-            .hide();
-
-        $(("#" + elementID))
-            .show();
-
-    })
 
 // Resize timeline on window size/jquery ui slider size change
 $(window)
@@ -245,7 +230,17 @@ Promise.all(promises).then(function(allData) {
     cityBarChart = new BarChart("#city-chart");
 
     $(".vis-select")
-        .prop("disabled", false);
+    .on("tap click", function() {
+
+        var elementID = $(this).attr('value');
+
+        $(".main-vis")
+            .hide();
+
+        $(("#" + elementID))
+            .show();
+
+    })
 });
 
 
