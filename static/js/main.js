@@ -101,34 +101,17 @@ $(".main-vis")
 $("#us-map")
     .show();
 
+d3.select("#search-val")
+    .on("keyup", function() {
+        cityBarChart.wrangleData();
+    })
+
 
 // Resize timeline on window size/jquery ui slider size change
 $(window)
     .resize(function() {
         timeline.updateDimensions();
     })
-    // .scroll(function() {
-    //     if(window.scrollY >= 214) {
-
-    //         $("#optional-spacer")
-    //             .css("height", $("#selections").height());
-
-    //         $("#selections")
-    //             .css("position", "fixed")
-    //             .css("top", 0)
-    //             .css("left", 0)
-    //     }
-    //     else {
-    //         $("#optional-spacer")
-    //             .css("height", 0);
-
-    //         $("#selections")
-    //             .css("position", "relative")
-    //             .css("top", null)
-    //             .css("left", null)
-    //     }
-    // })
-    
 
 $('.enableOnInput')
     .prop('disabled', true);

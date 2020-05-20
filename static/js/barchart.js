@@ -139,7 +139,14 @@ BarChart.prototype.wrangleData = function() {
         d.per_capita = d.players/(d.population/100000);
     })
 
-    if (currentProperty == 'num_all_stars') {
+    if ($('#search-val').val().length > 0) {
+        var searchTerm = $('#search-val').val().toLowerCase();
+        vis.chartData = vis.chartData.filter(function(d) {
+            return d.city.toLowerCase().indexOf(searchTerm) !== -1;
+        });
+        var threshold = 1
+    }
+    else if (currentProperty == 'num_all_stars') {
         var threshold = 2;
     }
     else {
