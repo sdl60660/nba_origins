@@ -25,23 +25,39 @@ PlayerMap.prototype.initVis = function() {
     vis.svg = d3.select(vis.parentElement)
                 .append("svg")
 
+    vis.g = vis.svg
+        .append('g')
+            .attr('class', 'map');
+
     if (vis.mapUnit.indexOf('countries') != -1) {
         vis.projection
-            .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height - 120]], {type: "Sphere"})
+            .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height]], {type: "Sphere"})
 
-        // vis.svg
-            // .attr("preserveAspectRatio", "xMinYMin meet")
-            // .attr("viewBox", "0 0 960 567")
+        // vis.svg.attr("viewBox", "0 0 960 567")
+
+        const zoom = d3.zoom()
+            .scaleExtent([1, 8])
+            .on('zoom', zoomed);
+
+        vis.svg.call(zoom);
+
+        function zoomed() {
+            console.log(d3.event);
+
+            // vis.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+            vis.svg
+                .selectAll('path') // To prevent stroke width from scaling
+                .attr('transform', d3.event.transform);
+        }
     }
+       
 
     vis.svg
         .attr("width", vis.width)
         .attr("height", vis.height)
         .attr("preserveAspectRatio", "xMinYMin meet")
 
-    vis.svg
-        .append('g')
-            .attr('class', 'map');
+    // 
 
     vis.color = d3.scaleLog()
         .range(['#FFE4B2', 'orange']);

@@ -189,8 +189,6 @@ BarChart.prototype.wrangleData = function() {
         vis.chartData = vis.chartData.slice(0,40);
     }
 
-    console.log(vis.chartData);
-
     vis.svg.call(vis.tip);
     vis.updateVis();
 }

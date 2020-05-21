@@ -203,7 +203,7 @@ Promise.all(promises).then(function(allData) {
     stateMap = new PlayerMap("#us-map", usProjection, states, 'high_school_states', [750, 550]);
     // stateBarChart = new BarChart("#us-barchart", 'states', states, true);
 
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [950, 700]);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [950, 550]);
     // worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
 
     // bubblePlot = new BubblePlot("#us-pop-comparison-chart", 'states', states, [700, 650])
