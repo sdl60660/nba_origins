@@ -20,30 +20,24 @@ PlayerMap.prototype.initVis = function() {
 
 
     vis.projection
-        .translate([vis.width / 2, vis.height / 2])
+        .translate([vis.width / 2, (vis.height / 2) -47])
 
     vis.svg = d3.select(vis.parentElement)
                 .append("svg")
 
     if (vis.mapUnit.indexOf('countries') != -1) {
         vis.projection
-            .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height - 50]], {type: "Sphere"})
+            .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height - 120]], {type: "Sphere"})
 
         // vis.svg
             // .attr("preserveAspectRatio", "xMinYMin meet")
             // .attr("viewBox", "0 0 960 567")
-        vis.svg
-            .attr("width", vis.width)
-            .attr("height", vis.height)
-            .attr("preserveAspectRatio", "xMinYMin meet")
+    }
 
-    }
-    else {
-        vis.svg
-            .attr("width", vis.width)
-            .attr("height", vis.height)
-            .attr("preserveAspectRatio", "xMinYMin meet")
-    }
+    vis.svg
+        .attr("width", vis.width)
+        .attr("height", vis.height)
+        .attr("preserveAspectRatio", "xMinYMin meet")
 
     vis.svg
         .append('g')
@@ -94,9 +88,9 @@ PlayerMap.prototype.initVis = function() {
             // var tipText = '<div id="' + d.properties.name.replace(' ', '-') + '-info-box">';
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
-            tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "<br></span>";
+            tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "<br><br></span>";
 
-            var densityValue = vis.nbaYearData[areaName][currentProperty]/(populationData[vis.mapUnit][displayYear-1][d.properties.name]/100000);
+            var densityValue = vis.nbaYearData[areaName][currentProperty]/(populationData[vis.mapUnit][displayYear-1][d.properties.name]/1000000);
 
             if (densityValue != 'Infinity' && !isNaN(densityValue)) {
                 if(currentProperty == 'num_all_stars') {
@@ -106,7 +100,8 @@ PlayerMap.prototype.initVis = function() {
                     var playerUnit = 'NBA Players'
                 }
 
-                tipText += "<strong>" + playerUnit + "/100,000 People: </strong><span class='details'>" + d3.format('.2f')(densityValue) + "</span>";
+                tipText += "<strong>Population (" + displayYear + "): </strong><span class='details'>" + d3.format(',')(populationData[vis.mapUnit][displayYear-1][d.properties.name]) + "<br></span>";
+                tipText += "<strong>" + playerUnit + "/1,000,000 People: </strong><span class='details'>" + d3.format('.2f')(densityValue) + "</span>";
             }
 
             if (phoneBrowsing == true) {

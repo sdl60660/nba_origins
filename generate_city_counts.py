@@ -11,7 +11,7 @@ with open('static/data/players_list.json', 'r') as f:
 birth_city_counts = Counter(['{}, {}, {}'.format(x['birth_city'], x['birth_state'], x['birth_country']) if x['birth_state'] else '{}, {}'.format(x['birth_city'], x['birth_country']) for x in data if x['birth_city'] != 'N/A'])
 hs_city_counts = Counter(['{}, {}, United States of America'.format(x['high_school_city'], x['high_school_state']) for x in data if x['high_school_city'] != 'N/A'])
 
-threshold = 3
+threshold = 1
 birth_city_counts = {k: v for k,v in birth_city_counts.items() if v >= threshold}
 hs_city_counts = {k: v for k,v in hs_city_counts.items() if v >= threshold}
 

@@ -200,10 +200,10 @@ Promise.all(promises).then(function(allData) {
     countries = allData[0];
     states = allData[1];
 
-    stateMap = new PlayerMap("#us-map", usProjection, states, 'high_school_states', [750, 600]);
+    stateMap = new PlayerMap("#us-map", usProjection, states, 'high_school_states', [750, 550]);
     // stateBarChart = new BarChart("#us-barchart", 'states', states, true);
 
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [800, 600]);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [950, 700]);
     // worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
 
     // bubblePlot = new BubblePlot("#us-pop-comparison-chart", 'states', states, [700, 650])
@@ -215,6 +215,9 @@ Promise.all(promises).then(function(allData) {
     $(".fa-flag-usa")
         .css('opacity', 1.0)
         .css('background-color', "#FFE4B2");
+
+    $("#city-search")
+        .css('visibility', 'visible');
 
     $(".vis-select")
         .on("tap click", function() {

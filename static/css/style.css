@@ -118,7 +118,8 @@ body {
 
 #city-search {
 	font-family: "Helvetica Neue",helvetica,arial,sans-serif;
-	margin-top: 20px;
+	margin-top: 5px;
+	visibility: hidden;
 }
 
 #search-val {

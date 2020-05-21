@@ -9,9 +9,9 @@ BarChart = function(_parentElement, _mapUnit) {
 BarChart.prototype.initVis = function() {
     var vis = this;
 
-vis.margin = {top: 80, right: 170, bottom: 50, left: 170};
-    vis.width = 800 - vis.margin.left - vis.margin.right;
-    vis.height = 600 - vis.margin.top - vis.margin.bottom;
+vis.margin = {top: 30, right: 170, bottom: 40, left: 170};
+    vis.width = 850 - vis.margin.left - vis.margin.right;
+    vis.height = 510 - vis.margin.top - vis.margin.bottom;
 
     vis.svg = d3.select(vis.parentElement)
         .append("svg")
@@ -185,8 +185,8 @@ BarChart.prototype.wrangleData = function() {
         return b[vis.xProperty] - a[vis.xProperty];
     })
 
-    if (vis.chartData.length > 50) {
-        vis.chartData = vis.chartData.slice(0,50);
+    if (vis.chartData.length > 40) {
+        vis.chartData = vis.chartData.slice(0,40);
     }
 
     console.log(vis.chartData);
@@ -199,8 +199,18 @@ BarChart.prototype.wrangleData = function() {
 BarChart.prototype.updateVis = function() {
     var vis = this;
 
+    var minBarSlots = 12;
+    var citiesDomainList = vis.chartData.map(function(d) { return d.city; });
+
+    // if (citiesDomainList.length < minBarSlots) {
+    //     for (i=0; i < (minBarSlots - citiesDomainList.length) + 1; i++) {
+    //         citiesDomainList.push(i);
+    //     }
+    // }
+
+    // console.log(citiesDomainList);
     vis.y
-        .domain(vis.chartData.map(function(d) { return d.city; }));
+        .domain(citiesDomainList);
 
     vis.x
         .domain([0, d3.max(vis.chartData, function(d) {
@@ -292,7 +302,10 @@ BarChart.prototype.updateVis = function() {
                     .attr("y", function(d) {
                         return vis.y(d.city);
                     })
-                    .attr("height", vis.y.bandwidth)
+                    .attr("height", function(d) {
+                        // return Math.min(vis.y.bandwidth(), (vis.height - vis.margin.top - vis.margin.bottom)/minBarSlots)
+                        return vis.y.bandwidth();
+                    })
                     .style("fill", function(d) {
                         return vis.color(Math.max(0.7, d[vis.xProperty]));
                     })
