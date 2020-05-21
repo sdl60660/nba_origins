@@ -31,7 +31,7 @@ PlayerMap.prototype.initVis = function() {
 
     if (vis.mapUnit.indexOf('countries') != -1) {
         vis.projection
-            .fitExtent([[0.5, 0.5], [vis.width - 50, vis.height]], {type: "Sphere"})
+            .fitExtent([[0.5, 0.5], [vis.width, vis.height]], {type: "Sphere"})
 
         // vis.svg.attr("viewBox", "0 0 960 567")
 

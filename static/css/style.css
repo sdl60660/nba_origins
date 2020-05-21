@@ -100,7 +100,12 @@ body {
 	margin-left: 30px;
 	margin-right: 30px;
 	opacity: 0.6;
-	padding: 10px;
+
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+
 	border-radius: 5px;
 
 	height: 90px;
