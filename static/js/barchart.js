@@ -9,9 +9,9 @@ BarChart = function(_parentElement, _mapUnit) {
 BarChart.prototype.initVis = function() {
     var vis = this;
 
-vis.margin = {top: 30, right: 170, bottom: 40, left: 170};
+vis.margin = {top: 35, right: 170, bottom: 45, left: 170};
     vis.width = 850 - vis.margin.left - vis.margin.right;
-    vis.height = 510 - vis.margin.top - vis.margin.bottom;
+    vis.height = 520 - vis.margin.top - vis.margin.bottom;
 
     vis.svg = d3.select(vis.parentElement)
         .append("svg")
@@ -176,7 +176,7 @@ BarChart.prototype.wrangleData = function() {
         var threshold = 2;
     }
     else {
-        var threshold = 5;
+        var threshold = 4;
     }
 
     vis.chartData = vis.chartData.filter(function(d) {
@@ -185,8 +185,8 @@ BarChart.prototype.wrangleData = function() {
         return b[vis.xProperty] - a[vis.xProperty];
     })
 
-    if (vis.chartData.length > 40) {
-        vis.chartData = vis.chartData.slice(0,40);
+    if (vis.chartData.length > 35) {
+        vis.chartData = vis.chartData.slice(0,35);
     }
 
     vis.svg.call(vis.tip);
