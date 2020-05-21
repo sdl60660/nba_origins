@@ -9,7 +9,7 @@ var cityCounts;
 
 var interval;
 
-var displayYear = 1982;
+var displayYear = 2020;
 const startYear = 1947;
 
 var cumulativeStatus = "active";
@@ -212,18 +212,31 @@ Promise.all(promises).then(function(allData) {
 
     cityBarChart = new BarChart("#city-chart");
 
+    $(".fa-flag-usa")
+        .css('opacity', 1.0)
+        .css('background-color', "#FFE4B2");
+
     $(".vis-select")
-    .on("tap click", function() {
+        .on("tap click", function() {
 
-        var elementID = $(this).attr('value');
+            var elementID = $(this).attr('value');
 
-        $(".main-vis")
-            .hide();
+            $(".main-vis")
+                .hide();
 
-        $(("#" + elementID))
-            .show();
+            $(("#" + elementID))
+                .show();
 
-    })
+            $(".fas")
+                .css('opacity', 0.7)
+                .css('background-color', 'transparent');
+
+            $(this)
+                .css('opacity', 1.0)
+                .css('background-color', "#FFE4B2");
+
+        })
+
 });
 
 

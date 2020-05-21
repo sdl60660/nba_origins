@@ -79,6 +79,14 @@ vis.margin = {top: 80, right: 170, bottom: 50, left: 170};
             tipText += "<strong>" + playerUnit + ": </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>" + playerUnit + "/100,000 People: </strong><span class='details'>" + d3.format('.1f')(d.per_capita) + "</span>";
 
+            if (phoneBrowsing == true) {
+                infoBoxActive = true;
+
+                infoBoxSelection = d;
+                infoBoxMapUnit = 'cities';
+
+                tipText += '<br><br><div id="pop-up-player-info-text" style="overflow-y:auto;"></div>';
+            }
             return tipText;
         })
 
