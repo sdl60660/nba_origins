@@ -215,13 +215,16 @@ BarChart.prototype.updateVis = function() {
     var minBarSlots = 12;
     var citiesDomainList = vis.chartData.map(function(d) { return d.city; });
 
-    // if (citiesDomainList.length < minBarSlots) {
-    //     for (i=0; i < (minBarSlots - citiesDomainList.length) + 1; i++) {
-    //         citiesDomainList.push(i);
-    //     }
-    // }
+    if (citiesDomainList.length < minBarSlots) {
+        vis.y
+            .range([0, (citiesDomainList.length/minBarSlots)*vis.height])
+    }
+    else {
+        vis.y
+            .range([0, vis.height])
+    }
 
-    // console.log(citiesDomainList);
+    console.log(citiesDomainList);
     vis.y
         .domain(citiesDomainList);
 
