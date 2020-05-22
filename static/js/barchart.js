@@ -212,11 +212,11 @@ BarChart.prototype.wrangleData = function() {
 BarChart.prototype.updateVis = function() {
     var vis = this;
 
-    if (vis.chartData.length == 0) {
-        vis.svg.append($("#no-result-help-text")
-            .css("visibility", "visible")
-            .css("height", 300));
-    }
+    // if (vis.chartData.length == 0) {
+    //     vis.svg.append($("#no-result-help-text")
+    //         .css("visibility", "visible")
+    //         .css("height", 300));
+    // }
 
 
     var minBarSlots = 12;
