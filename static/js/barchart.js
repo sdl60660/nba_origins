@@ -149,7 +149,13 @@ BarChart.prototype.wrangleData = function() {
         });
         d.players = d.player_list.length;
         d.city = d.city.split(', ')[0] + ', ' + d.city.split(', ')[1];
-        d.per_capita = d.players/(d.population/100000);
+
+        if (isNaN(d.population) || d.population == 0) {
+            d.per_capita = 'N/A';
+        }
+        else {
+            d.per_capita = d.players/(d.population/100000);
+        }
     })
 
     // vis.t
@@ -179,8 +185,14 @@ BarChart.prototype.wrangleData = function() {
         var threshold = 4;
     }
 
+    if(totalsPerCapita == 'per_capita') {
+        vis.chartData = vis.chartData.filter(function(d) {
+             return d.population > 0;
+        })
+    }
+
     vis.chartData = vis.chartData.filter(function(d) {
-        return d.players >= threshold && d.population > 0;
+        return d.players >= threshold;
     }).sort(function(a, b) {
         return b[vis.xProperty] - a[vis.xProperty];
     })
