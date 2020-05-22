@@ -74,10 +74,19 @@ vis.margin = {top: 35, right: 170, bottom: 45, left: 170};
                 var playerUnit = 'NBA Players'
             }
 
+            if (d.population == null || d.population == 0) {
+                var displayPopulation = 'N/A'
+                var displayDensity = 'N/A'
+            }
+            else {
+                var displayPopulation = d3.format(',')(d.population);
+                var displayDensity = d3.format('.1f')(d.per_capita);
+            }
+
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>"
-            tipText += "<strong>Population: </strong><span class='details'>" + d3.format(',')(d.population) + "<br></span>";
+            tipText += "<strong>Population: </strong><span class='details'>" + displayPopulation + "<br></span>";
             tipText += "<strong>" + playerUnit + ": </strong><span class='details'>" + playerCount + "<br></span>";
-            tipText += "<strong>" + playerUnit + "/100,000 People: </strong><span class='details'>" + d3.format('.1f')(d.per_capita) + "</span>";
+            tipText += "<strong>" + playerUnit + "/100,000 People: </strong><span class='details'>" + displayDensity + "</span>";
 
             if (phoneBrowsing == true) {
                 infoBoxActive = true;
@@ -149,13 +158,7 @@ BarChart.prototype.wrangleData = function() {
         });
         d.players = d.player_list.length;
         d.city = d.city.split(', ')[0] + ', ' + d.city.split(', ')[1];
-
-        if (isNaN(d.population) || d.population == 0) {
-            d.per_capita = 'N/A';
-        }
-        else {
-            d.per_capita = d.players/(d.population/100000);
-        }
+        d.per_capita = d.players/(d.population/100000);
     })
 
     // vis.t
