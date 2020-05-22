@@ -20,8 +20,11 @@ vis.margin = {top: 35, right: 170, bottom: 45, left: 170};
 
     vis.g = vis.svg.append("g")
         .attr("class", vis.parentGroupClass)
+        .attr("id", "chart-data")
         .attr("transform",
               "translate(" + vis.margin.left + "," + vis.margin.top + ")");
+
+    $('#no-result-help-text').hide();
 
     vis.y = d3.scaleBand()
         .range([0, vis.height])
@@ -205,18 +208,29 @@ BarChart.prototype.wrangleData = function() {
     }
 
     vis.svg.call(vis.tip);
-    vis.updateVis();
+    
+
+    if (vis.chartData.length == 0) {
+        $('#chart-data')
+            .hide();
+
+        $('#no-result-help-text')
+            .show();
+    }
+    else {
+        $('#chart-data')
+            .show();
+
+        $('#no-result-help-text')
+            .hide();
+
+        vis.updateVis();
+    }
 }
 
 
 BarChart.prototype.updateVis = function() {
     var vis = this;
-
-    // if (vis.chartData.length == 0) {
-    //     vis.svg.append($("#no-result-help-text")
-    //         .css("visibility", "visible")
-    //         .css("height", 300));
-    // }
 
 
     var minBarSlots = 12;
@@ -242,7 +256,7 @@ BarChart.prototype.updateVis = function() {
         .scale(vis.y)
 
     vis.yAxis
-        .transition(vis.t)
+        .transition()
             .call(vis.yAxisCall);
 
 
@@ -253,7 +267,7 @@ BarChart.prototype.updateVis = function() {
         .scale(vis.x);
 
     vis.xAxis
-        .transition(vis.t)
+        .transition()
             .call(vis.xAxisCall);
 
 
@@ -313,7 +327,7 @@ BarChart.prototype.updateVis = function() {
                     return "white";
                 })
                 .merge(vis.barchart)
-                    .transition(vis.t)
+                    .transition()
                     .attr("width", function(d) {
                         return vis.x(d[vis.xProperty]);
                     })
@@ -332,17 +346,4 @@ BarChart.prototype.updateVis = function() {
                     })
                     
 }
-
-
-var noDataHelpText = "<p><strong>No Results Found.</strong></p><br> \
-\
-<p>There are a few reasons this may happen:</p> \
-<ol> \
-<li>There are no players who were born in or went to high school in the city that you searched for.</li> \
-<li>There were players born in this city, but they attended high school elsewhere or I don’t have a record of where they attended high school. This is especially true for international players, who will not appear in “high school” searches. Try switching to “birthplace”.</li> \
-<li>Any/all players from this city entered the league after your selected year. Try adjusting the year slider.</li> \
-<li>Any/all players from this city had already exited the league by your selected year. Try adjusting the year slider, or select “All-Time” to include already-retired players.</li> \
-<li>You’ve selected “all-stars” only and the only players from this city were never all-stars.</li></ol> \
-"
-
 

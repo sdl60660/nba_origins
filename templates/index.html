@@ -120,7 +120,7 @@
                     <div class="player-map map main-vis" id="us-map" style="margin:auto; text-align: center;"">
                         
                         <!-- Basketball loading spinner -->
-                        <svg class="loading-spinner" style="margin:auto;background:#fff;display:block;margin-top:100px;margin-bottom:100px;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                        <svg class="loading-spinner" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
                             <circle cx="50" cy="50" r="35.25" fill="#ffe4b2" stroke="#ff3f00" stroke-width="5.5"></circle>
                             <path d="M50 15L50 85" stroke="#ff3f00" stroke-width="5"></path>
                             <path d="M25.251262658470836 25.25126265847084 A35 35 0 0 1 25.251262658470836 74.74873734152916" fill="none" stroke="#ff3f00" stroke-width="5"></path>
@@ -147,6 +147,20 @@
                             <br>
                             <input type="text" id="search-val">
                         </form>
+
+                        <div id="no-result-help-text">
+                            <p><strong>No Results Found.</strong></p><br>
+                            <p>There are a few reasons this may happen:</p>
+                            <ol>
+                                <li>There are no players who were born in or went to high school in the place that you searched for.</li>
+                                <li>There were players born in this place, but they went to high school somewhere else. Try switching to "Birthplace".</li>
+                                <li>Any players from this place entered the league after your selected year. Try adjusting the year slider.</li>
+                                <li>Any players from this place had already exited the league by your selected year. Try adjusting the year slider, or select "All-Time" to include already-retired players.</li>
+                                <li>You’ve selected "all-stars" only and the only players from this place were never all-star selections. Try switching to "All Players".</li>
+                            </ol>
+                        </div>
+
+                        
                     </div>
                 </div>
 
