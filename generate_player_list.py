@@ -26,6 +26,7 @@ def generate_output_data(data):
 			player['high_school_country'] = 'United States of America'
 		else:
 			player['high_school_country'] = player['birth_country']
+			player['high_school_city'] = player['birth_city']
 
 	return players
 

@@ -212,21 +212,26 @@ BarChart.prototype.wrangleData = function() {
 BarChart.prototype.updateVis = function() {
     var vis = this;
 
-    var minBarSlots = 12;
-    var citiesDomainList = vis.chartData.map(function(d) { return d.city; });
+    if (vis.chartData.length == 0) {
+        vis.svg.append($("#no-result-help-text")
+            .css("visibility", "visible")
+            .css("height", 300));
+    }
 
-    if (citiesDomainList.length < minBarSlots) {
+
+    var minBarSlots = 12;
+
+    if (vis.chartData.length < minBarSlots) {
         vis.y
-            .range([0, (citiesDomainList.length/minBarSlots)*vis.height])
+            .range([0, (vis.chartData.length/minBarSlots)*vis.height])
     }
     else {
         vis.y
             .range([0, vis.height])
     }
 
-    console.log(citiesDomainList);
     vis.y
-        .domain(citiesDomainList);
+        .domain(vis.chartData.map(function(d) { return d.city; }));
 
     vis.x
         .domain([0, d3.max(vis.chartData, function(d) {
@@ -327,4 +332,17 @@ BarChart.prototype.updateVis = function() {
                     })
                     
 }
+
+
+var noDataHelpText = "<p><strong>No Results Found.</strong></p><br> \
+\
+<p>There are a few reasons this may happen:</p> \
+<ol> \
+<li>There are no players who were born in or went to high school in the city that you searched for.</li> \
+<li>There were players born in this city, but they attended high school elsewhere or I don’t have a record of where they attended high school. This is especially true for international players, who will not appear in “high school” searches. Try switching to “birthplace”.</li> \
+<li>Any/all players from this city entered the league after your selected year. Try adjusting the year slider.</li> \
+<li>Any/all players from this city had already exited the league by your selected year. Try adjusting the year slider, or select “All-Time” to include already-retired players.</li> \
+<li>You’ve selected “all-stars” only and the only players from this city were never all-stars.</li></ol> \
+"
+
 
