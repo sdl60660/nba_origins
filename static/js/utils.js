@@ -54,6 +54,7 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
 function updateInfoText() {
 
     // console.log(d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; }));
+    console.log(infoBoxMapUnit);
     if (phoneBrowsing == false) {
         var boxID = '#player-info-text'
     }
@@ -96,7 +97,7 @@ function updateInfoText() {
 
             var linkText = x.name;
 
-            if (infoBoxMapUnit == 'hs_states') {
+            if (infoBoxMapUnit == 'high_school_states') {
                 if ($( window ).width() >= 1440) {
                     var additionalText = ' (' + x.high_school_name + ', ' + x.high_school_city + ')';
                 }
