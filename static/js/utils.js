@@ -54,7 +54,6 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
 function updateInfoText() {
 
     // console.log(d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; }));
-    console.log(infoBoxMapUnit);
     if (phoneBrowsing == false) {
         var boxID = '#player-info-text'
     }
@@ -63,15 +62,16 @@ function updateInfoText() {
     }
     
     $(boxID).html(function() {
+        
+        var regionName = infoBoxMapUnit == 'cities' ? infoBoxSelection.city : infoBoxSelection.properties.name;
+
         try {
             if(infoBoxMapUnit == 'cities') {
                 areaData = infoBoxSelection.player_list;
-                var regionName = infoBoxSelection.city;
             }
             else {
                 areaData = d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; })
                     .get(infoBoxSelection.properties.name)['values'];
-                var regionName = infoBoxSelection.properties.name;
             }
         }
         catch {

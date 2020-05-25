@@ -40,12 +40,12 @@ Timeline.prototype.updateDimensions = function() {
 
 	vis.timelineAxis
         .style("font-size", "12pt")
-        .style("font-family", "Helvetica Neue")
-        .style("font-weight", "Normal")
+        .style("font-family", "Helvetica Neue,helvetica,arial,sans-serif")
 		.call(d3.axisBottom(vis.x)
             .tickSize(10)
 			.tickValues([1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020])
 			.tickFormat(d3.format("")))
             .selectAll("text")
-                .attr("transform", "translate(0,3)");;
+                .attr("transform", "translate(0,3)")
+                .attr("class", "timeline-year-tick-label");
 }

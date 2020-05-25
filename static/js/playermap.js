@@ -42,8 +42,6 @@ PlayerMap.prototype.initVis = function() {
         vis.svg.call(zoom);
 
         function zoomed() {
-            console.log(d3.event);
-
             // vis.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
             vis.svg
                 .selectAll('path') // To prevent stroke width from scaling
