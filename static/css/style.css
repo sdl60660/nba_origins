@@ -106,6 +106,7 @@ body {
 }
 
 
+/*Map select icons*/
 .vis-select {
 	margin-left: 30px;
 	margin-right: 30px;
@@ -121,6 +122,26 @@ body {
 	height: 90px;
 	width: 90px;
 	/*background-color: #FFE4B2;*/
+}
+
+.vis-select-caption {
+	font-size: 9pt;
+
+	margin-left: 30px;
+	margin-right: 30px;
+
+	padding-left: 10px;
+	padding-right: 10px;
+
+	text-anchor: middle;
+
+	display: inline-block;
+	width: 90px;
+}
+
+/*US-map select icon, formatted slightly differently since icon is from noun project and added as an img*/
+#us-map-icon {
+	padding-top: 5px;
 }
 
 .vis-select:hover {
