@@ -170,12 +170,12 @@ Promise.all(promises).then(function(allData) {
     $('.loading-spinner')
         .remove();
 
-    playerList = allData[2];
-    playerList.forEach(function(d) {
+    
+    allData[2].forEach(function(d) {
         d.full_birth_city = d.full_birth_city.replace(', United States of America', '')
         d.full_high_school_city = d.full_high_school_city.replace(', United States of America', '')
     })
-
+    playerList = allData[2];
 
     var areaDivisionNest = function(key) {
         return d3.nest()
@@ -193,10 +193,6 @@ Promise.all(promises).then(function(allData) {
         'states': {
             'birth': areaDivisionNest('birth_state'),
             'high_school': areaDivisionNest('high_school_state')
-        },
-        'cities': {
-            'birth': areaDivisionNest('full_birth_city'),
-            'high_school': areaDivisionNest('full_high_school_city')
         }
     };
 
