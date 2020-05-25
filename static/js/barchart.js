@@ -24,7 +24,9 @@ vis.margin = {top: 35, right: 170, bottom: 45, left: 170};
         .attr("transform",
               "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
-    $('#no-result-help-text').hide();
+    $('#no-result-help-text')
+        .css("visibility", "visible")
+        .hide();
 
     vis.y = d3.scaleBand()
         .range([0, vis.height])
