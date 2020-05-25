@@ -71,9 +71,9 @@ PlayerMap.prototype.initVis = function() {
     vis.path = d3.geoPath().projection(vis.projection);
 
     var trueMapUnit = vis.mapUnit.split('_').pop();
-    var unpackedFeatures = topojson.feature(vis.topoJSON, vis.topoJSON.objects[trueMapUnit]);
+    vis.unpackedFeatures = topojson.feature(vis.topoJSON, vis.topoJSON.objects[trueMapUnit]);
 
-    vis.allAreas = unpackedFeatures.features.map(function(d) {
+    vis.allAreas = vis.unpackedFeatures.features.map(function(d) {
             return d.properties;
         });
 
@@ -148,7 +148,7 @@ PlayerMap.prototype.initVis = function() {
         .attr("class", vis.mapUnit)
         .selectAll("path")
         .data(
-            unpackedFeatures.features
+            vis.unpackedFeatures.features
             // vis.topoJSON.features
             , function(d) {
             return d.properties.name;
@@ -241,7 +241,7 @@ PlayerMap.prototype.updateVis = function() {
     if (totalsPerCapita == "per_capita") {
         vis.color = d3.scaleLog()
             .domain(
-                d3.extent(vis.topoJSON.features.filter(function(d){
+                d3.extent(vis.unpackedFeatures.features.filter(function(d){
                     return vis.nbaYearData[d.properties.name][currentProperty] > 0;
                 }), function(d) {
                     return vis.nbaYearData[d.properties.name][currentProperty]/populationData[vis.mapUnit][displayYear-1][d.properties.name];
