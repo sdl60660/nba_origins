@@ -6,6 +6,7 @@ PlayerMap = function(_parentElement, _projection, _geoJSON, _mapUnit, _dimension
     this.geoJSON = _geoJSON;
     this.mapUnit = _mapUnit;
     this.dimensions = _dimensions;
+    this.currentZoom = 1;
 
     this.initVis();
 }
@@ -36,13 +37,14 @@ PlayerMap.prototype.initVis = function() {
         // vis.svg.attr("viewBox", "0 0 960 567")
 
         const zoom = d3.zoom()
-            .scaleExtent([1, 8])
+            .scaleExtent([1, 7])
             .on('zoom', zoomed);
 
         vis.svg.call(zoom);
 
         function zoomed() {
             // vis.g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+            vis.currentZoom = d3.event.transform.k;
             vis.svg
                 .selectAll('path') // To prevent stroke width from scaling
                 .attr('transform', d3.event.transform);
@@ -165,10 +167,14 @@ PlayerMap.prototype.initVis = function() {
                 .on('mouseover',function(d){
                     vis.tip.show(d);
 
+                    var hoverStrokeWidth = vis.currentZoom > 4 ? 2 : 3;
+
+                    console.log(vis.currentZoom, hoverStrokeWidth);
+
                     d3.selectAll('.' + this.getAttribute('class'))
                         .style("opacity", 1)
                         .style("stroke","black")
-                        .style("stroke-width", 3);
+                        .style("stroke-width", hoverStrokeWidth);
                 })
                 .on('mouseout', function(d){
                     vis.tip.hide(d);
