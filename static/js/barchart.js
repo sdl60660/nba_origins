@@ -104,7 +104,6 @@ vis.margin = {top: 35, right: 170, bottom: 45, left: 170};
             return tipText;
         })
 
-
     vis.wrangleData();
 }
 
@@ -139,30 +138,16 @@ BarChart.prototype.wrangleData = function() {
             .range(['#FFE4B2', '#FF3F00']);
     }
 
-    playerSelection.forEach(function(d) {
-        if (d[(birthPlaceHS + '_country')] == 'United States of America') {
-            d.fullCityName = d[(birthPlaceHS + '_city')] + ', ' + d[(birthPlaceHS + '_state')] + ', ' + d[(birthPlaceHS + '_country')];
-        }
-        else {
-            d.fullCityName = d[(birthPlaceHS + '_city')] + ', ' + d[(birthPlaceHS + '_country')];
-        }
-    })
-
     vis.chartData = [];
-    for (city in cityCounts[birthPlaceHS]) {
-        vis.chartData.push({
-            'city': cityCounts[birthPlaceHS][city]['city'],
-            'country': cityCounts[birthPlaceHS][city]['country'],
-            'population': cityCounts[birthPlaceHS][city]['population']
-        });
+    for (city in populationData['cities']) {
+        vis.chartData.push(populationData['cities'][city]);
     }
 
     vis.chartData.forEach(function(d) {
         d.player_list = playerSelection.filter(function(x) {
-            return x.fullCityName == d.city;
+            return x[('full_' + birthPlaceHS + '_city')] == d.city;
         });
         d.players = d.player_list.length;
-        d.city = d.city.split(', ')[0] + ', ' + d.city.split(', ')[1];
         d.per_capita = d.players/(d.population/100000);
     })
 

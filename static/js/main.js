@@ -171,6 +171,12 @@ Promise.all(promises).then(function(allData) {
         .remove();
 
     playerList = allData[2];
+    playerList.forEach(function(d) {
+        d.full_birth_city = d.full_birth_city.replace(', United States of America', '')
+        d.full_high_school_city = d.full_high_school_city.replace(', United States of America', '')
+    })
+
+
     var areaDivisionNest = function(key) {
         return d3.nest()
             .key(function(d) { return d[key]; })
@@ -189,28 +195,28 @@ Promise.all(promises).then(function(allData) {
             'high_school': areaDivisionNest('high_school_state')
         },
         'cities': {
-            'birth': areaDivisionNest('birth_city'),
-            'high_school': areaDivisionNest('high_school_city')
+            'birth': areaDivisionNest('full_birth_city'),
+            'high_school': areaDivisionNest('full_high_school_city')
         }
     };
 
+    for (city in allData[5]) {
+        allData[5][city]['city'] = allData[5][city]['city'].replace(', United States of America', '');
+    }
+
     populationData = {
         'countries': allData[3],
-        'states': allData[4]
+        'states': allData[4],
+        'cities': allData[5]
     }
 
-    cityCounts = {
-        'high_school': allData[5],
-        'birth': allData[5]
-    }
-
-    countries = allData[0];
-    states = allData[1];
+    countriesTopojson = allData[0];
+    statesTopojson = allData[1];
 
     timeline = new Timeline("#slider-div");
 
-    stateMap = new PlayerMap("#us-map", usProjection, states, 'states', [750, 550]);
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'countries', [worldMapWidth, 550]);
+    stateMap = new PlayerMap("#us-map", usProjection, statesTopojson, 'states', [750, 550]);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countriesTopojson, 'countries', [worldMapWidth, 550]);
     cityBarChart = new BarChart("#city-chart");
 
     $(".fa-flag-usa")

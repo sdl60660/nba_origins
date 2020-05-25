@@ -65,7 +65,7 @@ def main():
 	out_data = []
 
 	for key, value in city_counts.items():
-		if key == 'N/A':
+		if key == 'N/A' or key == 'None, United States of America':
 			continue
 
 		try:
