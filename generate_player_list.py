@@ -8,6 +8,30 @@ country_name_translations = {
 	'Serbia': 'Republic of Serbia'
 }
 
+known_city_issues = {
+	'West Chicago CHS': 'Chicago',
+	'Nles': 'Niles',
+	'Albonito': 'Aibonito',
+	'Carrolton': 'Carollton',
+	'LaHabra': 'La Habra',
+	'St. Monteverde': 'St. Montverde',
+	'Worzbach': 'Wurzbach',
+	'Harbin Manchuria': 'Harbin',
+	'Cap-Haitian': 'Cap-Haitien',
+	'LaCanada': 'La Canada',
+	'Tolonto': 'Toronto',
+	'Eleuthra': 'Eleuthera',
+	'Juiz de Forz': 'Juiz de Fora',
+	'Slavoska Požega': 'Požega',
+	'Sainte-Catherine-les-Arras': 'Sainte-Catherine',
+	'Cucq-Trepied-Stella-Plage': 'Cucq',
+	'Osecola': 'Osceola',
+	'Waldick': 'Waldwick',
+	'Necaise Crossing': 'Necaise',
+	'Loblesville': 'Lobelville',
+	'Salemberg': 'Salemburg'
+}
+
 def generate_output_data(data):
 	output_data = []
 
@@ -27,6 +51,12 @@ def generate_output_data(data):
 		else:
 			player['high_school_country'] = player['birth_country']
 			player['high_school_city'] = player['birth_city']
+
+		for city_field in ['birth_city', 'high_school_city']:
+			if player[city_field] in known_city_issues.keys():
+				player[city_field] = known_city_issues[player[city_field]]
+
+
 
 	return players
 

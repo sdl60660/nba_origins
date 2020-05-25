@@ -149,9 +149,7 @@ var promises = [
 
     d3.json("static/data/country_populations.json"),
     d3.json("static/data/state_populations.json"),
-
-    d3.json("static/data/high_school_city_counts.json"),
-    d3.json("static/data/birth_city_counts.json")
+    d3.json("static/data/city_populations.json")
 ];
 
 Promise.all(promises).then(function(allData) {
@@ -203,7 +201,7 @@ Promise.all(promises).then(function(allData) {
 
     cityCounts = {
         'high_school': allData[5],
-        'birth': allData[6]
+        'birth': allData[5]
     }
 
     countries = allData[0];
