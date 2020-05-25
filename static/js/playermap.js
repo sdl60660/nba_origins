@@ -19,10 +19,6 @@ PlayerMap.prototype.initVis = function() {
     vis.width = vis.dimensions[0] // - vis.margin.left - vis.margin.right;
     vis.height = vis.dimensions[1] // - vis.margin.top - vis.margin.bottom;
 
-
-    vis.projection
-        .translate([vis.width / 2, (vis.height / 2) -47])
-
     vis.svg = d3.select(vis.parentElement)
                 .append("svg")
 
@@ -31,10 +27,15 @@ PlayerMap.prototype.initVis = function() {
             .attr('class', 'map');
 
     if (vis.mapUnit.indexOf('countries') != -1) {
+        // vis.projection
+            // .rotate([-30, 0])
+
+
         vis.projection
             .fitExtent([[0.5, 0.5], [vis.width, vis.height]], {type: "Sphere"})
 
-        // vis.svg.attr("viewBox", "0 0 960 567")
+        vis.projection
+            .translate([(vis.width / 2.1), (vis.height / 2) + 10])
 
         const zoom = d3.zoom()
             .scaleExtent([1, 7])
@@ -49,6 +50,11 @@ PlayerMap.prototype.initVis = function() {
                 .selectAll('path') // To prevent stroke width from scaling
                 .attr('transform', d3.event.transform);
         }
+    }
+
+    else {
+        vis.projection
+            .translate([(vis.width / 2), (vis.height / 2) -47])
     }
        
 

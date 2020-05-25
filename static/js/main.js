@@ -23,9 +23,9 @@ var infoBoxMapUnit;
 
 var phoneBrowsing = false;
 
-var worldMapProjection = d3.geoEquirectangular()
+var worldMapProjection = d3.geoNaturalEarth1()
     // .parallel(parallel)
-    .precision(0.1)
+    // .precision(0.1)
 
 var usProjection = geoAlbersUsaPR()
     // .scale([1000]);

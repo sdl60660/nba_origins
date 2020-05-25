@@ -43,7 +43,7 @@ Timeline.prototype.updateDimensions = function() {
         .style("font-family", "Helvetica Neue,helvetica,arial,sans-serif")
 		.call(d3.axisBottom(vis.x)
             .tickSize(10)
-			.tickValues([1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020])
+			.tickValues([1960, 1980, 2000, 2020])
 			.tickFormat(d3.format("")))
             .selectAll("text")
                 .attr("transform", "translate(0,3)")
