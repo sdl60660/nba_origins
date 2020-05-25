@@ -14,7 +14,7 @@ Timeline.prototype.initVis = function() {
                 .append("svg")
                 .attr("preserveAspectRatio", "xMinYMin meet")
             	.attr("width", "105%")
-            	.attr("height", "250%")
+            	.attr("height", "360%")
             	.attr("visibility", "visible");
 
     vis.timelineAxis = vis.svg
@@ -39,7 +39,13 @@ Timeline.prototype.updateDimensions = function() {
     	.range([0, $('.ui-slider').width()])
 
 	vis.timelineAxis
+        .style("font-size", "12pt")
+        .style("font-family", "Helvetica Neue")
+        .style("font-weight", "Normal")
 		.call(d3.axisBottom(vis.x)
+            .tickSize(10)
 			.tickValues([1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020])
-			.tickFormat(d3.format("")));
+			.tickFormat(d3.format("")))
+            .selectAll("text")
+                .attr("transform", "translate(0,3)");;
 }

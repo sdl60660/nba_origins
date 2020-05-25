@@ -29,6 +29,11 @@ def get_city_info(key):
 		}
 
 
+known_issues = {
+	'West Chicago CHS': 'Chicago',
+	'Nles': 'Niles'	
+}
+
 
 with open('static/data/players_list.json', 'r') as f:
 	data = json.load(f)

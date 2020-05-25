@@ -124,6 +124,10 @@ body {
 	/*background-color: #FFE4B2;*/
 }
 
+.vis-select:hover {
+	opacity: 1.0;
+}
+
 .vis-select-caption {
 	font-size: 9pt;
 
@@ -139,13 +143,15 @@ body {
 	width: 90px;
 }
 
+.ui-slider-handle {
+	border-radius: 20px;
+	transform: scale(80%);
+	outline: 0 none !important;
+}
+
 /*US-map select icon, formatted slightly differently since icon is from noun project and added as an img*/
 #us-map-icon {
 	padding-top: 5px;
-}
-
-.vis-select:hover {
-	opacity: 1.0;
 }
 
 /*.vis-select:click {
