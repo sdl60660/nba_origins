@@ -149,7 +149,6 @@ function updateCharts() {
 var promises = [
     d3.json("static/data/countries.json"),
     d3.json("static/data/states.json"),
-    // d3.json("static/data/state_test.json"),
 
     d3.json("static/data/players_list.json"),
 
@@ -166,6 +165,13 @@ Promise.all(promises).then(function(allData) {
         phoneBrowsing = true;
         $('#info-box')
             .remove();
+    }
+
+    if (phoneBrowsing == true) {
+        var worldMapWidth = 750;
+    }
+    else {
+        var worldMapWidth = 900;
     }
 
     $('.loading-spinner')
@@ -203,22 +209,10 @@ Promise.all(promises).then(function(allData) {
     countries = allData[0];
     states = allData[1];
 
-    stateMap = new PlayerMap("#us-map", usProjection, states, 'high_school_states', [750, 550]);
-    // stateBarChart = new BarChart("#us-barchart", 'states', states, true);
-
-    if (phoneBrowsing == true) {
-        var worldMapWidth = 750;
-    }
-    else {
-        var worldMapWidth = 900;
-    }
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [worldMapWidth, 550]);
-    // worldBarChart = new BarChart("#world-barchart", 'countries', countries, true);
-
-    // bubblePlot = new BubblePlot("#us-pop-comparison-chart", 'states', states, [700, 650])
-
     timeline = new Timeline("#slider-div");
 
+    stateMap = new PlayerMap("#us-map", usProjection, states, 'high_school_states', [750, 550]);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [worldMapWidth, 550]);
     cityBarChart = new BarChart("#city-chart");
 
     $(".fa-flag-usa")

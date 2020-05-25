@@ -1,9 +1,9 @@
 
-PlayerMap = function(_parentElement, _projection, _geoJSON, _mapUnit, _dimensions) {
+PlayerMap = function(_parentElement, _projection, _topoJSON, _mapUnit, _dimensions) {
 
     this.parentElement = _parentElement;
     this.projection = _projection;
-    this.geoJSON = _geoJSON;
+    this.topoJSON = _topoJSON;
     this.mapUnit = _mapUnit;
     this.dimensions = _dimensions;
     this.currentZoom = 1;
@@ -54,7 +54,7 @@ PlayerMap.prototype.initVis = function() {
 
     else {
         vis.projection
-            .translate([(vis.width / 2), (vis.height / 2) -47])
+            .translate([(vis.width / 2) + 10, (vis.height / 2) -47])
     }
        
 
@@ -70,7 +70,10 @@ PlayerMap.prototype.initVis = function() {
 
     vis.path = d3.geoPath().projection(vis.projection);
 
-    vis.allAreas = vis.geoJSON.features.map(function(d) {
+    var trueMapUnit = vis.mapUnit.split('_').pop();
+    var unpackedFeatures = topojson.feature(vis.topoJSON, vis.topoJSON.objects[trueMapUnit]);
+
+    vis.allAreas = unpackedFeatures.features.map(function(d) {
             return d.properties;
         });
 
@@ -137,10 +140,6 @@ PlayerMap.prototype.initVis = function() {
             return tipText;
         })
 
-    // if(phoneBrowsing == true) {
-    //     vis.tip
-    //         .style("overflowY", "auto");
-    // }
 
     vis.svg.call(vis.tip);
 
@@ -148,7 +147,10 @@ PlayerMap.prototype.initVis = function() {
     vis.mapPath = vis.svg.append("g")
         .attr("class", vis.mapUnit)
         .selectAll("path")
-        .data(vis.geoJSON.features, function(d) {
+        .data(
+            unpackedFeatures.features
+            // vis.topoJSON.features
+            , function(d) {
             return d.properties.name;
         })
 
@@ -231,8 +233,6 @@ PlayerMap.prototype.wrangleData = function(_mapUnit) {
         vis.nbaYearData[vis.nbaYearDataArray[i].area] = vis.nbaYearDataArray[i];
     }
 
-    // color.domain([1, 1000])
-
     vis.updateVis();
 }
 
@@ -240,12 +240,10 @@ PlayerMap.prototype.wrangleData = function(_mapUnit) {
 PlayerMap.prototype.updateVis = function() {
     var vis = this;
 
-
-
     if (totalsPerCapita == "per_capita") {
         vis.color = d3.scaleLog()
             .domain(
-                d3.extent(vis.geoJSON.features.filter(function(d){
+                d3.extent(vis.topoJSON.features.filter(function(d){
                     return vis.nbaYearData[d.properties.name][currentProperty] > 0;
                 }), function(d) {
                     return vis.nbaYearData[d.properties.name][currentProperty]/populationData[vis.mapUnit][displayYear-1][d.properties.name];
