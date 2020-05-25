@@ -177,8 +177,6 @@ PlayerMap.prototype.initVis = function() {
 
                     var hoverStrokeWidth = vis.currentZoom > 4 ? 2 : 3;
 
-                    console.log(vis.currentZoom, hoverStrokeWidth);
-
                     d3.selectAll('.' + this.getAttribute('class'))
                         .style("opacity", 1)
                         .style("stroke","black")
