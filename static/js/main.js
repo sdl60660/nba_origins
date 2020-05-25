@@ -215,7 +215,7 @@ Promise.all(promises).then(function(allData) {
     worldMap = new PlayerMap("#world-map", worldMapProjection, countriesTopojson, 'countries', [worldMapWidth, 550]);
     cityBarChart = new BarChart("#city-chart");
 
-    $(".fa-flag-usa")
+    $(".us-map-icon")
         .css('opacity', 1.0)
         .css('background-color', "#FFE4B2");
 
