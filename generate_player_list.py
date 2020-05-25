@@ -56,6 +56,20 @@ def generate_output_data(data):
 			if player[city_field] in known_city_issues.keys():
 				player[city_field] = known_city_issues[player[city_field]]
 
+		if player['birth_city'] == 'N/A':
+			player['full_birth_city'] = 'N/A'
+		elif player['birth_state']:
+			player['full_birth_city'] = '{}, {}, {}'.format(player['birth_city'], player['birth_state'], player['birth_country'])
+		else:
+			player['full_birth_city'] = '{}, {}'.format(player['birth_city'], player['birth_country'])
+
+
+		if player['high_school_city'] == 'N/A':
+			player['full_high_school_city'] = 'N/A'
+		elif player['high_school_state']:
+			player['full_high_school_city'] = '{}, {}, {}'.format(player['high_school_city'], player['high_school_state'], player['high_school_country'])
+		else:
+			player['full_high_school_city'] = '{}, {}'.format(player['high_school_city'], player['high_school_country'])
 
 
 	return players

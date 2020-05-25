@@ -11,22 +11,13 @@ base_request = "http://api.geonames.org/searchJSON?formatted=true&q={}&maxRows=1
 
 def generate_city_counts():
 	with open('static/data/players_list.json', 'r') as f:
-		data = json.load(f)
+		player_list = json.load(f)
 
-
-	birth_city_counts = Counter(['{}, {}, {}'.format(x['birth_city'], x['birth_state'], x['birth_country']) if x['birth_state'] else '{}, {}'.format(x['birth_city'], x['birth_country']) for x in data if x['birth_city'] != 'N/A'])
-	for x in data:
-		if x['high_school_city'] == 'N/A':
-			continue
-
-		if x['high_school_state']:
-			full_city_name = '{}, {}, {}'.format(x['high_school_city'], x['high_school_state'], x['high_school_country'])
-		else:
-			full_city_name = '{}, {}'.format(x['high_school_city'], x['high_school_country'])
-
-		birth_city_counts[full_city_name] = birth_city_counts.get(full_city_name, 0) + 1
-
-	city_counts = birth_city_counts
+	city_counts = Counter([player['full_birth_city'] for player in player_list])
+	for player in player_list:
+		hs_city = player['full_high_school_city']
+		if hs_city:
+			city_counts[hs_city] = city_counts.get(hs_city, 0) + 1
 
 	# Could apply a threshold here, based on count. As is, though, I want to feed through cities with even one player and filter on the front-end.
 	# threshold = 1
@@ -74,6 +65,9 @@ def main():
 	out_data = []
 
 	for key, value in city_counts.items():
+		if key == 'N/A':
+			continue
+
 		try:
 			existing_entry = existing_data[key]
 
