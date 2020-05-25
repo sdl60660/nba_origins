@@ -2,7 +2,7 @@
 function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
     nbaYearAreaData = {}
 
-    nbaData[mapUnit].forEach(function(area) {
+    nbaData[mapUnit][birthPlaceHS].forEach(function(area) {
         areaName = area.key;
         players = area.values;
 
@@ -18,10 +18,6 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
 
     areaData = [];
     allAreas.forEach(function(d) {
-        // if (d.name == 'United States of America') {
-        //     // pass
-        // }
-
         if (nbaYearAreaData[d.name]) {
 
             areaData.push( {
@@ -53,7 +49,6 @@ function generateYearData(nbaData, allAreas, mapUnit, displayYear, cumulative) {
 
 function updateInfoText() {
 
-    // console.log(d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; }));
     if (phoneBrowsing == false) {
         var boxID = '#player-info-text'
     }
@@ -62,7 +57,7 @@ function updateInfoText() {
     }
     
     $(boxID).html(function() {
-        
+
         var regionName = infoBoxMapUnit == 'cities' ? infoBoxSelection.city : infoBoxSelection.properties.name;
 
         try {
@@ -70,7 +65,7 @@ function updateInfoText() {
                 areaData = infoBoxSelection.player_list;
             }
             else {
-                areaData = d3.map(nbaData[infoBoxMapUnit], function(infoBoxSelection) { return infoBoxSelection.key; })
+                areaData = d3.map(nbaData[infoBoxMapUnit][birthPlaceHS], function(infoBoxSelection) { return infoBoxSelection.key; })
                     .get(infoBoxSelection.properties.name)['values'];
             }
         }
@@ -97,7 +92,7 @@ function updateInfoText() {
 
             var linkText = x.name;
 
-            if (infoBoxMapUnit == 'high_school_states') {
+            if (birthPlaceHS == 'high_school') {
                 if ($( window ).width() >= 1440) {
                     var additionalText = ' (' + x.high_school_name + ', ' + x.high_school_city + ')';
                 }

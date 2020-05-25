@@ -131,15 +131,10 @@ function step() {
 
 
 function updateCharts() {
-    stateMap.wrangleData((birthPlaceHS + '_states'));
-    // stateBarChart.wrangleData();
-
-    worldMap.wrangleData((birthPlaceHS + '_countries'));
-    // worldBarChart.wrangleData();
-
+    stateMap.wrangleData();
+    worldMap.wrangleData();
     cityBarChart.wrangleData();
 
-    // bubblePlot.wrangleData();
     if (infoBoxActive == true) {
         updateInfoText();
     }
@@ -178,7 +173,6 @@ Promise.all(promises).then(function(allData) {
         .remove();
 
     playerList = allData[2];
-
     var areaDivisionNest = function(key) {
         return d3.nest()
             .key(function(d) { return d[key]; })
@@ -188,17 +182,23 @@ Promise.all(promises).then(function(allData) {
     }
 
     nbaData = {
-        'birth_countries': areaDivisionNest('birth_country'),
-        'high_school_countries': areaDivisionNest('high_school_country'),
-        'birth_states': areaDivisionNest('birth_state'),
-        'high_school_states': areaDivisionNest('high_school_state')
+        'countries': {
+            'birth': areaDivisionNest('birth_country'),
+            'high_school': areaDivisionNest('high_school_country')
+        },
+        'states': {
+            'birth': areaDivisionNest('birth_state'),
+            'high_school': areaDivisionNest('high_school_state')
+        },
+        'cities': {
+            'birth': areaDivisionNest('birth_city'),
+            'high_school': areaDivisionNest('high_school_city')
+        }
     };
 
     populationData = {
-        'birth_countries': allData[3],
-        'high_school_countries': allData[3],
-        'birth_states': allData[4],
-        'high_school_states': allData[4]
+        'countries': allData[3],
+        'states': allData[4]
     }
 
     cityCounts = {
@@ -211,8 +211,8 @@ Promise.all(promises).then(function(allData) {
 
     timeline = new Timeline("#slider-div");
 
-    stateMap = new PlayerMap("#us-map", usProjection, states, 'high_school_states', [750, 550]);
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'high_school_countries', [worldMapWidth, 550]);
+    stateMap = new PlayerMap("#us-map", usProjection, states, 'states', [750, 550]);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countries, 'countries', [worldMapWidth, 550]);
     cityBarChart = new BarChart("#city-chart");
 
     $(".fa-flag-usa")
