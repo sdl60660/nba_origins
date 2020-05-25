@@ -46,6 +46,9 @@ $("#slider-div").slider({
     }
 })
 
+$(".ui-slider-handle")
+    .hide();
+
 // Initialize timeline play button
 $("#play-button")
     .on("tap click", function() {
@@ -224,6 +227,9 @@ Promise.all(promises).then(function(allData) {
 
     $("#city-search")
         .css('visibility', 'visible');
+
+    $(".ui-slider-handle")
+        .show();
 
     $(".vis-select")
         .on("tap click", function() {
