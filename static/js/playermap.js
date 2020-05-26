@@ -89,6 +89,7 @@ PlayerMap.prototype.setupComponents = function() {
 
     // Set tooltips
     vis.setToolTips();
+
     vis.initVis();
 }
 
@@ -149,7 +150,7 @@ PlayerMap.prototype.initVis = function() {
                 updateInfoText();
             })
             .style("fill", function(d) {
-                if(typeof vis.nbaYearData[d.properties.name] !== "undefined") {
+                if(typeof vis.nbaYearData[d.properties.name] != "undefined") {
                     return vis.color(vis.nbaYearData[d.properties.name][currentProperty]/populationData[vis.mapUnit][displayYear-1][d.properties.name]);
                 }
                 else {

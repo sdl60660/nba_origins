@@ -1,5 +1,5 @@
 
-// var format = d3.format(",");
+// Initialize global variables
 var nbaData;
 var playerList;
 var countries;
@@ -12,23 +12,56 @@ var interval;
 var displayYear = 2020;
 const startYear = 1947;
 
+// Initialize toggle values
 var cumulativeStatus = "active";
 var currentProperty = "num_players";
 var totalsPerCapita = "totals";
 var birthPlaceHS = 'high_school';
 
+
+// Initialize info box data
 var infoBoxActive = false;
 var infoBoxSelection;
 var infoBoxMapUnit;
 
 var phoneBrowsing = false;
 
+// Projections for player maps
 var worldMapProjection = d3.geoNaturalEarth1()
-    // .parallel(parallel)
-    // .precision(0.1)
-
 var usProjection = geoAlbersUsaPR()
     // .scale([1000]);
+
+// Function for nesting data into nbaData dictionary
+var areaDivisionNest = function(key, playerList, map) {
+    if (map == true) {
+        return d3.nest()
+                .key(function(d) { return d[key]; })
+                .map(playerList.filter(function(d) {
+                    return d[key] != null;
+                }));
+    }
+    else {
+        return d3.nest()
+                .key(function(d) { return d[key]; })
+                .entries(playerList.filter(function(d) {
+                    return d[key] != null;
+                }));
+    }
+}
+
+// Determine if the user is browsing on mobile and adjust worldMapWidth if they are
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    phoneBrowsing = true;
+    $('#info-box')
+        .remove();
+}
+
+if (phoneBrowsing == true) {
+    var worldMapWidth = 750;
+}
+else {
+    var worldMapWidth = 900;
+}
 
 
 // Initialize timeline slider
@@ -154,51 +187,36 @@ var promises = [
 
 Promise.all(promises).then(function(allData) {
 
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        phoneBrowsing = true;
-        $('#info-box')
-            .remove();
-    }
-
-    if (phoneBrowsing == true) {
-        var worldMapWidth = 750;
-    }
-    else {
-        var worldMapWidth = 900;
-    }
-
     $('.loading-spinner')
         .remove();
-
     
+
+    // Remove country name from all cities in the US
     allData[2].forEach(function(d) {
         d.full_birth_city = d.full_birth_city.replace(', United States of America', '')
         d.full_high_school_city = d.full_high_school_city.replace(', United States of America', '')
     })
     playerList = allData[2];
 
-    var areaDivisionNest = function(key) {
-        return d3.nest()
-            .key(function(d) { return d[key]; })
-            .entries(allData[2].filter(function(d) {
-                return d[key] != null;
-            }));
-    }
-
-    nbaData = {
-        'countries': {
-            'birth': areaDivisionNest('birth_country'),
-            'high_school': areaDivisionNest('high_school_country')
-        },
-        'states': {
-            'birth': areaDivisionNest('birth_state'),
-            'high_school': areaDivisionNest('high_school_state')
-        }
-    };
-
     for (city in allData[5]) {
         allData[5][city]['city'] = allData[5][city]['city'].replace(', United States of America', '');
     }
+
+
+    nbaData = {
+        'countries': {
+            'birth': areaDivisionNest('birth_country', playerList, false),
+            'high_school': areaDivisionNest('high_school_country', playerList, false)
+        },
+        'states': {
+            'birth': areaDivisionNest('birth_state', playerList, false),
+            'high_school': areaDivisionNest('high_school_state', playerList, false)
+        },
+        'cities': {
+            'birth': areaDivisionNest('full_birth_city', playerList, true),
+            'high_school': areaDivisionNest('full_high_school_city', playerList, true)
+        }
+    };
 
     populationData = {
         'countries': allData[3],
@@ -206,14 +224,16 @@ Promise.all(promises).then(function(allData) {
         'cities': allData[5]
     }
 
-    countriesTopojson = allData[0];
-    statesTopojson = allData[1];
+    countriesTopoJSON = allData[0];
+    statesTopoJSON = allData[1];
 
+    // Initialize D3 elements (timeline, maps, bar chart)
     timeline = new Timeline("#slider-div");
 
-    stateMap = new PlayerMap("#us-map", usProjection, statesTopojson, 'states', [750, 550]);
-    worldMap = new PlayerMap("#world-map", worldMapProjection, countriesTopojson, 'countries', [worldMapWidth, 550]);
+    stateMap = new PlayerMap("#us-map", usProjection, statesTopoJSON, 'states', [750, 550]);
+    worldMap = new PlayerMap("#world-map", worldMapProjection, countriesTopoJSON, 'countries', [worldMapWidth, 550]);
     cityBarChart = new BarChart("#city-chart");
+
 
     $(".us-map-icon")
         .css('opacity', 1.0)
