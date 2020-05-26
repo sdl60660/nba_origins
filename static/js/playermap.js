@@ -56,9 +56,9 @@ PlayerMap.prototype.setupComponents = function() {
         }
 
         vis.svg.append("text")
-            .text("(scroll to zoom, use mouse to pan)")
+            .text("(scroll to zoom, click/drag to pan)")
             .attr("x", (vis.width / 2) - 20)
-            .attr("y", 15)
+            .attr("y", 20)
             .attr("text-anchor", "middle")
             .attr("font-size", "9pt")
             .attr("opacity", 0.7);
