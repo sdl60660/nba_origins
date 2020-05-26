@@ -251,7 +251,7 @@ PlayerMap.prototype.setToolTips = function() {
             }
 
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
-            tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "<br><br></span>";
+            tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "<br></span>";
 
             var densityValue = vis.nbaYearData[areaName][currentProperty]/(populationData[vis.mapUnit][displayYear-1][d.properties.name]/1000000);
 
@@ -263,7 +263,7 @@ PlayerMap.prototype.setToolTips = function() {
                     var playerUnit = 'NBA Players'
                 }
 
-                tipText += "<strong>Population (" + displayYear + "): </strong><span class='details'>" + d3.format(',')(populationData[vis.mapUnit][displayYear-1][d.properties.name]) + "<br></span>";
+                tipText += "<br><strong>Population (" + displayYear + "): </strong><span class='details'>" + d3.format(',')(populationData[vis.mapUnit][displayYear-1][d.properties.name]) + "<br></span>";
                 tipText += "<strong>" + playerUnit + "/1,000,000 People: </strong><span class='details'>" + d3.format('.2f')(densityValue) + "</span>";
             }
 
