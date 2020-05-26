@@ -97,7 +97,7 @@ PlayerMap.prototype.initVis = function() {
     var vis = this;
 
     // JOIN data with any existing elements
-    vis.mapPath = vis.svg.append("g")
+    vis.mapPath = vis.g.append("g")
         .attr("class", vis.mapUnit)
         .selectAll("path")
         .data( vis.unpackedFeatures.features, function(d) {

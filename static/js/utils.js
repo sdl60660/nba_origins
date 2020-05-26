@@ -92,18 +92,18 @@ function updateInfoText() {
 
             var linkText = x.name;
 
-            if (birthPlaceHS == 'high_school') {
+            if (infoBoxMapUnit == 'cities') {
+                var additionalText = '';
+                if (x.high_school_name && birthPlaceHS == 'high_school') {
+                    additionalText = ' (' + x.high_school_name + ')';
+                }
+            }
+            else if (birthPlaceHS == 'high_school') {
                 if ($( window ).width() >= 1440) {
                     var additionalText = ' (' + x.high_school_name + ', ' + x.high_school_city + ')';
                 }
                 else {
                     var additionalText = ' (' + x.high_school_city + ')';
-                }
-            }
-            else if (infoBoxMapUnit == 'cities') {
-                var additionalText = '';
-                if (x.high_school_name && birthPlaceHS == 'high_school') {
-                    additionalText = ' (' + x.high_school_name + ')';
                 }
             }
             else {
