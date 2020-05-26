@@ -16,7 +16,7 @@ const startYear = 1947;
 var cumulativeStatus = "active";
 var currentProperty = "num_players";
 var totalsPerCapita = "totals";
-var birthPlaceHS = 'high_school';
+var birthPlaceHS = 'birth';
 
 
 // Initialize info box data

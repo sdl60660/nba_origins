@@ -40,7 +40,7 @@ PlayerMap.prototype.setupComponents = function() {
             .fitExtent([[0.5, 0.5], [vis.width, vis.height]], {type: "Sphere"})
 
         vis.projection
-            .translate([(vis.width / 2.1), (vis.height / 2) + 10])
+            .translate([(vis.width / 2.1), (vis.height / 2) + 15])
 
         const zoom = d3.zoom()
             .scaleExtent([1, 7])
@@ -66,7 +66,7 @@ PlayerMap.prototype.setupComponents = function() {
 
     else {
         vis.projection
-            .translate([(vis.width / 2) + 10, (vis.height / 2) -47])
+            .translate([(vis.width / 2) + 10, (vis.height / 2) -55])
     }
 
     // Initialize path
