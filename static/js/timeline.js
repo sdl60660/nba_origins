@@ -9,7 +9,7 @@ Timeline = function(_parentElement) {
 Timeline.prototype.initVis = function() {
     var vis = this;
 
-
+    // Create an SVG inside of hidden slider element, but with additional height so ticks are visible
     vis.svg = d3.select(vis.parentElement)
                 .append("svg")
                 .attr("preserveAspectRatio", "xMinYMin meet")
@@ -17,6 +17,7 @@ Timeline.prototype.initVis = function() {
             	.attr("height", "360%")
             	.attr("visibility", "visible");
 
+    // Create an axis to overlay on top of scrollbar with same width and ticks (this is the "timeline")
     vis.timelineAxis = vis.svg
         .append('g')
             .attr('class', 'timeline-line')
@@ -30,6 +31,7 @@ Timeline.prototype.initVis = function() {
 
 }
 
+// Update dimensions of timeline on a window resize so that it stays the same size as the hidden jquery ui slider under it
 Timeline.prototype.updateDimensions = function() {
 	
 	var vis = this;
