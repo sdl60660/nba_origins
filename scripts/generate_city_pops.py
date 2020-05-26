@@ -27,8 +27,8 @@ def generate_city_counts():
 
 
 def get_existing_data():
-	if os.path.exists('static/data/city_populations.json'):
-		with open('static/data/city_populations.json', 'r') as f:
+	if os.path.exists('../static/data/city_populations.json'):
+		with open('../static/data/city_populations.json', 'r') as f:
 			return {x['city']: x for x in json.load(f)}
 	else:
 		return {}
@@ -79,7 +79,7 @@ def main():
 		except KeyError:
 			out_data.append(get_city_info(key))
 
-	with open('static/data/city_populations.json', 'w') as f:
+	with open('../static/data/city_populations.json', 'w') as f:
 		json.dump(out_data, f)
 
 

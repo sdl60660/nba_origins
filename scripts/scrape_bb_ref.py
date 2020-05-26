@@ -142,5 +142,5 @@ for wrapper in wrappers:
 	player_birthplaces = process_high_schools(link['href'], link.text, player_birthplaces)
 
 
-with open('raw_data/raw_player_data.json', 'w') as f:
+with open('../raw_data/raw_player_data.json', 'w') as f:
 	json.dump(player_birthplaces, f)

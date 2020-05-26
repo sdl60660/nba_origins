@@ -84,12 +84,12 @@ def generate_output_data(data):
 	return players
 
 def main():
-	with open('raw_data/raw_player_data.json', 'r') as f:
+	with open('../raw_data/raw_player_data.json', 'r') as f:
 		data = json.load(f)
 
 	player_data = generate_output_data(data)
 
-	with open('static/data/players_list.json', 'w') as f:
+	with open('../static/data/players_list.json', 'w') as f:
 		json.dump(player_data, f)
 
 if __name__ == "__main__":

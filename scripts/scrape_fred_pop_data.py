@@ -23,7 +23,7 @@ for year in range(1946, 2020):
 			output_data[year][state_name] = int(state_pop)
 
 
-with open('raw_data/pr_populations.csv', 'r', encoding='utf-8-sig') as f:
+with open('../raw_data/pr_populations.csv', 'r', encoding='utf-8-sig') as f:
 	data = sorted([x for x in csv.DictReader(f)], key=lambda x: x['Year'])
 
 	for row in data:
@@ -41,7 +41,7 @@ with open('raw_data/pr_populations.csv', 'r', encoding='utf-8-sig') as f:
 				if middle_year >= 1946:
 					output_data[middle_year]['Puerto Rico'] = int(row['Population'] + (middle_year - row['Year'])*annual_growth)
 
-with open('raw_data/state_populations.json', 'w') as f:
+with open('../raw_data/state_populations.json', 'w') as f:
 	json.dump(output_data, f)
 
 

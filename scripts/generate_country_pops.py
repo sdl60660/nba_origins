@@ -1,7 +1,7 @@
 import json
 import csv
 
-with open('data/world_pops.csv', 'r', encoding='utf-8-sig') as f:
+with open('../raw_data/world_pops.csv', 'r', encoding='utf-8-sig') as f:
 	data = [x for x in csv.DictReader(f)]
 	out_data = {}
 	for year in range(1946, 2020):
@@ -25,5 +25,5 @@ with open('data/world_pops.csv', 'r', encoding='utf-8-sig') as f:
 					if middle_year >= 1946:
 						out_data[str(middle_year)][country_name] = int(start_pop + annual_growth*(middle_year - year))
 
-	with open('static/data/country_populations.json', 'w') as f:
+	with open('../static/data/country_populations.json', 'w') as f:
 		json.dump(out_data, f)
