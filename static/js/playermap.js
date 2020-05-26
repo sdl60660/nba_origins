@@ -202,7 +202,7 @@ PlayerMap.prototype.updateVis = function() {
     vis.svg.selectAll("path")
         .transition()
             .style("fill", function(d) {
-                if (typeof populationData[vis.mapUnit][displayYear-1][d.properties.name] == "undefined") {
+                if (typeof populationData[vis.mapUnit][displayYear-1][d.properties.name] == "undefined" && ( totalsPerCapita == "per_capita" || vis.nbaYearData[d.properties.name][currentProperty] == 0 ) ) {
                     return "#DCDCDC"
                 }
                 else if(typeof vis.nbaYearData[d.properties.name] != "undefined") {
@@ -249,6 +249,12 @@ PlayerMap.prototype.setToolTips = function() {
             }
             // var tipText = '<div id="' + d.properties.name.replace(' ', '-') + '-info-box">';
             var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br><br></span>";
+
+            if (areaName == 'Puerto Rico' && vis.mapUnit == 'countries') {
+                tipText += '<span class="details">(see US map)</span>';
+                return tipText;
+            }
+
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "<br><br></span>";
 
