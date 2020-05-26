@@ -54,6 +54,14 @@ PlayerMap.prototype.setupComponents = function() {
                 .selectAll('path')
                 .attr('transform', d3.event.transform);
         }
+
+        vis.svg.append("text")
+            .text("(scroll to zoom, use mouse to pan)")
+            .attr("x", (vis.width / 2) - 20)
+            .attr("y", 15)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "9pt")
+            .attr("opacity", 0.7);
     }
 
     else {
