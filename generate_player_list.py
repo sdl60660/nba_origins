@@ -38,6 +38,11 @@ def generate_output_data(data):
 	players = list(data.values())
 
 	for player in players:
+
+		# This whole section reads like a mess, but the reality of sorting everything out is just a little messy...
+
+		# If the player is American (has a birth state from bbref or is from Puerto Rico), attach birth_state property
+		# Otherwise, just attach a birth_country
 		if player['birth_state'] or player['birth_location'] == 'Puerto Rico':
 			player['birth_country'] = 'United States of America'
 			player['birth_state'] = player['birth_location'].replace('\xa0', ' ')
@@ -46,16 +51,20 @@ def generate_output_data(data):
 		else:
 			player['birth_country'] = player['birth_location'].replace('\xa0', ' ')
 
+		# If the player has a known high school (it will always be in the US), attach the high school country as the US
+		# Otherwise, we'll use their birth location data as their high school location data
 		if player['high_school_state'] or player['birth_state']:
 			player['high_school_country'] = 'United States of America'
 		else:
 			player['high_school_country'] = player['birth_country']
 			player['high_school_city'] = player['birth_city']
 
+		# Check cities for any known issues caused by typos on bbref
 		for city_field in ['birth_city', 'high_school_city']:
 			if player[city_field] in known_city_issues.keys():
 				player[city_field] = known_city_issues[player[city_field]]
 
+		# Attach "full" birth city/high school city names (including city's state/country info), for use later on
 		if player['birth_city'] == 'N/A':
 			player['full_birth_city'] = 'N/A'
 		elif player['birth_state']:
@@ -75,7 +84,7 @@ def generate_output_data(data):
 	return players
 
 def main():
-	with open('data/raw_player_data.json', 'r') as f:
+	with open('raw_data/raw_player_data.json', 'r') as f:
 		data = json.load(f)
 
 	player_data = generate_output_data(data)
