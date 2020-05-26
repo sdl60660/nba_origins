@@ -124,12 +124,7 @@ PlayerMap.prototype.initVis = function() {
             .on('mouseover',function(d){
                 vis.tip.show(d);
 
-                if (vis.mapUnit == 'countries') {
-                    var hoverStrokeWidth = vis.currentZoom > 4 ? 1.5 : 2;
-                }
-                else {
-                    var hoverStrokeWidth = 3;
-                }
+                var hoverStrokeWidth = vis.currentZoom > 4 ? 1.5 : 3;
 
                 d3.selectAll('.' + this.getAttribute('class'))
                     .style("opacity", 1)
