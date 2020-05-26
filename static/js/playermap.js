@@ -243,7 +243,7 @@ PlayerMap.prototype.setToolTips = function() {
                 var tipUnit = 'State';
             }
             // var tipText = '<div id="' + d.properties.name.replace(' ', '-') + '-info-box">';
-            var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>";
+            var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br><br></span>";
             tipText += "<strong>NBA Players: </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>All-Stars: </strong><span class='details'>" + allStarCount + "<br><br></span>";
 

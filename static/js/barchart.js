@@ -335,7 +335,7 @@ BarChart.prototype.setToolTips = function() {
                 var displayDensity = d3.format('.1f')(d.per_capita);
             }
 
-            var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br></span>"
+            var tipText = "<strong>" + tipUnit + ": </strong><span class='details'>" + areaName + "<br><br></span>"
             tipText += "<strong>Population: </strong><span class='details'>" + displayPopulation + "<br></span>";
             tipText += "<strong>" + playerUnit + ": </strong><span class='details'>" + playerCount + "<br></span>";
             tipText += "<strong>" + playerUnit + "/100,000 People: </strong><span class='details'>" + displayDensity + "</span>";
