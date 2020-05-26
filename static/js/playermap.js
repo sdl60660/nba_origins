@@ -40,10 +40,10 @@ PlayerMap.prototype.setupComponents = function() {
             .fitExtent([[0.5, 0.5], [vis.width, vis.height]], {type: "Sphere"})
 
         vis.projection
-            .translate([(vis.width / 2.1), (vis.height / 2) + 15])
+            .translate([(vis.width / 2.07), (vis.height / 2) + 15])
 
         const zoom = d3.zoom()
-            .scaleExtent([1, 7])
+            .scaleExtent([1, 8])
             .on('zoom', zoomed);
 
         vis.svg.call(zoom);
@@ -124,7 +124,12 @@ PlayerMap.prototype.initVis = function() {
             .on('mouseover',function(d){
                 vis.tip.show(d);
 
-                var hoverStrokeWidth = vis.currentZoom > 4 ? 2 : 3;
+                if (vis.mapUnit == 'countries') {
+                    var hoverStrokeWidth = vis.currentZoom > 4 ? 1.5 : 2;
+                }
+                else {
+                    var hoverStrokeWidth = 3;
+                }
 
                 d3.selectAll('.' + this.getAttribute('class'))
                     .style("opacity", 1)

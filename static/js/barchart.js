@@ -103,8 +103,6 @@ BarChart.prototype.wrangleData = function() {
         }
     })
 
-    console.log(vis.chartData);
-
     // If totals is selected, use color scale 1 and set the xProperty, used in updateVis(), to 'players'
     // Otherwise, use color scale 2 and set the xProperty to 'per_capita' (these color scales match the maps')
     if (totalsPerCapita == 'totals') {

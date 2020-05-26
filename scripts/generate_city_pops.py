@@ -10,7 +10,7 @@ base_request = "http://api.geonames.org/searchJSON?formatted=true&q={}&maxRows=1
 
 
 def generate_city_counts():
-	with open('static/data/players_list.json', 'r') as f:
+	with open('../static/data/players_list.json', 'r') as f:
 		player_list = json.load(f)
 
 	city_counts = Counter([player['full_birth_city'] for player in player_list])

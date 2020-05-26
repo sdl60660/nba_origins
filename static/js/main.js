@@ -175,7 +175,7 @@ function updateCharts() {
 
 
 var promises = [
-    d3.json("static/data/countries.json"),
+    d3.json("static/data/test_countries.json"),
     d3.json("static/data/states.json"),
 
     d3.json("static/data/players_list.json"),

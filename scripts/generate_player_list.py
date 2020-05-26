@@ -5,7 +5,8 @@ country_name_translations = {
 	'Islamic Republic of Iran': 'Iran',
 	'Republic of Macedonia': 'Macedonia',
 	'Republic of Korea': 'South Korea',
-	'Serbia': 'Republic of Serbia'
+	'Serbia': 'Republic of Serbia',
+	'French Guiana': 'France'
 }
 
 known_city_issues = {
