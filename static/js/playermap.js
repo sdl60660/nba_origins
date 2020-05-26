@@ -66,7 +66,7 @@ PlayerMap.prototype.setupComponents = function() {
 
     else {
         vis.projection
-            .translate([(vis.width / 2) + 10, (vis.height / 2) -55])
+            .translate([(vis.width / 2) + 10, (vis.height / 2) -50])
     }
 
     // Initialize path

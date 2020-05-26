@@ -230,7 +230,7 @@ body {
 }
 
 #info-box {
-	transform: translate(0, -230px);
+	transform: translate(0, -330px);
 	/*border: 1px solid black;*/
 	height: 650px;
 	/*width: 70%;*/
