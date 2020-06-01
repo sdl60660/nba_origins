@@ -161,6 +161,12 @@ body {
 	outline: 1;
 }
 
+.icon-img {
+	height: 13px;
+	width: 13px;
+	margin-bottom: 2px;
+}
+
 /*US-map select icon, formatted slightly differently since icon is from noun project and added as an img*/
 #us-map-icon {
 	padding-top: 5px;
