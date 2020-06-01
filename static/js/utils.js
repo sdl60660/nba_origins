@@ -99,7 +99,10 @@ function updateInfoText() {
                 }
             }
             else if (birthPlaceHS == 'high_school') {
-                if ($( window ).width() >= 1440) {
+                if (!x.high_school_name) {
+                    var additionalText = '';
+                }
+                else if ($( window ).width() >= 1440) {
                     var additionalText = ' (' + x.high_school_name + ', ' + x.high_school_city + ')';
                 }
                 else {
