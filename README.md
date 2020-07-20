@@ -10,4 +10,4 @@ I used:
 * D3.js to build the visualizations
 * Heroku to host the project
 
-This project is live here: https://nba-origins.herokuapp.com/
+This project is live here: https://bit.ly/nba-origins
