@@ -74,6 +74,7 @@ PlayerMap.prototype.setupComponents = function() {
 
     // Extract array of map features out of the topoJSON
     var trueMapUnit = vis.mapUnit.split('_').pop();
+    console.log(trueMapUnit);
     vis.unpackedFeatures = topojson.feature(vis.topoJSON, vis.topoJSON.objects[trueMapUnit]);
 
     vis.allAreas = vis.unpackedFeatures.features.map(function(d) {
