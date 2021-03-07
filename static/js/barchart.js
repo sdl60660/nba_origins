@@ -272,6 +272,15 @@ BarChart.prototype.updateVis = function() {
                     d3.select(this)
                         .attr("stroke-width", "0px")
                 })
+                .on('mousemove', function(d) {
+                    const tip = d3.select('.barchart-tip');
+                    const tipHeight = tip.node().getBoundingClientRect().height;
+                    const tipWidth = tip.node().getBoundingClientRect().width;
+
+                    tip
+                        .style('left', `${d3.event.pageX - (tipWidth / 2)}px`)
+                        .style('top', `${d3.event.pageY - tipHeight - 8}px`)
+                })
                 .on('click', function(d) {
                     infoBoxActive = true;
 
@@ -309,7 +318,7 @@ BarChart.prototype.setToolTips = function() {
     var vis = this;
 
     vis.tip = d3.tip()
-        .attr('class', 'd3-tip')
+        .attr('class', 'd3-tip barchart-tip')
         .offset([-10, 0])
         .html(function(d) {
 

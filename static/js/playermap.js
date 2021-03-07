@@ -44,6 +44,7 @@ PlayerMap.prototype.setupComponents = function() {
 
         const zoom = d3.zoom()
             .scaleExtent([1, 8])
+            .translateExtent([[0, 0], [vis.width, vis.height]])
             .on('zoom', zoomed);
 
         vis.svg.call(zoom);
@@ -122,7 +123,7 @@ PlayerMap.prototype.initVis = function() {
             .style("opacity", 0.8)
             .style("stroke","black")
             .style('stroke-width', 0.3)
-            .on('mouseover',function(d){
+            .on('mouseover', function(d) {
                 vis.tip.show(d);
 
                 var hoverStrokeWidth = vis.currentZoom > 4 ? 1.5 : 3;
@@ -132,7 +133,7 @@ PlayerMap.prototype.initVis = function() {
                     .style("stroke","black")
                     .style("stroke-width", hoverStrokeWidth);
             })
-            .on('mouseout', function(d){
+            .on('mouseout', function(d) {
                 vis.tip.hide(d);
 
                 d3.selectAll('.' + this.getAttribute('class'))
@@ -141,6 +142,15 @@ PlayerMap.prototype.initVis = function() {
                     .style("stroke-width", function(e, i, n) {
                         return n[i].getAttribute('default-stroke')
                     });
+            })
+            .on('mousemove', function(d) {
+                const tip = d3.select(`.${vis.mapUnit}-tip`);
+                const tipHeight = tip.node().getBoundingClientRect().height;
+                const tipWidth = tip.node().getBoundingClientRect().width;
+
+                tip
+                    .style('left', `${d3.event.pageX - (tipWidth / 2)}px`)
+                    .style('top', `${d3.event.pageY - tipHeight - 8}px`)
             })
             .on('click', function(d) {
                 infoBoxActive = true;
@@ -221,7 +231,7 @@ PlayerMap.prototype.setToolTips = function() {
     var vis = this;
 
     vis.tip = d3.tip()
-        .attr('class', 'd3-tip')
+        .attr('class', `d3-tip ${vis.mapUnit}-tip`)
         .offset([-10, 0])
         .html(function(d) {
             var areaName = d.properties.name;
