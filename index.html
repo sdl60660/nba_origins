@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+
+<head>
+	<meta charset="utf-8">
+    <title>NBA Origins</title>
+
+    <!-- Primary Meta Tags -->
+    <title>Where do NBA Players Come From?</title>
+    <meta name="title" content="Where do NBA Players Come From?">
+    <meta name="description" content="Maps plotting the home states and countries of NBA players for every season seince 1947.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nba-birthplaces.samlearner.com/">
+    <meta property="og:title" content="Where do NBA Players Come From?">
+    <meta property="og:description" content="Maps plotting the home states and countries of NBA players for every season since 1947.">
+    <meta property="og:image" content="https://nba-birthplaces.samlearner.com/static/images/map_image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nba-birthplaces.samlearner.com/">
+    <meta property="twitter:title" content="Where do NBA Players Come From?">
+    <meta property="twitter:description" content="Maps plotting the home states and countries of NBA players for every season since 1947.">
+    <meta property="twitter:image" content="https://nba-birthplaces.samlearner.com/static/images/map_image.png">
+
+    <link rel="icon" href='/static/images/favicon.png'>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <!-- jQuery UI CSS -->
+    <script src="static/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="static/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="static/css/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="static/css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="static/css/d3-tip.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/1e59e4c612.js" crossorigin="anonymous"></script>
+
+</head>
+
+
+<body>
+    <div class="header">
+        <div class="main-site-link">
+            <a href="https://bit.ly/main-project-site">
+                <button>More Projects</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="container" style="text-align:left; max-width: 650px;">
+        <div class="row" style="text-align: center">
+            <h2>Where Are NBA Players From?</h2>
+        </div>
+        <br>
+        <!-- <div class="spacer"></div> -->
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <p>The maps below plot the home states and countries of NBA players for every season since 1947, by either their birthplace or their high school location.</p>
+                <p>Use the toggles at the top to adjust the season or change the set of players. Use the buttons at the bottom to switch between the US, the World, or individual cities.</p>
+                <p>Click any region for a full list of players.</p>
+                <!-- <p>Toggle between "Active Players" to include only players that logged minutes during a given year or "All-Time" to include all players in the history of the league up to that point. The data can either be displayed as totals or per-capita, scaling by a region's population.</p> -->
+                <!-- <p>Click any state or country for a detailed players list.</p> -->
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+  		
+	<!-- Bootstrap grid setup -->
+    <div class="container">
+        <!-- <div class="col-md-2"></div> -->
+        <div id="optional-spacer"></div>
+        <div class="col-md-12" id="selections">
+        <div class="row" style="text-align: center;">
+
+            <div class="row" id="yearLabelHeading">
+                <label id="seasonWrapperLabel"><h3>Season: <span id="yearLabel">2019-2020</span></h3></label>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 col-sm-2"></div>
+                <div class="col-md-8 col-sm-8">
+                    <div id="timeline-div" class="row">
+                        <div id="play-button-div"><button id="play-button" class="btn btn-primary">▶</button></div>
+                        <div id="slider-div"></div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-2"></div>
+            </div>
+
+            <div style="height:20px"></div>
+
+            <div class="row">
+                <div class="col-md-3 col-sm-2"></div>
+                <div class="col-md-3 col-sm-4">
+
+                    <div class="row">
+                        <div class="btn-group">
+                            <button id="active-button" value="active" title="Only include players active in the selected year" class="btn btn-primary toggle-button active-cumulative-switch" style="font-weight: bold;" disabled>Active Players</button>
+                            <button id="cumulative-button" value="cumulative" title="Include all players who debuted on or before the selected year" class="btn btn-primary toggle-button active-cumulative-switch">All-Time</button>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: -22px;">
+                        <div class="btn-group">
+                            <button id="all-star-button" value="num_all_stars" title="Only include players with an all-star selection" class="btn btn-primary toggle-button total-allstar-switch">All-Stars</button>
+                            <button id="all-player-button" value="num_players" title="Include all players" class="btn btn-primary toggle-button total-allstar-switch" style="font-weight: bold;" disabled>All Players</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-1 col-sm-1"></div> -->
+                <div class="col-md-3 col-sm-4" style="margin-left: 20px;">
+                    <div class="row">
+                        <div class="btn-group">  
+                            <button id="birthplace-button" value="birth" title="Filter based on players' birthplaces" class="btn btn-primary toggle-button birthplace-high-school-switch" style="font-weight: bold;" disabled>Birthplace</button>
+                            <button id="high-school-button" value="high_school" title="Filter based on players' high school locations" class="btn btn-primary toggle-button birthplace-high-school-switch">High School</button>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: -22px;">
+                        <div class="btn-group">
+                            <button id="per-capita-button" value="per_capita" title="Shade regions relative to population" class="btn btn-primary toggle-button totals-per-capita-switch">Per Capita</button>
+                            <button id="totals-button" value="totals" title="Shade regions by totals" class="btn btn-primary toggle-button totals-per-capita-switch" style="font-weight: bold;" disabled>Totals</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-2"></div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+        
+
+        <div class="row">
+            <div class="col-md-2 col-sm-1">
+                <div id="info-box">
+                    <div id="player-info-text"></div>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-10" style="text-align: center;">
+                <div class="row" style="height:575px;">
+
+                    <div class="player-map map main-vis" id="us-map" style="margin:auto; text-align: center;">
+                        
+                        <!-- Basketball loading spinner -->
+                        <svg style="margin-top: 140px;" class="loading-spinner" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                            <circle cx="50" cy="50" r="35.25" fill="#ffe4b2" stroke="#ff3f00" stroke-width="5.5"></circle>
+                            <path d="M50 15L50 85" stroke="#ff3f00" stroke-width="5"></path>
+                            <path d="M25.251262658470836 25.25126265847084 A35 35 0 0 1 25.251262658470836 74.74873734152916" fill="none" stroke="#ff3f00" stroke-width="5"></path>
+                            <path d="M74.74873734152916 25.25126265847084 A35 35 0 0 0 74.74873734152916 74.74873734152916" fill="none" stroke="#ff3f00" stroke-width="5"></path>
+                            <g transform="translate(0 50)"><g>
+                              <path d="M 15 0 A 35 14.2093 0 0 0 85 0" fill="none" stroke="#ff3f00" stroke-width="5">
+                            <animate attributeName="d" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.499999;0.5;1" keySplines="0.1 0 1 0.9;0.5 0.5 0.5 0.5;0 0.1 0.9 1" values="M15 0A35 35 0 0 1 85 0;M15 0A35 0 0 0 1 85 0;M15 0A35 0 0 0 0 85 0;M15 0A35 35 0 0 0 85 0" begin="0"></animate>
+                              </path>
+                          <path d="M 15 0 A 35 25.7318 0 0 1 85 0" fill="none" stroke="#ff3f00" stroke-width="5">
+                            <animate attributeName="d" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.499999;0.5;1" keySplines="0.1 0 1 0.9;0.5 0.5 0.5 0.5;0 0.1 0.9 1" values="M15 0A35 35 0 0 1 85 0;M15 0A35 0 0 0 1 85 0;M15 0A35 0 0 0 0 85 0;M15 0A35 35 0 0 0 85 0" begin="-0.5"></animate>
+                          </path>
+                          <p class="loading-spinner" style="margin-top: -100px;"><strong>Loading Maps...</strong></p>
+                            </g>
+                            </g>
+                            <div class="spacer"></div>
+                        </svg>
+
+                    </div>
+                    <div class="player-map map main-vis" id="world-map" style="margin: auto;"></div>
+                    <div class="barchart main-vis" id="city-chart">
+                        <br>
+                        <form id="city-search">
+                            <span>Search by city, state, or country name:</span>
+                            <br>
+                            <input type="text" id="search-val">
+                        </form>
+
+                        <div id="no-result-help-text" style="visibility: hidden;">
+                            <p><strong>No Results Found.</strong></p><br>
+                            <p>There are a few reasons this may happen:</p>
+                            <ol>
+                                <li>There are no players who were born in or went to high school in the place that you searched for.</li>
+                                <li>There were players born in this place, but they went to high school somewhere else. Try switching to "Birthplace".</li>
+                                <li>Any players from this place entered the league after your selected year. Try adjusting the year slider.</li>
+                                <li>Any players from this place had already exited the league by your selected year. Try adjusting the year slider, or select "All-Time" to include already-retired players.</li>
+                                <li>You’ve selected "all-stars" only and the only players from this place were never all-star selections. Try switching to "All Players".</li>
+                            </ol>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                <!-- <div class="spacer"></div> -->
+                <div class="row" style="text-align: center">
+                    <i value="city-chart" class="vis-select fas fa-city fa-4x" title="Cities"></i>
+                    <!-- <i value="us-map" class="vis-select fas fa-flag-usa fa-4x" title="State Map"></i> -->
+                    <img id="us-map-icon" value="us-map" style="margin-top: -30px;" class="vis-select us-map-icon fas fa-4x" title="State Map" src="static/images/us_map_icon.png">
+                    <i value="world-map" class="vis-select fas fa-globe-americas fa-4x" title="World Map"></i>
+                </div>
+                <div class="row" style="text-align: center">
+                    <span class="vis-select-caption">Cities</span>
+                    <span class="vis-select-caption">States</span>
+                    <span class="vis-select-caption">Countries</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-1">
+                
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="container">
+        <div class="col-md-2"></div>
+        <div class="col-md-8"><hr></div>
+        <div class="col-md-2"></div>
+    </div>
+
+    <div class="container footer" style="text-align:justify; max-width: 650px; font-size: 9pt;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <!-- <p>Visualization by Sam Learner.</p> -->
+                <p>Visualization by <a href="https://samlearner.com/">Sam Learner</a> | <a href="mailto:learnersd@gmail.com"><img class="icon-img" src="/static/images/email.svg"></a> | <a href="https://twitter.com/sam_learner"><img class="icon-img" src="/static/images/twitter.svg"></a> | <a href="https://github.com/sdl60660"><img class="icon-img" src="/static/images/github.png"></a></p>
+                <p>Code and data for this project lives <a href="https://github.com/sdl60660/nba_origins">here</a>.</p>
+                <p>All NBA player data scraped from <a href="www.basketball-reference.com">Basketball Reference</a>. State historical population data is from <a href="https://fred.stlouisfed.org/release/tables?rid=118&eid=259194">FRED</a> (Puerto Rico from <a href="https://www.worldometers.info/world-population/puerto-rico-population/">worldometers</a>). Country populations and population estimates from International Data Base (IDB) Division of the United States Census Bureau via <a href="https://en.wikipedia.org/wiki/List_of_countries_by_past_and_estimated_future_population">Wikipedia</a>. City population data from <a href="http://api.geonames.org/">geonames</a>. The US map projection that includes Puerto Rico came from <a href="https://observablehq.com/@jake-low/u-s-map-with-puerto-rico">Jake Low</a>. US State GeoJSON from <a href="https://eric.clst.org/tech/usgeojson/">Eric Celeste</a>, simplified to topoJSON using <a href="https://mapshaper.org/">mapshaper</a>. United States icon by Michael Thompson from the Noun Project, other icons from Font Awesome.</p>
+
+                <!-- World Map GeoJSON (to TopoJSON) from here: https://datahub.io/core/geo-countries -->
+
+                <p><strong>A note on per-capita numbers if "all-time" is selected</strong>: while I was able to gather historical population data for countries and states, I do not have data on the total number of people to have lived in a region over time. So, per-capita numbers with "all-time" selected reflect the number of players against the population in the selected year, not the total population to have lived there since 1946.</p>
+
+                <p>Last Updated: July 2020</p>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+	<!-- External JS Libraries -->
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/jquery-ui.min.js"></script>
+	<script src="static/js/d3.min.js"></script>
+	<script src="static/js/d3-tip.js"></script>
+    <script src="static/js/d3-geo.min.js"></script>
+    <script src="static/js/d3-geo-projection.v2.min.js"></script>
+    <script src="static/js/topojson.min.js"></script>
+    <script src="/static/js/puerto_rico_projection.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+	<!-- Custom JS -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/barchart.js"></script>
+    <script src="/static/js/timeline.js"></script>
+    <script src="/static/js/playermap.js"></script>
+	<script src="/static/js/main.js"></script>
+
+</body>
+
+</html>
+
