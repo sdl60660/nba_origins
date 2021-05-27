@@ -8,6 +8,6 @@ I used:
 * Python requests/beautiful soup to gather data
 * Flask as a web server
 * D3.js to build the visualizations
-* Heroku to host the project 
+* Heroku to host the project
 
 This project is live here: https://bit.ly/nba-origins
