@@ -15,6 +15,8 @@ BarChart.prototype.initVis = function() {
 
     vis.svg = d3.select(vis.parentElement)
         .append("svg")
+        // .attr("viewbox", `0 0 ${vis.width + vis.margin.left + vis.margin.right} ${vis.height + vis.margin.top + vis.margin.bottom}`)
+        .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom);
 

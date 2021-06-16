@@ -19,9 +19,10 @@ PlayerMap.prototype.setupComponents = function() {
     vis.height = vis.dimensions[1]
 
     vis.svg = d3.select(vis.parentElement)
-                .append("svg")
+        .append("svg")
 
     vis.svg
+        // .attr("viewbox", `0 0 ${vis.width} ${vis.height}`)
         .attr("width", vis.width)
         .attr("height", vis.height)
         .attr("preserveAspectRatio", "xMinYMin meet")
